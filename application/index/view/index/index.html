@@ -1,0 +1,132 @@
+{extend name="common/base" /}
+
+{block name="css"}
+<style type="text/css">
+	.container {}
+	.myMetro{position:relative;overflow:hidden;zoom:1;margin:0 auto;min-width: 320px;max-width: 1040px;}
+	.MBox{float:left;transition: all 0.5s ease;}
+	.widgetBox{position:relative;overflow:hidden;width:160px;height:150px;background: transparent center no-repeat;background-size: cover;}
+
+	.innerBox a{display:none;width:100%;height:100%;outline:none;text-decoration: none;}
+	.am-sticky-placeholder {
+		float: left;
+		width: 100%;
+	}
+</style>
+{/block}
+
+{block name="nav"}
+<div class="topic-block">
+	<div class="topic-block-blur-wrap">
+		<div class="topic-block-blur" style='background-image: url(__STATIC__/i/banner.jpg);'></div>
+
+	</div>
+	<div class="topic-background" style='background-image: url(__STATIC__/i/banner.jpg);'></div>
+	<div class="center" style="position: absolute;width: 100%;">
+		<div class="am-g am-g-fixed">
+			<a href="" style="background-image: url(http://pic.cqjtu.edu.cn/Public/img/logo.png);" class="logo"></a>
+		</div>
+
+	</div>
+	{include file="common/nav" /}
+</div>
+{/block}
+
+{block name="body"}
+<div class="am-g am-g-fixed am-center mainLayer" style="min-height: 500px;">
+	<div class="container">
+		<div id="myMetro" class="myMetro"></div>
+	</div>
+</div>
+
+<div class="popupLayer">
+	<div class="btnLayer">
+		<div class="closeBtn"><i></i></div>
+		<div class="prevBtn"></div>
+		<div class="nextBtn"></div>
+		<div class="goTopBtn"></div>
+	</div>
+	<div class="contentLayer"></div>
+</div>
+{/block}
+
+{block name="js"}
+<script type="text/javascript">
+    $('#nav-sticky').sticky();
+</script>
+
+{load href="__STATIC__/js/metro.js" /}
+<script type="text/javascript">
+// 渲染数据
+function createTestData(n){
+    var spanWrap = document.createElement("span"),
+        content = "",
+        ratio = 1,
+        data = {$data};
+    for(i = 0; i < data.length; i++) {
+        // condition >> 0 表示给condition取整
+        color = colorList[(colorList.length * Math.random()) >> 0];
+        ratio = data[i].width / data[i].height;
+        if(ratio > 2) ratio = 2;
+        if(ratio < 0.5) ratio = 0.5;
+        if(!(Math.random()*3 >> 0)){ //输出大模块测试数据。宽高在一个范围内都是随意的，未做其他限制
+            width = Math.floor(Math.random()*100 + 60 + 70*ratio);
+            height = Math.floor(Math.random()*100 + 60 + 70/ratio);
+            content +=
+            '<div class="MBox"><a class="pjaxlink" href="__ROOT__/share/'+data[i].share_id+'">'+
+            '<div class="widgetBox bigBox" style="background-color:#'+color+';background-image: url(__PUBLIC__/'+data[i].savepath+'t_'+data[i].savename+');"><div style="width:' + width +'px;height:' + height +'px;margin:0 auto;" class="innerBox"></div></div>'+
+            '</a></div>';
+        }else{ //输出普通模块数据
+            content += '<div class="MBox"><a class="pjaxlink" href="__ROOT__/share/'+data[i].share_id+'"><div class="widgetBox" style="background-color:#'+color+';background-image: url(__PUBLIC__/'+data[i].savepath+'t_'+data[i].savename+');"></div></a></div>';
+        }
+    };
+    spanWrap.innerHTML = content;
+    myMetro.appendChild(spanWrap);
+    return spanWrap;
+}
+</script>
+
+{load href="__STATIC__/js/jquery.pjax.js" /}
+<script type="text/javascript">
+// pjax支持检测
+if ($.support.pjax) {
+    $(document).pjax('a.pjaxlink', '.contentLayer', {fragment:'#detail-content', scrollTo: false, timeout: 1650});
+
+    $(document).on('pjax:send', function() {
+        $.AMUI.progress.start();
+        //在pjax发送请求时，显示loading动画层
+        $("body").css('overflow', 'hidden');
+        $('.popupLayer').show();
+        $.AMUI.progress.inc(0.2);
+
+    });
+    $(document).on('pjax:complete', function() {
+        $.AMUI.progress.inc(0.4);
+        $(".picture").css('height', $(window).height());
+        $(".other").css('height', $(window).height());
+        $('#picLoadHandle').load(function(){
+            $.AMUI.progress.done();
+        });
+
+    });
+
+    // 后退监听
+    $(document).on('pjax:popstate', function() {
+        $.AMUI.progress.done();
+        $(".popupLayer").scrollTop(0).hide();
+        $("body").css('overflow', 'auto');
+    });
+
+    $(".closeBtn").on('click', function() {
+        window.history.go(-1);
+    });
+    // 按下ESC键时返回
+    $(window).keydown(function(event){
+        if(event.which == 27 && $(".popupLayer").css('display') == "block") {
+            window.history.go(-1);
+        }
+    });
+
+}
+</script>
+{/block}
