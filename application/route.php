@@ -12,9 +12,11 @@
 
 return [
 
-	'share/:share_id'		=> 'index/share/detail',
+    'share/:share_id'     => ['index/share/detail', ['method' => 'get'], ['share_id' => '\d+']],
 
-    'user/avatar/:user_id/:size' => 'index/user/avatar',
-    'user/avatar/:user_id' => 'index/user/avatar',
+    'user' => [
+        'avatar/:user_id/:size'    => ['index/user/avatar', ['method' => 'get'], ['user_id' => '\d+']],
+        'avatar/:user_id'          => ['index/user/avatar', ['method' => 'get'], ['user_id' => '\d+']],
+    ],
 
 ];

@@ -7,7 +7,7 @@
 
 ## 注意事项
 
-当修改了 `application/database.php` 文件后又想参与开发, 请使用 bash 命令 `git update-index --assume-unchanged application/database.php` 来保证忽略数据库的更改, 否则可能会暴露你的数据库帐号密码.
+当修改了 `application/database.php` 文件后又想参与 git 开发, 请在项目根目录使用 bash 命令 `git update-index --assume-unchanged application/database.php` 来保证忽略数据库的更改, 否则可能会暴露你的数据库帐号密码.
 
 详细开发文档参考 [ThinkPHP5完全开发手册](http://www.kancloud.cn/manual/thinkphp5)
 
