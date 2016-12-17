@@ -6,9 +6,9 @@ class Share extends Controller {
 
     public function detail() {
 
-		$share_id = I('get.share_id', 0);
+		$share_id = input('share_id', 0);
 
-		$data = D('share') -> getShare($share_id);
+		$data = model('share') -> getShare($share_id);
 		$this -> assign('data', $data);
 
 		return $this -> fetch();
