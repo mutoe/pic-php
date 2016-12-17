@@ -1,7 +1,19 @@
+
+# thinkphp 默认
 .idea
 composer.lock
 *.log
 thinkphp
+
+# Hbuilder 编辑器工程文件
 .project
-application/runtime
+
+# 运行时目录
+application/runtime/
+
+# 生产环境配置
+application/database.php
+application/extra/*
+
+# 用户上传目录
 /public/uploads
