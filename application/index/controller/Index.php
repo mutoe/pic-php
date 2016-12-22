@@ -2,35 +2,25 @@
 namespace app\index\controller;
 use think\Controller;
 
+use app\index\model\Share;
+use app\index\model\Cate;
+
 class Index extends Controller {
 
     public function index() {
 
-        $data = model('Share') -> getDataList('create_time');
-        $this -> assign('data', json_encode($data));
+        $show_cate_in_index = Cate::where(['status' => 1])->order('sort desc')
+            ->column('cate_name', 'cate_id');
 
-        $topic = model('Share') -> getTopit(275);
-        $this -> assign('topic', $topic);
+        foreach ($show_cate_in_index as $cate_id => $cate_name) {
+            $data[] = [
+                'cate_id' => $cate_id,
+                'name' => $cate_name,
+                'data' => Share::getShareList($cate_id, 9),
+            ];
+        }
 
-
-        return $this -> fetch();
-    }
-
-    public function test() {
-
-        $pic = model('share');
-        $data = $pic -> limit(30) -> order('create_time desc') -> field('savename,savepath') -> select();
-        $this -> assign('data', json_encode($data));
-
-        return $this -> fetch();
-    }
-
-    public function getData($type = 'new', $page = 1) {
-        $pic = model('share');
-        $data = $pic -> limit(30*($page - 1), 30*$page) -> order('create_time desc') -> select();
-        //$data = $pic -> limit(1) -> order('create_time desc') -> select();
-
-        return json_encode($data);
+        return $this->fetch('index', ['index_cate_array' => $data]);
     }
 
 }
