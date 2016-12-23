@@ -42,7 +42,7 @@
                 <div class="photos">
                     {volist name="cate.data" id="data"}
                     <div class="photo">
-                        <a href="__ROOT__/share/{$data.share_id}">
+                        <a class="pjaxlink" href="__ROOT__/share/{$data.share_id}">
                             <img src="__ROOT__/{$data.savepath}t_{$data.savename}">
                         </a>
                     </div>
