@@ -45,7 +45,6 @@ return [
     // 视图输出字符串内容替换
     'view_replace_str'  => [
         '__ROOT__'  => '',
-        '__PUBLIC__'=> '',
         '__UPLOAD__'=> '/uploads',
         '__STATIC__'=> '/static',
     ],
@@ -54,6 +53,8 @@ return [
     'dispatch_success_tmpl'  => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
     'dispatch_error_tmpl'    => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
 
+    // ajax 请求默认返回数据类型
+    'default_ajax_return'    => 'html',
 
     //分页配置
     'paginate'               => [

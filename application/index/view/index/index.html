@@ -2,51 +2,66 @@
 
 {block name="css"}
 <style type="text/css">
-	.container {}
-	.myMetro{position:relative;overflow:hidden;zoom:1;margin:0 auto;min-width: 320px;max-width: 1040px;}
-	.MBox{float:left;transition: all 0.5s ease;}
-	.widgetBox{position:relative;overflow:hidden;width:160px;height:150px;background: transparent center no-repeat;background-size: cover;}
-
-	.innerBox a{display:none;width:100%;height:100%;outline:none;text-decoration: none;}
-	.am-sticky-placeholder {
-		float: left;
-		width: 100%;
-	}
+    .am-sticky-placeholder {
+        float: left;
+        width: 100%;
+    }
+    .floor {margin-top: 4rem;margin-bottom: 6rem;}
+    .photos {font-size: 0px;}
 </style>
 {/block}
 
 {block name="nav"}
 <div class="topic-block">
-	<div class="topic-block-blur-wrap">
-		<div class="topic-block-blur" style='background-image: url(__STATIC__/i/banner.jpg);'></div>
+    <div class="topic-block-blur-wrap">
+        <div class="topic-block-blur" style='background-image: url(__STATIC__/i/banner.jpg);'></div>
+    </div>
+    <div class="topic-background" style='background-image: url(__STATIC__/i/banner.jpg);'></div>
+    <div class="center" style="position: absolute;width: 100%;">
+        <div class="am-g am-g-fixed">
+            <a href="" style="background-image: url();" class="logo"></a>
+        </div>
 
-	</div>
-	<div class="topic-background" style='background-image: url(__STATIC__/i/banner.jpg);'></div>
-	<div class="center" style="position: absolute;width: 100%;">
-		<div class="am-g am-g-fixed">
-			<a href="" style="background-image: url(http://pic.cqjtu.edu.cn/Public/img/logo.png);" class="logo"></a>
-		</div>
-
-	</div>
-	{include file="common/nav" /}
+    </div>
+    {include file="common/nav" /}
 </div>
 {/block}
 
 {block name="body"}
-<div class="am-g am-g-fixed am-center mainLayer" style="min-height: 500px;">
-	<div class="container">
-		<div id="myMetro" class="myMetro"></div>
-	</div>
+<div id="floor-wrap">
+    <div class="am-g am-g-fixed">
+        {volist name="index_cate_array" id="cate"}
+        <section class="floor">
+            <h2 class="title">
+                <span class="decoration"></span> {$cate.name}
+                <small class="am-margin-left-lg">
+                    <a href="__ROOT__/cate/{$cate.cate_id}">查看所有 <i class="am-icon am-icon-angle-double-right"></i> </a>
+                </small>
+            </h2>
+            <div class="item-wrap">
+                <div class="photos">
+                    {volist name="cate.data" id="data"}
+                    <div class="photo">
+                        <a class="pjaxlink" href="__ROOT__/share/{$data.share_id}">
+                            <img src="__ROOT__/{$data.savepath}t_{$data.savename}">
+                        </a>
+                    </div>
+                    {/volist}
+                </div>
+            </div>
+        </section>
+        {/volist}
+    </div>
 </div>
 
 <div class="popupLayer">
-	<div class="btnLayer">
-		<div class="closeBtn"><i></i></div>
-		<div class="prevBtn"></div>
-		<div class="nextBtn"></div>
-		<div class="goTopBtn"></div>
-	</div>
-	<div class="contentLayer"></div>
+    <div class="btnLayer">
+        <div class="closeBtn"><i></i></div>
+        <div class="prevBtn"></div>
+        <div class="nextBtn"></div>
+        <div class="goTopBtn"></div>
+    </div>
+    <div class="contentLayer"></div>
 </div>
 {/block}
 
@@ -55,35 +70,14 @@
     $('#nav-sticky').sticky();
 </script>
 
-{load href="__STATIC__/js/metro.js" /}
+{load href="__STATIC__/js/jquery.xgallerify.min.js" /}
 <script type="text/javascript">
-// 渲染数据
-function createTestData(n){
-    var spanWrap = document.createElement("span"),
-        content = "",
-        ratio = 1,
-        data = {$data};
-    for(i = 0; i < data.length; i++) {
-        // condition >> 0 表示给condition取整
-        color = colorList[(colorList.length * Math.random()) >> 0];
-        ratio = data[i].width / data[i].height;
-        if(ratio > 2) ratio = 2;
-        if(ratio < 0.5) ratio = 0.5;
-        if(!(Math.random()*3 >> 0)){ //输出大模块测试数据。宽高在一个范围内都是随意的，未做其他限制
-            width = Math.floor(Math.random()*100 + 60 + 70*ratio);
-            height = Math.floor(Math.random()*100 + 60 + 70/ratio);
-            content +=
-            '<div class="MBox"><a class="pjaxlink" href="__ROOT__/share/'+data[i].share_id+'">'+
-            '<div class="widgetBox bigBox" style="background-color:#'+color+';background-image: url(__PUBLIC__/'+data[i].savepath+'t_'+data[i].savename+');"><div style="width:' + width +'px;height:' + height +'px;margin:0 auto;" class="innerBox"></div></div>'+
-            '</a></div>';
-        }else{ //输出普通模块数据
-            content += '<div class="MBox"><a class="pjaxlink" href="__ROOT__/share/'+data[i].share_id+'"><div class="widgetBox" style="background-color:#'+color+';background-image: url(__PUBLIC__/'+data[i].savepath+'t_'+data[i].savename+');"></div></a></div>';
-        }
-    };
-    spanWrap.innerHTML = content;
-    myMetro.appendChild(spanWrap);
-    return spanWrap;
-}
+    var gallery = $('.photos').gallerify({
+        width: 1000,
+        margin: 2,
+        mode: 'bootstrap',
+        lastRow: 'hidden'
+    });
 </script>
 
 {load href="__STATIC__/js/jquery.pjax.js" /}

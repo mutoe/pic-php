@@ -1,11 +1,13 @@
 <?php
 
+use app\index\model\User;
+
 /**
  * 根据user_id获取nickname
  */
 function get_nickname($user_id = 0) {
 	if(!$user_id) return null;
-	return M('user') -> where("user_id=$user_id") -> getField('nickname');
+	return User::where("user_id=$user_id") -> value('nickname');
 }
 
 
@@ -13,7 +15,7 @@ function get_nickname($user_id = 0) {
  * 根据tag_id获取tag_name
  */
 function get_tagname($tag_id) {
-	return D('tag') -> getTagname($tag_id);
+	return model('tag') -> getTagname($tag_id);
 }
 
 /**
@@ -52,7 +54,7 @@ function render_tag($tag, $renderType = 'tag', $addClass = '') {
 }
 
 function is_login() {
-	return I('session.ecardno', false);
+	return input('session.ecardno', false);
 }
 
 

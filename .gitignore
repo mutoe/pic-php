@@ -9,7 +9,7 @@ thinkphp
 .project
 
 # 运行时目录
-application/runtime/
+runtime/
 
 # 生产环境配置
 application/database.php

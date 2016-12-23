@@ -5,31 +5,39 @@ use think\Model;
 
 class Share extends Model {
 
-    public function getShare($share_id = 0, $force = false) {
+    /**
+     * 根据 share_id 获取详情
+     * @author 杨栋森 mutoe@foxmail.com at 2016-12-24
+     *
+     * @param  integer $share_id
+     * @param  boolean $force    是否获取所有分享(默认获取审核通过的)
+     */
+    public static function getShare($share_id = 0, $force = false) {
         if($force) {
-            $data = $this -> where(['share_id' => $share_id]) -> find();
+            $data = Share::where(['share_id' => $share_id])->find();
         } else {
-            $data = $this -> where(['share_id' => $share_id, 'status' => 1]) -> find();
+            $data = Share::where(['share_id' => $share_id, 'status' => 1])->find();
         }
-    	return $data;
+        return $data;
     }
 
-    /**
-     * 获取图片信息数据
-     */
-    public function getDataList($orderby = 'create_time', $limit = 50) {
+    public static function getShareList($category = 1, $limit = 6, $orderby = 'create_time') {
         switch ($orderby) {
-        	case 'create_time':
-        		$order = 'create_time desc';
-        		break;
+            case 'create_time':
+                $order = 'create_time desc';
+                break;
             case 'click':
                 $order = 'click';
                 break;
-        	default:
-                $order = 'create_time desc';
-        		break;
+            default:
+                $order = 'share_id desc';
+                break;
         }
-    	$data = $this -> order($order) -> limit($limit) -> where('status>=1') -> select();
+        $filter = [
+            'cate_id' => $category,
+            'status' => ['>=', 1],
+        ];
+        $data = Share::where($filter)->limit($limit)->order($order)->select();
         return $data;
     }
 

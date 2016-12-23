@@ -8,13 +8,17 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-// $Id$
 
-return [
+use think\Route;
 
-	'share/:share_id'		=> 'index/share/detail',
+Route::pattern([
+    'user_id'       => '\d+',
+    'share_id'      => '\d+',
+]);
 
-    'user/avatar/:user_id/:size' => 'index/user/avatar',
-    'user/avatar/:user_id' => 'index/user/avatar',
+Route::rule('share/:share_id', 'index/share/detail', 'GET');
 
-];
+Route::group('user', [
+    ':user_id'                  => ['index/user/detail',    ['method' => 'get']],
+    'avatar/:user_id/[:size]'   => ['index/user/detail',    ['method' => 'get']],
+]);
