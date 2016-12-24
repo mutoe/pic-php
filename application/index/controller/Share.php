@@ -12,7 +12,7 @@ class Share extends Controller {
         $share_id = input('share_id', 0);
         $data = $share->getShare($share_id);
 
-        return $this -> fetch('detail', ['data' => $data]);
+        return $this->fetch('detail', ['data' => $data]);
     }
 
     public function addShare()

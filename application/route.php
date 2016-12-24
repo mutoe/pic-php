@@ -22,6 +22,6 @@ Route::group('share', [
 ]);
 
 Route::group('user', [
-    ':user_id'                  => ['index/user/detail',    ['method' => 'get']],
-    'avatar/:user_id/[:size]'   => ['index/user/detail',    ['method' => 'get']],
+    ':user_id'                  => ['index/user/detail',    ['method' => 'GET']],
+    'avatar/:user_id/[:size]'   => ['index/user/detail',    ['method' => 'GET']],
 ]);

@@ -80,6 +80,7 @@ $(function() {
         maxChars: 16,
     })
 
+    var input = document.getElementById("doc-form-file");
     if (typeof FileReader === 'undefined'){
         result.innerHTML = "<p class='warn'>抱歉，你的浏览器不支持 FileReader</p>";
         input.setAttribute('disabled','disabled');
@@ -89,7 +90,6 @@ $(function() {
 
 });
 
-var input = document.getElementById("doc-form-file");
 
 function readFile(){
     var file = this.files[0];

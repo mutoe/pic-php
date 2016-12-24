@@ -7,9 +7,12 @@
     <div class="am-g am-margin-bottom-xl">
         <div class="am-u-md-7">
             <a class="picturebox" href="">
-                <img id="picLoadHandle" src="__ROOT__/{$data.savepath}{$data.savename}" style="visibility: hidden;position: absolute;z-index: -1;width: 1px;height: 1px;"/>
-                <div class="picture picture_thumb" style="background-image: url(/{$data.savepath}t_{$data.savename});"></div>
-                <div id="picture" class="picture" style="background-image: url(__ROOT__/{$data.savepath}{$data.savename});"></div>
+                <img id="picLoadHandle" src="__ROOT__/{$data.savepath}{$data.savename}"
+                    style="visibility: hidden;position: absolute;z-index: -1;width: 1px;height: 1px;"/>
+                <div class="picture picture_thumb"
+                    style="background-image: url(/{$data.savepath}t_{$data.savename});"></div>
+                <div id="picture" class="picture"
+                    style="background-image: url(__ROOT__/{$data.savepath}{$data.savename});"></div>
             </a>
         </div>
         <div class="am-u-md-5">
@@ -36,8 +39,11 @@
     <img class="avatar" src="http://pic.cqjtu.edu.cn/base/avatar/user_id/{$data.user_id}/size/middle.html"/>
 </div>
 <div class="am-fl">
-    <a class="nickname am-text-lg am-link-muted am-padding-vertical-sm" href="">{$data.user_id|get_nickname}</a>
-    <p class="property am-text-xs am-margin-top-xs am-margin-bottom-0">上传至 <a href="">分类名</a> 于 4日前</p>
+    <a class="nickname am-text-lg am-link-muted am-padding-vertical-sm"
+        href="">{$data.user_id|get_nickname}</a>
+    <p class="property am-text-xs am-margin-top-xs am-margin-bottom-0">
+        上传至 <a href="">分类名</a> 于 4日前
+    </p>
 </div>
 <div class="am-cf"></div>
 {if condition="!empty($data.detail)"}
@@ -51,7 +57,8 @@
             <img class="avatar" src="/user/avatar/39139">
         </a>
         <div class="meta am-text-sm">
-            <a href="" class="author">{$data.user_id|get_nickname}</a>&nbsp;-&nbsp;<span class="">1 分钟前</span>说：
+            <a href="" class="author">{$data.user_id|get_nickname}</a>
+            &nbsp;-&nbsp;<span class="">1 分钟前</span>说：
         </div>
         <div class="am-text-sm">baqi</div>
         <div class="action-buttons">
@@ -66,14 +73,12 @@
     <a href="" title="mutoe" class="am-margin-right-sm">
         <img class="avatar" src="/user/avatar/39139">
     </a>
-    <textarea class="clear-input am-fr" autocomplete="off" name="caption" placeholder="添加评论"></textarea>
+    <textarea class="clear-input am-fr" autocomplete="off" name="caption"
+        placeholder="添加评论"></textarea>
     <div class="am-cf"></div>
     <button class="am-btn am-btn-xs am-btn-warning am-fr">添加评论</button>
     <div class="am-cf"></div>
 </div>
-
-<!--<hr />
--->
 <!-- info-piece end -->
                     </div>
                 </div>
