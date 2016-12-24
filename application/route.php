@@ -16,7 +16,10 @@ Route::pattern([
     'share_id'      => '\d+',
 ]);
 
-Route::rule('share/:share_id', 'index/share/detail', 'GET');
+Route::group('share', [
+    ':share_id'                 => ['index/share/detail',   ['method' => 'GET']],
+    'add'                       => ['index/share/addShare', ['method' => 'GET']],
+]);
 
 Route::group('user', [
     ':user_id'                  => ['index/user/detail',    ['method' => 'get']],

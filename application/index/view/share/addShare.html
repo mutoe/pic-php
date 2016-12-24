@@ -1,0 +1,108 @@
+{extend name="common/base" /}
+
+{block name="css"}
+{load href="__STATIC__/css/amazeui.tagsinput.css" /}
+<style>
+#preview-img {max-height: 600px;max-width: 100%;}
+</style>
+{/block}
+
+{block name="body"}
+<div class="am-g am-g-fixed">
+<div class="am-u-sm-12">
+    <form class="am-form">
+    <fieldset>
+        <legend>添加分享</legend>
+
+        <div class="am-g">
+            <div class="am-u-sm-6">
+                <div class="am-form-group am-form-file">
+                    <div class="am-inline">
+                        <button type="button" class="am-btn am-btn-danger am-btn-sm">
+                            <i class="am-icon-cloud-upload"></i> 选择要上传的文件
+                        </button>
+                        <input id="doc-form-file" type="file">
+                    </div>
+                    <div class="am-inline am-badge-xl" id="file-list"></div>
+                </div>
+                <div class="preview-container">
+                    <img id="preview-img" src="">
+                </div>
+            </div>
+            <div class="am-u-sm-6">
+                <div class="am-form-group">
+                    <label>分区</label><br>
+                    <select class="am-input-default" data-am-selected="{btnSize: 'sm'}">
+                        <option></option>
+                        {volist name="category_list" id="vo"}
+                        <option value="{$key}">{$vo}</option>
+                        {/volist}
+                    </select>
+                    <span class="am-form-caret"></span>
+                </div>
+                <div class="am-form-group">
+                    <label for="tags-ipt">标签</label><br>
+                    <input id="tags-ipt" class="" type="text">
+                </div>
+
+                <div class="am-form-group">
+                    <label for="tags-ipt">制作/拍摄日期</label>
+                    <input class="am-form-field" type="text" data-am-datepicker>
+                </div>
+
+                <div class="am-form-group">
+                    <label for="doc-ta-1">描述</label>
+                    <textarea class="" rows="5" id="doc-ta-1"></textarea>
+                </div>
+                <button type="submit" class="am-btn am-btn-success">提交</button>
+            </div>
+        </div>
+    </fieldset>
+    </form>
+</div>
+</div>
+{/block}
+
+
+{block name="js"}
+{load href="__STATIC__/js/amazeui.tagsinput.min.js" /}
+<script>
+$(function() {
+    $('#doc-form-file').on('change', function() {
+        var fileNames = '';
+        $.each(this.files, function() {
+            fileNames = '<span class="am-badge">' + this.name + '</span> ';
+        });
+        $('#file-list').html(fileNames);
+    });
+    $('#tags-ipt').tagsinput({
+        trimValue: true,
+        maxChars: 16,
+    })
+
+    if (typeof FileReader === 'undefined'){
+        result.innerHTML = "<p class='warn'>抱歉，你的浏览器不支持 FileReader</p>";
+        input.setAttribute('disabled','disabled');
+    } else {
+        input.addEventListener('change',readFile,false);
+    }
+
+});
+
+var input = document.getElementById("doc-form-file");
+
+function readFile(){
+    var file = this.files[0];
+    if(!/image\/\w+/.test(file.type)){
+        alert("请确保文件为图像类型");
+        return false;
+    }
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function(e){
+        $('#preview-img').attr('src', this.result);
+    }
+}
+
+</script>
+{/block}
