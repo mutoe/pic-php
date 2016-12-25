@@ -3,6 +3,20 @@
 {block name="css"}
 {load href="__STATIC__/css/amazeui.tagsinput.css" /}
 <style>
+.preview-container {position: relative;overflow: hidden}
+.preview-container > .am-badge {position: absolute;top: 1px;left: 1px;z-index: 1;cursor: default;}
+.preview-container > .exif-information {
+    display: none;position: absolute;left: 0;top: 0;
+    background-color: rgba(0,0,0,.4);
+    color: #fff;
+    font-size: 1.1rem;
+    max-height: 100%;
+    overflow: auto;
+    margin: 0;
+    padding: 1.8rem .75rem .5rem;
+}
+.preview-container > .am-badge:hover + .exif-information {display: block;}
+.preview-container > .exif-information:hover {display: block;}
 #preview-img {max-height: 600px;max-width: 100%;}
 </style>
 {/block}
@@ -26,6 +40,8 @@
                     <div class="am-inline am-badge-xl" id="file-list"></div>
                 </div>
                 <div class="preview-container">
+                    <span class="am-badge am-hide">EXIF</span>
+                    <pre class="exif-information"></pre>
                     <img id="preview-img" src="">
                 </div>
             </div>
@@ -46,8 +62,8 @@
                 </div>
 
                 <div class="am-form-group">
-                    <label for="tags-ipt">制作/拍摄日期</label>
-                    <input class="am-form-field" type="text" data-am-datepicker>
+                    <label for="tags-ipt"> 制作/拍摄日期 </label>
+                    <input class="am-form-field" type="text" name="photo_date" />
                 </div>
 
                 <div class="am-form-group">
@@ -66,6 +82,7 @@
 
 {block name="js"}
 {load href="__STATIC__/js/amazeui.tagsinput.min.js" /}
+{load href="__STATIC__/js/exif.js" /}
 <script>
 $(function() {
     $('#doc-form-file').on('change', function() {
@@ -90,7 +107,7 @@ $(function() {
 
 });
 
-
+// 图片本地预览控件
 function readFile(){
     var file = this.files[0];
     if(!/image\/\w+/.test(file.type)){
@@ -102,6 +119,42 @@ function readFile(){
     reader.onload = function(e){
         $('#preview-img').attr('src', this.result);
     }
+    reader.onloadend = function(e){
+        var image = new Image();
+        image.onload = function() {
+            EXIF.getData(this, function(){
+                var _dataTxt = EXIF.pretty(this);
+                // 待上传的图片是否含有 EXIF 信息
+                if (_dataTxt != '') {
+                    $('.exif-information').text(_dataTxt);
+                    $('.preview-container>.am-badge').removeClass('am-hide');
+                    // 自动填充
+                    var _dataJson = EXIF.getAllTags(this);
+                    $('input[name="exif"]').val(JSON.stringify(_dataJson));
+                    auto_fill_via_exif(_dataJson);
+                } else {
+                    $('.preview-container>.am-badge').addClass('am-hide');
+                    $('input[name="exif"]').val('');
+                }
+            });
+        }
+        image.src = $('#preview-img').attr('src');
+    };
+}
+
+/**
+ * 根据 EXIF 自动填充字段
+ * @author 杨栋森 mutoe@foxmail.com at 2016-12-25
+ *
+ * @param  {object}   exif  json格式
+ */
+function auto_fill_via_exif(exif) {
+    var photo_time = exif.DateTimeOriginal1 || exif.DateTimeDigitize || exif.DateTime;
+    if (!photo_time) return;
+    photo_time = photo_time.substring(0, 10).split(':').join('-');
+    $('input[name="photo_date"]').attr('value', photo_time);
+    // 修复 amazeui datepicker 插件无法自动定位到当前时间
+    $('input[name="photo_date"]').datepicker('setValue', photo_time);
 }
 
 </script>
