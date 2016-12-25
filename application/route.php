@@ -16,10 +16,8 @@ Route::pattern([
     'share_id'      => '\d+',
 ]);
 
-Route::group('share', [
-    ':share_id'                 => ['index/share/detail',   ['method' => 'GET']],
-    'add'                       => ['index/share/addShare', ['method' => 'GET']],
-]);
+// 定义 RESTful 路由
+Route::resource('share', 'index/share', ['var', ['share' => 'share_id']]);
 
 Route::group('user', [
     ':user_id'                  => ['index/user/detail',    ['method' => 'GET']],
