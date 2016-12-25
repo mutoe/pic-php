@@ -24,7 +24,7 @@
 {block name="body"}
 <div class="am-g am-g-fixed">
 <div class="am-u-sm-12">
-    <form class="am-form">
+    <form class="am-form" method="POST" action="__ROOT__/share">
     <fieldset>
         <legend>添加分享</legend>
 
@@ -33,7 +33,7 @@
                 <div class="am-form-group am-form-file">
                     <div class="am-inline">
                         <button type="button" class="am-btn am-btn-danger am-btn-sm">
-                            <i class="am-icon-cloud-upload"></i> 选择要上传的文件
+                            <i class="am-icon-cloud-upload"></i> 选择要上传的图片
                         </button>
                         <input id="doc-form-file" type="file">
                     </div>
@@ -48,7 +48,8 @@
             <div class="am-u-sm-6">
                 <div class="am-form-group">
                     <label>分区</label><br>
-                    <select class="am-input-default" data-am-selected="{btnSize: 'sm'}">
+                    <select name="cate_id" required
+                        data-am-selected="{btnSize: 'sm'}">
                         <option></option>
                         {volist name="category_list" id="vo"}
                         <option value="{$key}">{$vo}</option>
@@ -57,8 +58,8 @@
                     <span class="am-form-caret"></span>
                 </div>
                 <div class="am-form-group">
-                    <label for="tags-ipt">标签</label><br>
-                    <input id="tags-ipt" class="" type="text">
+                    <label for="tags-ipt"> 标签 </label><br>
+                    <input id="tags-ipt" name="tag_id" type="text">
                 </div>
 
                 <div class="am-form-group">
@@ -67,10 +68,15 @@
                 </div>
 
                 <div class="am-form-group">
-                    <label for="doc-ta-1">描述</label>
-                    <textarea class="" rows="5" id="doc-ta-1"></textarea>
+                    <label for="doc-ta-1"> 描述
+                        <small class="am-link-muted"> 120字内, 可留空</small>
+                    </label>
+                    <textarea rows="5" name="detail" maxlength="255"></textarea>
                 </div>
-                <button type="submit" class="am-btn am-btn-success">提交</button>
+
+                <input type="text" name="exif" class="am-hide">
+                <button type="submit" class="am-btn am-btn-success"
+                    onclick="return beforeSubmit()">提交</button>
             </div>
         </div>
     </fieldset>
@@ -85,6 +91,7 @@
 {load href="__STATIC__/js/exif.js" /}
 <script>
 $(function() {
+    // 图片上传控件
     $('#doc-form-file').on('change', function() {
         var fileNames = '';
         $.each(this.files, function() {
@@ -92,11 +99,14 @@ $(function() {
         });
         $('#file-list').html(fileNames);
     });
+
+    // 标签输入控件
     $('#tags-ipt').tagsinput({
         trimValue: true,
         maxChars: 16,
     })
 
+    // 图片本地预览
     var input = document.getElementById("doc-form-file");
     if (typeof FileReader === 'undefined'){
         result.innerHTML = "<p class='warn'>抱歉，你的浏览器不支持 FileReader</p>";
@@ -105,6 +115,22 @@ $(function() {
         input.addEventListener('change',readFile,false);
     }
 
+    // 日期选择插件 ( 禁止选定当日之后的日期 )
+    var now = new Date();
+    var nowDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0).valueOf();
+    var nowMoth = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0).valueOf();
+    var nowYear = new Date(now.getFullYear(), 0, 1, 0, 0, 0, 0).valueOf();
+    var checkin = $('input[name="photo_date"]').datepicker({
+        onRender: function(date, viewMode) {
+            var viewDate = nowDay;
+            switch (viewMode) {
+              case 1: viewDate = nowMoth;break;
+              case 2: viewDate = nowYear;break;
+            }
+            return date.valueOf() > viewDate ? 'am-disabled' : '';
+        },
+        format: 'yyyy-mm-dd'
+    }).data('amui.datepicker');
 });
 
 // 图片本地预览控件
@@ -155,6 +181,28 @@ function auto_fill_via_exif(exif) {
     $('input[name="photo_date"]').attr('value', photo_time);
     // 修复 amazeui datepicker 插件无法自动定位到当前时间
     $('input[name="photo_date"]').datepicker('setValue', photo_time);
+}
+
+function beforeSubmit () {
+    // 检测图片
+    if (!$('#file-list').html()) {
+        $('#am-alert-content').text('先选择一个图片在上传吧');
+        $('#am-alert').modal('open');
+        return false;
+    }
+    // 未填拍摄时间时设置为当前时间
+    if (!$('[name="photo_date"]').val()) {
+        var now = new Date();
+        now = now.toLocaleDateString().split('/').join('-');
+        $('[name="photo_date"]').attr('value', now);
+    }
+    // 检测分类
+    if (!$('[name="cate_id"]').val()) {
+        $('#am-alert-content').text('必须选择一个分区');
+        $('#am-alert').modal('open');
+        return false;
+    }
+    return true;
 }
 
 </script>
