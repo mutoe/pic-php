@@ -6,10 +6,10 @@ use app\index\model\Cate;
 
 class Share extends Controller {
 
-    public function read($share_id) {
+    public function read($id) {
         $share = model('Share');
 
-        $data = $share->getShare($share_id);
+        $data = $share->getShare($id);
 
         return $this->fetch('detail', ['data' => $data]);
     }
@@ -21,14 +21,14 @@ class Share extends Controller {
     }
 
     /**
-     * Ìí¼Ó·ÖÏíµÄ´¦Àí·½·¨
-     * Çë×¢Òâ ÎÄ¼şÒÆ¶¯Ö®Ç°ÊÇ´æ´¢ÔÚ php ÁÙÊ±Ä¿Â¼ÏÂµÄ, ÇëÈ·±£¸ÃÄ¿Â¼ºÍ 'public/uploads/' µÄÈ¨ÏŞÎª 777.
-     * Éú³ÉËõÂÔÍ¼µÄ×î´ó³ß´çÊÇ 480x960px. Ô¤ÀÀÍ¼×î´ó³ß´çÊÇ 1440x900px. Ô­Í¼²»×ö´¦Àí
-     * @author Ñî¶°É­ mutoe@foxmail.com at 2016-12-26
+     * æ·»åŠ åˆ†äº«çš„å¤„ç†æ–¹æ³•
+     * è¯·æ³¨æ„ æ–‡ä»¶ç§»åŠ¨ä¹‹å‰æ˜¯å­˜å‚¨åœ¨ php ä¸´æ—¶ç›®å½•ä¸‹çš„, è¯·ç¡®ä¿è¯¥ç›®å½•å’Œ 'public/uploads/' çš„æƒé™ä¸º 777.
+     * ç”Ÿæˆç¼©ç•¥å›¾çš„æœ€å¤§å°ºå¯¸æ˜¯ 480x960px. é¢„è§ˆå›¾æœ€å¤§å°ºå¯¸æ˜¯ 1440x900px. åŸå›¾ä¸åšå¤„ç†
+     * @author æ¨æ ‹æ£® mutoe@foxmail.com at 2016-12-26
      */
     public function save()
     {
-        // ÎÄ¼şºÏ·¨ĞÔÑéÖ¤
+        // æ–‡ä»¶åˆæ³•æ€§éªŒè¯
         $file = request()->file('image');
         $mine = ['image/jpeg', 'image/gif', 'image/png', 'image/jpg'];
         $info = $file->validate(['size' => 8*1024*1024, 'type' => $mine]);
@@ -36,14 +36,14 @@ class Share extends Controller {
             return $this->error($info->getError());
         }
 
-        // ³õÊ¼»¯ÎÄ¼şÊı¾İ
+        // åˆå§‹åŒ–æ–‡ä»¶æ•°æ®
         $savepath = 'uploads/'. date('Ym', time()). '/';
         $public_path = ROOT_PATH. 'public/'. $savepath;
         $image = \think\Image::open($file);
         $height = $image->height();
         $width = $image->width();
 
-        // ³õÊ¼»¯Ä£ĞÍ
+        // åˆå§‹åŒ–æ¨¡å‹
         $share = \think\Loader::model('Share');
         $savedata = input('post.');
         $savedata['width'] = $width;
@@ -51,37 +51,37 @@ class Share extends Controller {
         $savedata['savepath'] = $savepath;
         $result = $share->data($savedata, true);
 
-        // Êı¾İºÏ·¨ĞÔÑéÖ¤
+        // æ•°æ®åˆæ³•æ€§éªŒè¯
         $validate = \think\Loader::validate('Share');
         if(!$validate->check($result)) {
             $this->error($validate->getError());
         }
 
-        // Ô­Í¼Ôö¼ÓÇ°×º 'o_'
+        // åŸå›¾å¢åŠ å‰ç¼€ 'o_'
         $info = $file->rule('uniqid')->move(ROOT_PATH. 'public/'. $savepath);
         $savename = $info->getFilename();
         copy($public_path. $savename, $public_path. 'o_'. $savename);
 
-        // Éú³ÉËõÂÔÍ¼
+        // ç”Ÿæˆç¼©ç•¥å›¾
         $image->thumb(480, 9999);
-        // ³¤Í¼²ÃÈ¡¶¥²¿ 960px
+        // é•¿å›¾è£å–é¡¶éƒ¨ 960px
         if ($height > 3 * $width) {
             $image->crop(480, 960);
         }
         $image->save($public_path. 't_'. $savename);
 
-        // Éú³ÉÔ¤ÀÀÍ¼
+        // ç”Ÿæˆé¢„è§ˆå›¾
         $image = \think\Image::open($file);
         $image->thumb(1440, 900)->save($public_path. $savename);
 
-        // ¸üĞÂ±£´æÃû³Æ
+        // æ›´æ–°ä¿å­˜åç§°
         $share->savename = $savename;
         $result = $share->save();
         if (!$result) {
             return $this->error($share->getError());
         }
 
-        // Êı¾İ´´½¨³É¹¦ºóÉ¾³ıÁÙÊ±ÎÄ¼ş
+        // æ•°æ®åˆ›å»ºæˆåŠŸååˆ é™¤ä¸´æ—¶æ–‡ä»¶
         @unlink($info->getInfo('tmp_name'));
         return $this->redirect(url('/share/'. $share->share_id));
     }
