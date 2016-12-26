@@ -9,6 +9,8 @@
 
 使用时请将 `application/database.php.example` 复制一份并且去掉 `.example` 后缀.
 
+请确保 php 临时文件目录和 'public/uploads/' 的权限为 777, 否则将无法上传文件.
+
 详细开发文档参考 [ThinkPHP5完全开发手册](http://www.kancloud.cn/manual/thinkphp5)
 
 ## 目录结构

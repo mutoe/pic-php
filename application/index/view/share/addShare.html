@@ -24,7 +24,7 @@
 {block name="body"}
 <div class="am-g am-g-fixed">
 <div class="am-u-sm-12">
-    <form class="am-form" method="POST" action="__ROOT__/share">
+    <form class="am-form" method="POST" action="__ROOT__/share" enctype="multipart/form-data">
     <fieldset>
         <legend>添加分享</legend>
 
@@ -32,10 +32,11 @@
             <div class="am-u-sm-6">
                 <div class="am-form-group am-form-file">
                     <div class="am-inline">
-                        <button type="button" class="am-btn am-btn-danger am-btn-sm">
+                        <button id="add-file" class="am-btn am-btn-danger am-btn-sm"
+                            type="button" title="图片上传最大支持 8M 大小, 超过限制请自行调整.">
                             <i class="am-icon-cloud-upload"></i> 选择要上传的图片
                         </button>
-                        <input id="doc-form-file" type="file">
+                        <input id="doc-form-file" type="file" name="image" class="am-hide">
                     </div>
                     <div class="am-inline am-badge-xl" id="file-list"></div>
                 </div>
@@ -58,13 +59,22 @@
                     <span class="am-form-caret"></span>
                 </div>
                 <div class="am-form-group">
-                    <label for="tags-ipt"> 标签 </label><br>
+                    <label for="tags-ipt"> 标签
+                        <small>用 "," 或回车分隔, 每个标签最多 16 个字</small>
+                    </label><br>
                     <input id="tags-ipt" name="tag_id" type="text">
                 </div>
 
                 <div class="am-form-group">
                     <label for="tags-ipt"> 制作/拍摄日期 </label>
-                    <input class="am-form-field" type="text" name="photo_date" />
+                    <div class="am-input-group am-datepicker-date">
+                        <span class="am-input-group-btn am-datepicker-add-on">
+                            <button class="am-btn am-btn-default" type="button">
+                                <span class="am-icon-calendar"></span>
+                            </button>
+                        </span>
+                        <input class="am-form-field" type="text" name="photo_date" />
+                    </div>
                 </div>
 
                 <div class="am-form-group">
@@ -106,6 +116,10 @@ $(function() {
         maxChars: 16,
     })
 
+    $('#add-file').on('click', function() {
+        $('#doc-form-file').click();
+    });
+
     // 图片本地预览
     var input = document.getElementById("doc-form-file");
     if (typeof FileReader === 'undefined'){
@@ -120,7 +134,7 @@ $(function() {
     var nowDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0).valueOf();
     var nowMoth = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0).valueOf();
     var nowYear = new Date(now.getFullYear(), 0, 1, 0, 0, 0, 0).valueOf();
-    var checkin = $('input[name="photo_date"]').datepicker({
+    var checkin = $('.am-datepicker-date').datepicker({
         onRender: function(date, viewMode) {
             var viewDate = nowDay;
             switch (viewMode) {
@@ -150,18 +164,18 @@ function readFile(){
         image.onload = function() {
             EXIF.getData(this, function(){
                 var _dataTxt = EXIF.pretty(this);
+                var _dataJson = EXIF.getAllTags(this);
                 // 待上传的图片是否含有 EXIF 信息
                 if (_dataTxt != '') {
                     $('.exif-information').text(_dataTxt);
                     $('.preview-container>.am-badge').removeClass('am-hide');
                     // 自动填充
-                    var _dataJson = EXIF.getAllTags(this);
                     $('input[name="exif"]').val(JSON.stringify(_dataJson));
-                    auto_fill_via_exif(_dataJson);
                 } else {
                     $('.preview-container>.am-badge').addClass('am-hide');
                     $('input[name="exif"]').val('');
                 }
+                auto_fill_via_exif(_dataJson);
             });
         }
         image.src = $('#preview-img').attr('src');
@@ -174,27 +188,41 @@ function readFile(){
  *
  * @param  {object}   exif  json格式
  */
-function auto_fill_via_exif(exif) {
-    var photo_time = exif.DateTimeOriginal1 || exif.DateTimeDigitize || exif.DateTime;
-    if (!photo_time) return;
-    photo_time = photo_time.substring(0, 10).split(':').join('-');
-    $('input[name="photo_date"]').attr('value', photo_time);
+function auto_fill_via_exif() {
+    var exif = arguments[0] || {};
+    var photo_time = exif.DateTimeOriginal || exif.DateTimeDigitize || exif.DateTime;
+    if (photo_time) {
+        // 从 EXIF 中获取拍摄时间
+        photo_time = photo_time.substring(0, 10).split(':').join('-');
+    } else {
+        // 从文件修改日期中获取时间
+        var file = $('#doc-form-file')[0].files[0];
+        var photo_time = file.lastModified ? new Date(file.lastModified) : new Date();
+        photo_time = photo_time.toLocaleDateString().split('/').join('-');
+    }
+    $('input[name="photo_date"]').val(photo_time).attr('readonly', 'readonly');
     // 修复 amazeui datepicker 插件无法自动定位到当前时间
-    $('input[name="photo_date"]').datepicker('setValue', photo_time);
+    $('.am-datepicker-date').datepicker('setValue', photo_time);
 }
 
 function beforeSubmit () {
     // 检测图片
     if (!$('#file-list').html()) {
-        $('#am-alert-content').text('先选择一个图片在上传吧');
+        $('#am-alert-content').text('先选择一个图片在提交吧');
         $('#am-alert').modal('open');
         return false;
     }
-    // 未填拍摄时间时设置为当前时间
+    // 检测图片大小及格式
+    var file = $('#doc-form-file')[0].files[0];
+    var typeList = ['image/jpeg', 'image/gif', 'image/png', 'image/jpg'];
+    if (file.size > 8*1024*1024 || typeList.indexOf(file.type) < 0) {
+        $('#am-alert-content').text('图片超出 8M 大小限制或文件不是图片格式');
+        $('#am-alert').modal('open');
+        return false;
+    }
+    // 未填拍摄时间时设置为文件修改时间 或当前时间
     if (!$('[name="photo_date"]').val()) {
-        var now = new Date();
-        now = now.toLocaleDateString().split('/').join('-');
-        $('[name="photo_date"]').attr('value', now);
+        auto_fill_via_exif();
     }
     // 检测分类
     if (!$('[name="cate_id"]').val()) {
