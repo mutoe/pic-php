@@ -5,6 +5,41 @@ use think\Model;
 
 class Share extends Model {
 
+    protected $auto = ['update_time'];
+    protected $insert = [
+        'status'        => 1,
+        'be_like'       => 0,
+        'click'         => 0,
+        'total_comments'=> 0,
+        'create_time',
+        'user_id',
+        'month',
+    ];
+    protected $update = [];
+
+    protected function setUserIdAttr()
+    {
+        // TODO: Auth
+        //return is_login();
+        return 1;
+    }
+
+    protected function setCreateTimeAttr()
+    {
+        return time();
+    }
+
+    protected function setUpdateTimeAttr()
+    {
+        return time();
+    }
+
+    protected function setMonthAttr($value, $data)
+    {
+        $month = explode('-', $data['photo_date']);
+        return $month[0].$month[1];
+    }
+
     /**
      * 根据 share_id 获取详情
      * @author 杨栋森 mutoe@foxmail.com at 2016-12-24
