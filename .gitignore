@@ -5,8 +5,9 @@ composer.lock
 *.log
 thinkphp
 
-# Hbuilder 编辑器工程文件
+# 编辑器工程文件
 .project
+*.sublime-workspace
 
 # 运行时目录
 runtime/

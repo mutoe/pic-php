@@ -53,8 +53,8 @@
 .popupLayer .contentLayer .other .tags ul {
   line-height: 1;
   position: relative;
-  margin: 0;
-  padding: 0;
+  margin: 0px;
+  padding: 0px;
   list-style: outside none none;
 }
 #detail-content .other .tags ul li,
@@ -62,8 +62,8 @@
   font-size: 1.2rem;
   position: relative;
   display: inline-block;
-  margin: 0 1em 0 0;
-  padding: 0.15em 0;
+  margin: 0px 1em 0px 0px;
+  padding: 0.15em 0px;
   white-space: nowrap;
 }
 #detail-content .bottom-part,
@@ -75,8 +75,8 @@
 }
 #detail-content .bottom-part .info-piece img.avatar,
 .popupLayer .contentLayer .bottom-part .info-piece img.avatar {
-  width: 60px;
-  height: 60px;
+  width: ;
+  height: ;
 }
 #detail-content .bottom-part .info-piece .property,
 .popupLayer .contentLayer .bottom-part .info-piece .property {
@@ -147,7 +147,7 @@
   width: 36px;
   height: 36px;
   margin: -18px 0 0 -18px;
-  background: url("../i/btn_close_layer.png") no-repeat scroll;
+  background: url("../i/btn_close_layer.png") no-repeat scroll 0px 0px;
 }
 .popupLayer .prevBtn,
 .popupLayer .nextBtn {
