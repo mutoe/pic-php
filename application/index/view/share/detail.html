@@ -36,7 +36,7 @@
                     <div class="am-panel-bd info-piece">
 <!-- info-piece start -->
 <div class="am-fl am-margin-right">
-    <img class="avatar" src="http://pic.cqjtu.edu.cn/base/avatar/user_id/{$data.user_id}/size/middle.html"/>
+    <img class="avatar" src=""/>
 </div>
 <div class="am-fl">
     <a class="nickname am-text-lg am-link-muted am-padding-vertical-sm"
@@ -63,7 +63,7 @@
         <div class="am-text-sm">baqi</div>
         <div class="action-buttons">
             <a class="reply-button" data-name="{$data.user_id|get_nickname}" title="回复"></a>
-            <a class="delete" data-url="/pins/603526568/comments/1342199/" title="删除"></a>
+            <a class="delete" data-url="" title="删除"></a>
         </div>
         <div class="am-cf"></div>
     </div>
@@ -99,20 +99,20 @@
 {block name="js"}
 <script type="text/javascript">
 
-    $(document).ready(function() {
-        $(".picture").css('height', $(window).height());
-        $(".other").css('height', $(window).height());
-        $("html,body").animate({scrollTop: $("#detail-content").offset().top},200);
-    });
+$(document).ready(function() {
+    $(".picture").css('height', $(window).height());
+    $(".other").css('height', $(window).height());
+    $("html,body").animate({scrollTop: $("#detail-content").offset().top},200);
+});
 
-    $(window).scroll(function(event){
-        $('#nav-sticky').sticky();
-        if($(window).scrollTop() > $(".bottom-part").offset().top) {
-            $("#nav-sticky").addClass('am-sticky');
-        } else {
-            $("#nav-sticky").removeClass('am-sticky');
-        }
-    });
+/*$(window).scroll(function(event){
+    $('#nav-sticky').sticky();
+    if($(window).scrollTop() > $(".bottom-part").offset().top) {
+        $("#nav-sticky").addClass('am-sticky');
+    } else {
+        $("#nav-sticky").removeClass('am-sticky');
+    }
+});*/
 
 </script>
 {/block}
