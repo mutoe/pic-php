@@ -9,6 +9,7 @@ class Share extends Controller {
         $share = model('Share');
 
         $data = $share->getShare($id);
+        $share->where('share_id', $id)->setInc('click', 1, 60);
 
         return $this->fetch('detail', ['data' => $data]);
     }
