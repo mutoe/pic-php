@@ -16,15 +16,32 @@ class Index extends Controller {
                 'name' => $value['cate_name'],
                 'description' => $value['description'],
                 'total_share' => $value['total_share'],
-                'data' => model('Share')->getShareList($value['cate_id'], 9),
             ];
+            // 首页渲染 2 个分类数据, 随后进行懒加载
+            if ($key < 2) {
+                $data[$key]['data'] = model('Share')->getShareList($value['cate_id'], 12);
+            }
         }
+
         $cate_click_list = \think\Cache::get('cate_click_list');
 
         return $this->fetch('index', [
             'index_cate_array'  => $data,
-            'cate_click_list'   => $cate_click_list
+            'cate_click_list'   => $cate_click_list,
         ]);
+    }
+
+    /**
+     * 首页分类数据懒加载 只接受 POST 请求 ( 详见 route.php )
+     * @author 杨栋森 mutoe@foxmail.com at 2016-12-29
+     *
+     * @param  integer $cate_id 分类id
+     * @return json
+     */
+    public function loadCateData($cate_id)
+    {
+        $data = model('Share')->getShareList($cate_id, 12);
+        return json_encode($data);
     }
 
 }

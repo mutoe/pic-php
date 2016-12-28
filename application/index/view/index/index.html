@@ -7,7 +7,7 @@
         width: 100%;
     }
     .floor {margin-top: 4rem;margin-bottom: 6rem;}
-    .photos {font-size: 0px;}
+    .photos {font-size: 0px;min-height: 400px;}
 </style>
 {/block}
 
@@ -30,8 +30,12 @@
 {block name="body"}
 <div id="floor-wrap">
     <div class="am-g am-g-fixed">
-        {volist name="index_cate_array" id="cate"}
-        <section class="floor">
+        {volist name="index_cate_array" id="cate" key="cate_key"}
+        {if condition="$cate_key <= 2"}
+        <section class="floor loaded" data-cate-id="{$cate.cate_id}">
+        {else \}
+        <section class="floor" data-cate-id="{$cate.cate_id}">
+        {/if}
             <div class="title-bar">
                 <div class="title-bg"></div>
                 <h2 class="title">
@@ -47,6 +51,7 @@
             </div>
             <div class="item-wrap">
                 <div class="photos">
+                    {if condition="$cate_key <= 2"}
                     {volist name="cate.data" id="data"}
                     <div class="photo">
                         <a class="pjaxlink" href="__ROOT__/share/{$data.share_id}">
@@ -54,6 +59,7 @@
                         </a>
                     </div>
                     {/volist}
+                    {/if}
                 </div>
             </div>
         </section>
@@ -84,6 +90,30 @@ var gallery = $('.photos').gallerify({
     margin: 2,
     mode: 'bootstrap',
     lastRow: 'hidden'
+});
+
+// 懒加载
+$(window).on('scroll', function() {
+    $('section[data-cate-id]:not(.loaded)').each(function(index, el) {
+        if ($(window).scrollTop() + $(window).height() + 800 < $(el).offset().top) return;
+        $(el).addClass('loaded');
+        $.ajax({
+            url: '__ROOT__/index/sync_load',
+            type: 'POST',
+            data: {cate_id: $(el).data('cate-id')},
+            success: function(data) {
+                data = $.parseJSON(data);
+                $(data).each(function(index, share) {
+                    var html = '<div class="photo">';
+                    html += '<a class="pjaxlink" href="__ROOT__/share/'+ share.share_id +'">';
+                    html += '<img src="__ROOT__/'+ share.savepath +'t_'+ share.savename +'">';
+                    html += '</a></div>';
+                    $(el).find('.photos').append(html);
+                });
+                $(el).find('.photos').gallerify.renderAsyncImages();
+            }
+        });
+    });
 });
 </script>
 
