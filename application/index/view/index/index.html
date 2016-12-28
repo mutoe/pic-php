@@ -85,7 +85,7 @@
 
 {load href="__STATIC__/js/jquery.xgallerify.min.js" /}
 <script type="text/javascript">
-var gallery = $('.photos').gallerify({
+$('.photos').gallerify({
     margin: 2,
     mode: 'bootstrap',
     lastRow: 'hidden'
@@ -120,7 +120,9 @@ $(window).on('scroll', function() {
 <script type="text/javascript">
 // pjax支持检测
 if ($.support.pjax) {
-    $(document).pjax('a.pjaxlink', '.contentLayer', {fragment:'#detail-content', scrollTo: false, timeout: 1650});
+    $(document).pjax('a.pjaxlink', '.contentLayer', {
+        fragment:'#detail-content', scrollTo: false, timeout: 1650
+    });
 
     $(document).on('pjax:send', function() {
         $.AMUI.progress.start();
