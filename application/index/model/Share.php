@@ -5,7 +5,7 @@ use think\Model;
 
 class Share extends Model {
 
-    protected $auto = ['update_time'];
+    protected $auto = ['month','update_time'];
     protected $insert = [
         'status'        => 1,
         'be_like'       => 0,
@@ -13,7 +13,6 @@ class Share extends Model {
         'total_comments'=> 0,
         'create_time',
         'user_id',
-        'month',
     ];
     protected $update = [];
 
