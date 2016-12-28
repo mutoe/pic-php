@@ -42,7 +42,9 @@
 
 		<!-- 天佑通用导航条 -->
 		{block name="commonnav"}
-		<script charset="gbk" src="//ty.cqjtu.edu.cn/navbar/nav.js"></script>
+		<div class="am-show-lg-only">
+			<script charset="gbk" src="//ty.cqjtu.edu.cn/navbar/nav.js"></script>
+		</div>
 		{/block}
 
 		<!-- 副导航 -->
@@ -55,28 +57,21 @@
         {block name="footer"}
 		<div class="footer" style="position: relative;">
 			<div class="container">
-				<div class="am-g">
+				<div class="am-g am-g-fixed">
 					<div class="am-u-md-4 am-u-md-centered">
 						<h1 class="slogan">天佑青春 激荡年华</h1>
 					</div>
 				</div>
 				<hr>
-				<div class="am-g">
-					<div class="am-u-md-5 center-align copyright">
-						<p class="am-margin-bottom-xs">Copyright ©2015 TianYou Network Studio. All Right Reserved .</p>
-						<a href="http://www.miitbeian.gov.cn/" target="_blank">渝ICP备11007697号 </a>
-					</div>
-					<div class="am-u-md-3 subscrib_us">
+				<div class="am-g am-g-fixed">
+					<div class="am-u-lg-8 am-u-md-12 center-align copyright">
 						<p class="am-margin-bottom-xs">
-							<em class="am-icon am-icon-weibo am-icon-lg"></em>
+							Copyright 2015 TianYou Network Studio. All Right Reserved . <br>
+							<em class="am-icon am-icon-weibo"></em>
 							<a href="http://weibo.com/cqjtuty/" target="_black"> @重庆交通大学天佑工作室</a>
 						</p>
-<!--						<p class="am-margin-top-xs">
-							<em class="am-icon am-icon-comments-o am-icon-lg"></em> 天佑龙门阵(149344566)
-							<br>
-						</p>-->
 					</div>
-					<div class="am-u-md-4 qrcode">
+					<div class="am-u-lg-4 am-show-lg-only qrcode">
 						<img src="__STATIC__/i/footer/qrcode1.jpg" title="天佑工作室" alt="天佑工作室" style="margin-right: 54px;">
 						<img src="__STATIC__/i/footer/qrcode2.jpg" title="重交小学妹" alt="重交小学妹">
 					</div>
