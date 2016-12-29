@@ -27,7 +27,7 @@ nav-height = 30px
     padding-right 32px
     .am-topbar-nav > li
         a
-            line-height nav-height
+            line-height nav-height - 1
             font-size 12px
             &::after
                 display none
@@ -36,14 +36,10 @@ nav-height = 30px
             color #fff
 
         & > a
-            color #fff
+            color #333
             &:hover
                 color #fff
                 background-color rgba(0,0,0,.4)
-
-    ul.am-dropdown-content
-        li a
-            line-height 18px
 
     .am-topbar-form
     .am-topbar-btn
@@ -55,7 +51,7 @@ nav-height = 30px
         border-width 0 0 1px !important
         .am-topbar-nav > li
             & > a
-                color #333
+                color #333 !important
                 &:hover
                     background-color rgba(0,0,0,.1)
 
@@ -83,6 +79,8 @@ nav-height = 30px
         border-color rgba(0,0,0,.33)
         transition all 0.2s ease
         margin-top 0 - nav-height
+        .am-topbar-nav > li > a
+            color #fff
 
 .topic-background
     position absolute

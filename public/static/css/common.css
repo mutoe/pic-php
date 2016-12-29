@@ -24,7 +24,7 @@ body {
   padding-right: 32px;
 }
 .nav .am-topbar-nav > li a {
-  line-height: 30px;
+  line-height: 29px;
   font-size: 12px;
 }
 .nav .am-topbar-nav > li a::after {
@@ -34,14 +34,11 @@ body {
   color: #fff;
 }
 .nav .am-topbar-nav > li > a {
-  color: #fff;
+  color: #333;
 }
 .nav .am-topbar-nav > li > a:hover {
   color: #fff;
   background-color: rgba(0,0,0,0.4);
-}
-.nav ul.am-dropdown-content li a {
-  line-height: 18px;
 }
 .nav .am-topbar-form,
 .nav .am-topbar-btn {
@@ -53,7 +50,7 @@ body {
   border-width: 0 0 1px !important;
 }
 .nav.am-sticky .am-topbar-nav > li > a {
-  color: #333;
+  color: #333 !important;
 }
 .nav.am-sticky .am-topbar-nav > li > a:hover {
   background-color: rgba(0,0,0,0.1);
@@ -83,6 +80,9 @@ body {
   border-color: rgba(0,0,0,0.33);
   transition: all 0.2s ease;
   margin-top: -30px;
+}
+.topic-block .nav .am-topbar-nav > li > a {
+  color: #fff;
 }
 .topic-background {
   position: absolute;
