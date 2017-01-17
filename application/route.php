@@ -17,6 +17,7 @@ Route::pattern([
     'share_id'      => '\d+',
 ]);
 
+// 首页异步加载
 Route::rule('index/sync_load', 'index/index/loadCateData', 'POST');
 
 // 定义 RESTful 路由

@@ -11,9 +11,6 @@
             <p class="cate-info">
                 该分区下共有分享 {$cate_info.total_share} 张.
                 总点击量 {$cate_click} 次.
-                <a href="__ROOT__/cate/{$cate_info.cate_id}">
-                    进入分区 <i class="am-icon am-icon-angle-double-right"></i>
-                </a>
             </p>
         </div>
         <div class="item-wrap">
@@ -29,6 +26,16 @@
         </div>
         <div class="pager">{$list->render()}</div>
     </div>
+</div>
+
+<div class="popupLayer">
+    <div class="btnLayer">
+        <div class="closeBtn"><i></i></div>
+        <div class="prevBtn"></div>
+        <div class="nextBtn"></div>
+        <div class="goTopBtn"></div>
+    </div>
+    <div class="contentLayer"></div>
 </div>
 {/block}
 
