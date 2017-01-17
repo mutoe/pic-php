@@ -18,7 +18,7 @@
         </div>
         <div class="item-wrap">
             <div class="photos">
-                {volist name="cate_data" id="data"}
+                {volist name="list" id="data"}
                 <div class="photo">
                     <a class="pjaxlink" href="__ROOT__/share/{$data.share_id}">
                         <img src="__ROOT__/{$data.savepath}t_{$data.savename}">
@@ -27,6 +27,7 @@
                 {/volist}
             </div>
         </div>
+        {$list->render()}
     </div>
 </div>
 {/block}
@@ -38,7 +39,7 @@
 $('.photos').gallerify({
     margin: 2,
     mode: 'bootstrap',
-    lastRow: 'hidden'
+    lastRow: 'adjust'
 });
 </script>
 
