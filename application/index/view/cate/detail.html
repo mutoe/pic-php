@@ -1,0 +1,98 @@
+{extend name="common:base" /}
+
+{block name="body"}
+<div id="floor-wrap">
+    <div class="am-g am-g-fixed">
+        <div class="title-bar">
+            <div class="title-bg"></div>
+            <h2 class="title">
+                {$cate_info.cate_name} <small>{$cate_info.description}</small>
+            </h2>
+            <p class="cate-info">
+                该分区下共有分享 {$cate_info.total_share} 张.
+                总点击量 {$cate_click} 次.
+            </p>
+        </div>
+        <div class="item-wrap">
+            <div class="photos">
+                {volist name="list" id="data"}
+                <div class="photo">
+                    <a class="pjaxlink" href="__ROOT__/share/{$data.share_id}">
+                        <img src="__ROOT__/{$data.savepath}t_{$data.savename}">
+                    </a>
+                </div>
+                {/volist}
+            </div>
+        </div>
+        <div class="pager">{$list->render()}</div>
+    </div>
+</div>
+
+<div class="popupLayer">
+    <div class="btnLayer">
+        <div class="closeBtn"><i></i></div>
+        <div class="prevBtn"></div>
+        <div class="nextBtn"></div>
+        <div class="goTopBtn"></div>
+    </div>
+    <div class="contentLayer"></div>
+</div>
+{/block}
+
+{block name="js"}
+
+{load href="__STATIC__/js/jquery.xgallerify.min.js" /}
+<script type="text/javascript">
+$('.photos').gallerify({
+    margin: 2,
+    mode: 'bootstrap',
+    lastRow: 'adjust'
+});
+</script>
+
+{load href="__STATIC__/js/jquery.pjax.js" /}
+<script type="text/javascript">
+// pjax支持检测
+if ($.support.pjax) {
+    $(document).pjax('a.pjaxlink', '.contentLayer', {
+        fragment:'#detail-content', scrollTo: false, timeout: 1650
+    });
+
+    $(document).on('pjax:send', function() {
+        $.AMUI.progress.start();
+        //在pjax发送请求时，显示loading动画层
+        $("body").css('overflow', 'hidden');
+        $('.popupLayer').show();
+        $.AMUI.progress.inc(0.2);
+
+    });
+    $(document).on('pjax:complete', function() {
+        $.AMUI.progress.inc(0.4);
+        $(".picture").css('height', $(window).height());
+        $(".other").css('height', $(window).height());
+        $('#picLoadHandle').load(function(){
+            $.AMUI.progress.done();
+        });
+
+    });
+
+    // 后退监听
+    $(document).on('pjax:popstate', function() {
+        $.AMUI.progress.done();
+        $(".popupLayer").scrollTop(0).hide();
+        $("body").css('overflow', 'auto');
+    });
+
+    $(".closeBtn").on('click', function() {
+        window.history.go(-1);
+    });
+    // 按下ESC键时返回
+    $(window).keydown(function(event){
+        if(event.which == 27 && $(".popupLayer").css('display') == "block") {
+            window.history.go(-1);
+        }
+    });
+
+}
+</script>
+{/block}
