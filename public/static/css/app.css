@@ -177,3 +177,15 @@
 .pager {
   margin-top: 4rem;
 }
+.am-sticky-placeholder {
+  float: left;
+  width: 100%;
+}
+.floor {
+  margin-top: 4rem;
+  margin-bottom: 6rem;
+}
+.photos {
+  font-size: 0px;
+  min-height: 400px;
+}
