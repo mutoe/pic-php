@@ -3,7 +3,6 @@
 .idea
 composer.lock
 *.log
-thinkphp
 
 # 编辑器工程文件
 .project
