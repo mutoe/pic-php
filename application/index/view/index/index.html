@@ -31,11 +31,7 @@
 <div id="floor-wrap">
     <div class="am-g am-g-fixed">
         {volist name="index_cate_array" id="cate" key="cate_key"}
-        {if condition="$cate_key <= 2"}
-        <section class="floor loaded" data-cate-id="{$cate.cate_id}">
-        {else \}
-        <section class="floor" data-cate-id="{$cate.cate_id}">
-        {/if}
+        <section class="floor {if condition='$cate_key <= 2'}loaded{/if}" data-cate-id="{$cate.cate_id}">
             <div class="title-bar">
                 <div class="title-bg"></div>
                 <h2 class="title">
