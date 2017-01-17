@@ -13,6 +13,7 @@ use think\Route;
 
 Route::pattern([
     'user_id'       => '\d+',
+    'cate_id'       => '\d+',
     'share_id'      => '\d+',
 ]);
 
@@ -20,6 +21,10 @@ Route::rule('index/sync_load', 'index/index/loadCateData', 'POST');
 
 // 定义 RESTful 路由
 Route::resource('share', 'index/share');
+
+Route::group('cate', [
+    ':cate_id'                  => ['index/cate/read',      ['method' => 'GET']],
+]);
 
 Route::group('user', [
     ':user_id'                  => ['index/user/detail',    ['method' => 'GET']],
