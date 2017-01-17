@@ -1,8 +1,7 @@
 <?php
 namespace app\index\controller;
 use think\Controller;
-
-use app\index\model\Cate;
+use think\Cache;
 
 class Share extends Controller {
 
@@ -10,13 +9,14 @@ class Share extends Controller {
         $share = model('Share');
 
         $data = $share->getShare($id);
+        $share->where('share_id', $id)->setInc('click', 1, 60);
 
         return $this->fetch('detail', ['data' => $data]);
     }
 
     public function create()
     {
-        $category_list = Cate::order('sort desc')->column('cate_name', 'cate_id');
+        $category_list = model('Cate')->order('sort desc')->column('cate_name', 'cate_id');
         return $this->fetch('addShare', ['category_list' => $category_list]);
     }
 
@@ -84,6 +84,28 @@ class Share extends Controller {
         // 数据创建成功后删除临时文件
         @unlink($info->getInfo('tmp_name'));
         return $this->redirect(url('/share/'. $share->share_id));
+    }
+
+    /**
+     * 刷新缓存
+     * 目前可刷新 "分类点击量"
+     * @author 杨栋森 mutoe@foxmail.com at 2016-12-28
+     */
+    public function refresh_cache()
+    {
+        $cate = model('Cate');
+        $share = model('Share');
+        $data = $cate->select();
+        $result = array_fill(1, $cate->max('cate_id'), 0);
+        foreach ($data as $key => $value) {
+            $sharelist = $share->where(['cate_id'=>$value['cate_id']])->column('click');
+            $count = 0;
+            foreach ($sharelist as $value1) {
+                $count += $value1;
+            }
+            $result[$value['cate_id']] = $count;
+        }
+        Cache::set('cate_click_list', $result);
     }
 
 }

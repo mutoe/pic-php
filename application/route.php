@@ -16,6 +16,8 @@ Route::pattern([
     'share_id'      => '\d+',
 ]);
 
+Route::rule('index/sync_load', 'index/index/loadCateData', 'POST');
+
 // 定义 RESTful 路由
 Route::resource('share', 'index/share');
 

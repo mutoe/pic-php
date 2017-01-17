@@ -6,8 +6,8 @@ use app\index\model\User;
  * 根据user_id获取nickname
  */
 function get_nickname($user_id = 0) {
-	if(!$user_id) return null;
-	return User::where("user_id=$user_id") -> value('nickname');
+    if(!$user_id) return null;
+    return User::where("user_id=$user_id") -> value('nickname');
 }
 
 
@@ -15,7 +15,7 @@ function get_nickname($user_id = 0) {
  * 根据tag_id获取tag_name
  */
 function get_tagname($tag_id) {
-	return model('tag') -> getTagname($tag_id);
+    return model('tag') -> getTagname($tag_id);
 }
 
 /**
@@ -26,35 +26,35 @@ function get_tagname($tag_id) {
  * @return {string} 输出html字符串
  */
 function render_tag($tag, $renderType = 'tag', $addClass = '') {
-	// 将json格式转化为php数组
-	if(is_string($tag)) {
-		$tag = json_decode($tag);
-	}
-	$result = "";
-	if(empty($tag)) return $result;
+    // 将json格式转化为php数组
+    if(is_string($tag)) {
+        $tag = json_decode($tag);
+    }
+    $result = "";
+    if(empty($tag)) return $result;
 
-	switch ($renderType) {
-	// 直接输出tag标签
-	case 'tag':
-		foreach ($tag as $value) {
-			if($value == 1) continue;
-			$tagname = get_tagname($value);
-			$result .= "<li class='$addclass'><a href='". U('index/tag/detail', 'tag_id='.$value) ."'><i class='am-icon am-icon-tag'></i> $tagname</a></li>";
-		}
-		break;
+    switch ($renderType) {
+    // 直接输出tag标签
+    case 'tag':
+        foreach ($tag as $value) {
+            if($value == 1) continue;
+            $tagname = get_tagname($value);
+            $result .= "<li class='$addclass'><a href='". U('index/tag/detail', 'tag_id='.$value) ."'><i class='am-icon am-icon-tag'></i> $tagname</a></li>";
+        }
+        break;
 
-	default:
-		foreach ($tag as $value) {
-			$tagname = get_tagname($value);
-			$result .= "<u>$tagname</u>&nbsp;";
-		}
-		break;
-	}
-	return $result;
+    default:
+        foreach ($tag as $value) {
+            $tagname = get_tagname($value);
+            $result .= "<u>$tagname</u>&nbsp;";
+        }
+        break;
+    }
+    return $result;
 }
 
 function is_login() {
-	return input('session.ecardno', false);
+    return input('session.ecardno', false);
 }
 
 

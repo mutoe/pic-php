@@ -11,6 +11,10 @@
 
 请确保 php 临时文件目录和 'public/uploads/' 的权限为 777, 否则将无法上传文件.
 
+如果使用 sublime text 编辑器, 则 stylus 静态资源可自动进行编译 (要求 nodejs 环境和 stylus 插件, 依赖根目录下 `pic2.sublime-project` 文件).
+
+分类的点击量是存放在缓存中的, 如果清除了缓存只需刷新下首页会自动写入新的缓存.
+
 详细开发文档参考 [ThinkPHP5完全开发手册](http://www.kancloud.cn/manual/thinkphp5)
 
 ## 目录结构

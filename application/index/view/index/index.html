@@ -7,7 +7,7 @@
         width: 100%;
     }
     .floor {margin-top: 4rem;margin-bottom: 6rem;}
-    .photos {font-size: 0px;}
+    .photos {font-size: 0px;min-height: 400px;}
 </style>
 {/block}
 
@@ -30,16 +30,24 @@
 {block name="body"}
 <div id="floor-wrap">
     <div class="am-g am-g-fixed">
-        {volist name="index_cate_array" id="cate"}
-        <section class="floor">
-            <h2 class="title">
-                <span class="decoration"></span> {$cate.name}
-                <small class="am-margin-left-lg">
-                    <a href="__ROOT__/cate/{$cate.cate_id}">查看所有 <i class="am-icon am-icon-angle-double-right"></i> </a>
-                </small>
-            </h2>
+        {volist name="index_cate_array" id="cate" key="cate_key"}
+        <section class="floor {if condition='$cate_key <= 2'}loaded{/if}" data-cate-id="{$cate.cate_id}">
+            <div class="title-bar">
+                <div class="title-bg"></div>
+                <h2 class="title">
+                    {$cate.name} <small>{$cate.description}</small>
+                </h2>
+                <p class="cate-info">
+                    该分区下共有分享 {$cate.total_share} 张.
+                    总点击量 {$cate_click_list[$cate.cate_id]} 次.
+                    <a href="__ROOT__/cate/{$cate.cate_id}">
+                        进入分区 <i class="am-icon am-icon-angle-double-right"></i>
+                    </a>
+                </p>
+            </div>
             <div class="item-wrap">
                 <div class="photos">
+                    {if condition="$cate_key <= 2"}
                     {volist name="cate.data" id="data"}
                     <div class="photo">
                         <a class="pjaxlink" href="__ROOT__/share/{$data.share_id}">
@@ -47,6 +55,7 @@
                         </a>
                     </div>
                     {/volist}
+                    {/if}
                 </div>
             </div>
         </section>
@@ -72,19 +81,44 @@
 
 {load href="__STATIC__/js/jquery.xgallerify.min.js" /}
 <script type="text/javascript">
-    var gallery = $('.photos').gallerify({
-        width: 1000,
-        margin: 2,
-        mode: 'bootstrap',
-        lastRow: 'hidden'
+$('.photos').gallerify({
+    margin: 2,
+    mode: 'bootstrap',
+    lastRow: 'hidden'
+});
+
+// 懒加载
+$(window).on('scroll', function() {
+    $('section[data-cate-id]:not(.loaded)').each(function(index, el) {
+        if ($(window).scrollTop() + $(window).height() + 800 < $(el).offset().top) return;
+        $(el).addClass('loaded');
+        $.ajax({
+            url: '__ROOT__/index/sync_load',
+            type: 'POST',
+            data: {cate_id: $(el).data('cate-id')},
+            success: function(data) {
+                data = $.parseJSON(data);
+                $(data).each(function(index, share) {
+                    var html = '<div class="photo">';
+                    html += '<a class="pjaxlink" href="__ROOT__/share/'+ share.share_id +'">';
+                    html += '<img src="__ROOT__/'+ share.savepath +'t_'+ share.savename +'">';
+                    html += '</a></div>';
+                    $(el).find('.photos').append(html);
+                });
+                $(el).find('.photos').gallerify.renderAsyncImages();
+            }
+        });
     });
+});
 </script>
 
 {load href="__STATIC__/js/jquery.pjax.js" /}
 <script type="text/javascript">
 // pjax支持检测
 if ($.support.pjax) {
-    $(document).pjax('a.pjaxlink', '.contentLayer', {fragment:'#detail-content', scrollTo: false, timeout: 1650});
+    $(document).pjax('a.pjaxlink', '.contentLayer', {
+        fragment:'#detail-content', scrollTo: false, timeout: 1650
+    });
 
     $(document).on('pjax:send', function() {
         $.AMUI.progress.start();
