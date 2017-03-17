@@ -1,7 +1,6 @@
 
 # thinkphp 默认
 .idea
-composer.lock
 *.log
 
 # 编辑器工程文件
