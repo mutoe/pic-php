@@ -1,0 +1,71 @@
+{extend name="common:base" /}
+
+{block name="body"}
+
+
+<div class="detail-content">
+    <div class="am-g am-g-fixed">
+        <div class="am-u-sm-11 am-u-md-5 am-u-lg-4 am-u-sm-centered card">
+            <h2>登录到天佑时光</h2>
+            <hr>
+            <div class="am-btn-group">
+                <h4>一键登录</h4>
+                <a href="#" class="am-btn am-btn-secondary am-btn-sm">重庆交通大学 统一身份认证</a>
+            </div>
+            <form class="am-form am-margin-top-lg">
+                <h4>使用邮箱和密码登陆</h4>
+                <div class="am-form-set">
+                    <input type="email" name="email" id="email" value="{:cookie('email')}" placeholder="请输入邮箱">
+                    <input type="password" name="password" id="password" placeholder="请输入 6-16 位密码">
+                </div>
+                <div class="am-form-group am-form-icon am-form-feedback am-g-collapse am-cf">
+                    <label for="captcha" class="am-u-sm-12 am-u-lg-5 am-form-label">
+                        <div id="captcha-img" title="刷新验证码"><img src="{:captcha_src()}" alt="captcha" /></div>
+                    </label>
+                    <div class="am-u-sm-12 am-u-lg-7">
+                        <input type="number" name="captcha" id="captcha" class="am-form-field" placeholder="4 位数字验证码" autocomplete="off">
+                        <!-- <span class="am-icon-warning"></span> -->
+                    </div>
+                </div>
+                <label for="remember-me" class="am-checkbox">
+                    <input id="remember-me" name="remember_me" value="1" data-am-ucheck type="checkbox"> 一个月内为我自动登陆
+                </label>
+                <div class="am-cf">
+                    <p class="am-btn am-btn-link am-btn-sm am-padding-right-0 am-fr" data-am-popover="{theme: 'sm', content: '忘记登录密码请使用上方统一身份认证登陆后, 在个人中心进行修改.', trigger: 'hover focus'}">忘记密码?</p>
+                </div>
+                <div class="am-cf">
+                    <input type="submit" name="" value="登 录" class="am-btn am-btn-primary am-btn-sm am-fl am-u-sm-6">
+                    <a class="am-btn am-btn-default am-btn-sm am-fr" href="/auth/register">注 册</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="js"}
+<script type="text/javascript">
+    $('.am-form').submit(function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: "{:url('auth/login')}",
+            type: 'POST',
+            data: $('.am-form').serialize(),
+            success: function(data) {
+                console.log(data);
+                $alert = $('#am-alert');
+                $alert.find('.content').text(data.msg);
+                $alert.modal('open');
+                if(data.code) {
+                    setTimeout(function() {
+                        location.href = data.url;
+                    }, data.wait * 1000);
+                } else {
+                    $('#captcha-img').click();
+                }
+            }
+        })
+    });
+
+</script>
+{/block}
