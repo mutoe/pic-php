@@ -9,3 +9,20 @@
 <![endif]-->
 
 {load href="__STATIC__/js/amazeui.min.js" /}
+
+<script>
+
+/**
+ * 刷新验证码
+ * @author 杨栋森 mutoe@foxmail.com at 2016-07-20
+ * 需要将验证码 以下面的方式放置
+ * <div id="captcha-img"><img src="{:captcha_src()}" alt="captcha" /></div>
+ * 点击div#captcha-img后会重新拉取验证码
+ */
+$('#captcha-img').on('click', function() {
+    $.get('{:url("common/refreshCaptcha")}', function(data) {
+        $('#captcha-img img').attr('src', data+ "?t="+ new Date().getTime())
+    });
+});
+
+</script>
