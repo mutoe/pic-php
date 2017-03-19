@@ -17,17 +17,32 @@ Route::pattern([
     'share_id'      => '\d+',
 ]);
 
+// 首页
+Route::rule('/', 'index/index/index');
+
 // 首页异步加载
-Route::rule('index/sync_load', 'index/index/loadCateData', 'POST');
+Route::post('index/sync_load', 'index/index/loadCateData');
 
-// 定义 RESTful 路由
-Route::resource('share', 'index/share');
+// 刷新验证码
+Route::get('index/captcha', 'index/common/refreshCaptcha');
 
-Route::group('cate', [
-    ':cate_id'                  => ['index/cate/read',      ['method' => 'GET']],
-]);
+// 分享相关 (RESTful 路由)
+Route::resource('share',    'index/share');
 
-Route::group('user', [
-    ':user_id'                  => ['index/user/detail',    ['method' => 'GET']],
-    'avatar/:user_id/[:size]'   => ['index/user/detail',    ['method' => 'GET']],
-]);
+// 分类相关
+Route::group('cate', function() {
+    Route::get(':cate_id',  'index/cate/read');
+});
+
+// 用户相关
+Route::group('user', function() {
+    Route::get(':user_id',  'index/user/detail');
+});
+
+// auth 相关
+Route::group('auth', function() {
+    Route::get('/',         'index/auth/signin');
+    Route::post('/',        'index/auth/checkSignin');
+    Route::get('register',  'index/auth/register');
+    Route::post('register', 'index/auth/create');
+});

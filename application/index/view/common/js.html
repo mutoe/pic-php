@@ -13,14 +13,14 @@
 <script>
 
 /**
- * Ë¢ĞÂÑéÖ¤Âë
- * @author Ñî¶°É­ mutoe@foxmail.com at 2016-07-20
- * ĞèÒª½«ÑéÖ¤Âë ÒÔÏÂÃæµÄ·½Ê½·ÅÖÃ
+ * åˆ·æ–°éªŒè¯ç 
+ * @author æ¨æ ‹æ£® mutoe@foxmail.com at 2016-07-20
+ * éœ€è¦å°†éªŒè¯ç  ä»¥ä¸‹é¢çš„æ–¹å¼æ”¾ç½®
  * <div id="captcha-img"><img src="{:captcha_src()}" alt="captcha" /></div>
- * µã»÷div#captcha-imgºó»áÖØĞÂÀ­È¡ÑéÖ¤Âë
+ * ç‚¹å‡»div#captcha-imgåä¼šé‡æ–°æ‹‰å–éªŒè¯ç 
  */
 $('#captcha-img').on('click', function() {
-    $.get('{:url("common/refreshCaptcha")}', function(data) {
+    $.get('index/captcha', function(data) {
         $('#captcha-img img').attr('src', data+ "?t="+ new Date().getTime())
     });
 });
