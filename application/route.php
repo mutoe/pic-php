@@ -41,8 +41,8 @@ Route::group('user', function() {
 
 // auth 相关
 Route::group('auth', function() {
-    Route::get('/',         'index/auth/signin');
-    Route::post('/',        'index/auth/checkSignin');
     Route::get('register',  'index/auth/register');
     Route::post('register', 'index/auth/create');
+    Route::get('/',         'index/auth/signin');
+    Route::post('/',        'index/auth/checkSignin');
 });

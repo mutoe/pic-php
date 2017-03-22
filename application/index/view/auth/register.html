@@ -1,0 +1,41 @@
+{extend name="common:base" /}
+
+{block name="body"}
+
+<div class="detail-content">
+    <div class="am-g am-g-fixed">
+        <div class="am-u-sm-11 am-u-md-5 am-u-lg-4 am-u-sm-centered card">
+            <h2>注册天佑时光账号</h2>
+            <hr>
+            <div class="am-btn-group">
+                <h4>1.注册需要进行身份验证</h4>
+                <a href="#" class="am-btn am-btn-secondary am-btn-sm">重庆交通大学 统一身份认证</a>
+            </div>
+            <form class="am-form am-margin-top-lg">
+                <h4>2.验证成功后即可开始注册</h4>
+                <div class="am-form-set">
+                    <input type="text" name="nickname" id="nickname" placeholder="请输入昵称">
+                    <input type="email" name="email" id="email" placeholder="请输入邮箱">
+                    <input type="password" name="password" id="password" placeholder="请输入 6-16 位密码">
+                </div>
+                <div class="am-form-group am-form-icon am-form-feedback am-g-collapse am-cf">
+                    <label for="captcha" class="am-u-sm-12 am-u-lg-5 am-form-label">
+                        <div id="captcha-img" title="刷新验证码"><img src="{:captcha_src()}" alt="captcha" /></div>
+                    </label>
+                    <div class="am-u-sm-12 am-u-lg-7">
+                        <input type="number" name="captcha" id="captcha" class="am-form-field" placeholder="4 位数字验证码" autocomplete="off">
+                        <!-- <span class="am-icon-warning"></span> -->
+                    </div>
+                </div>
+
+                <div class="am-cf">
+                    <input type="submit" name="" value="注 册" class="am-btn am-btn-success am-btn-block">
+                </div>
+                <div class="am-cf">
+                    <a href="/auth" class="am-btn am-btn-link am-btn-sm am-padding-right-0 am-fr">已有账号? 直接登陆</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{/block}
