@@ -9,7 +9,14 @@
             <hr>
             <div class="am-btn-group">
                 <h4>1.注册需要进行身份验证</h4>
-                <a href="#" class="am-btn am-btn-secondary am-btn-sm">重庆交通大学 统一身份认证</a>
+                <div id="tylogin_button">
+                    <a href="javascript: void(0);"
+                        class="am-btn am-btn-secondary am-btn-sm"
+                        onclick="sync_signin(this)">重庆交通大学 统一身份认证</a>
+                </div>
+                <div class="am-hide" id="tylogin_name">
+                    <p class="am-text-sm">用户 <code></code> 认证成功 ! <a href="javascript: ty_logout();"><small>注销</small></a></p>
+                </div>
             </div>
             <form class="am-form am-margin-top-lg">
                 <h4>2.验证成功后即可开始注册</h4>
@@ -38,4 +45,51 @@
         </div>
     </div>
 </div>
+{/block}
+
+
+{block name="js"}
+<script type="text/javascript" src="__STATIC__/js/jquery.cookie.js"></script>
+<script type="text/javascript">
+
+    // 异步身份认证
+    function sync_signin(e) {
+        var text = $(e).html();
+        $(e).addClass('am-disabled').html('<i class="am-icon am-icon-circle-o-notch am-icon-spin"></i> ' + text);
+        window.open('/api/tylogin', '授权确认 - 天佑互联', 'width=760, height=650, menubar=no, toolbar=no');
+        $(e).html(text).removeClass('am-disabled');
+
+    }
+
+    // 实时认证状态检测
+    function timer() {
+        var timerMain = setInterval(function() {
+            $ecardno = $.cookie().ecardno;
+            if ($ecardno) {
+                $('#tylogin_button').addClass('am-hide');
+                $('#tylogin_name').removeClass('am-hide').find('code').text($ecardno);
+                // 停止计时器
+                clearInterval(timerMain);
+            } else {
+                $('#tylogin_button').removeClass('am-hide');
+                $('#tylogin_name').addClass('am-hide');
+            }
+        }, 400);
+    }
+
+    // 启动认证状态检测
+    timer();
+
+    // 异步注销认证状态
+    function ty_logout() {
+        $.ajax({
+            url: '/api/tylogout',
+        })
+        .always(function() {
+            // 重启计时器
+            timer();
+        });
+    }
+
+</script>
 {/block}
