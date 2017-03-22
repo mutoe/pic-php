@@ -21,7 +21,7 @@
  */
 $('#captcha-img').on('click', function() {
     $.get('index/captcha', function(data) {
-        $('#captcha-img img').attr('src', data+ "?t="+ new Date().getTime())
+        $('#captcha-img img').attr('src', "{:captcha_src()}?t="+ new Date().getTime())
     });
 });
 

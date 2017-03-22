@@ -53,9 +53,6 @@ return [
     'dispatch_success_tmpl'  => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
     'dispatch_error_tmpl'    => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
 
-    // ajax 请求默认返回数据类型
-    'default_ajax_return'    => 'html',
-
     //分页配置
     'paginate'               => [
         'type'      => 'bootstrap',

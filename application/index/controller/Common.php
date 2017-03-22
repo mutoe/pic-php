@@ -6,9 +6,4 @@ use think\Controller;
 class Common extends Controller
 {
 
-    public function refreshCaptcha()
-    {
-        return captcha_src();
-    }
-
 }

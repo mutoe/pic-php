@@ -23,9 +23,6 @@ Route::rule('/', 'index/index/index');
 // 首页异步加载
 Route::post('index/sync_load', 'index/index/loadCateData');
 
-// 刷新验证码
-Route::get('index/captcha', 'index/common/refreshCaptcha');
-
 // 分享相关 (RESTful 路由)
 Route::resource('share',    'index/share');
 
