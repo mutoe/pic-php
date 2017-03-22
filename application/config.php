@@ -67,9 +67,9 @@ return [
 
     // 天佑互联
     'tyconnect'     => [
-        'client_id'     => '',
-        'client_secret' => '',
-        'redirect_uri'  => '',
+        'client_id'     => 'WOwpcd6RSVpZ9DUh',
+        'client_secret' => 'uslyx6AX2KFhecpRF7UjI4iUpxmiLWzD',
+        'redirect_uri'  => 'http://pic.tyapp.com/api/tyconnect',
     ],
 
     // thinkphp 验证码

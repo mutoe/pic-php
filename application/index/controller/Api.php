@@ -1,47 +1,76 @@
 <?php
 namespace app\index\controller;
 use think\Controller;
+use think\Config;
+
+use app\index\controller\Auth;
 
 class Api extends Controller {
 
+    /**
+     * 重定向至天佑互联
+     */
     public function tylogin() {
 
         $url = 'https://weixin.cqjtu.edu.cn/authorize?';
-        $data['client_id'] = C('tyconnect.client_id');
-        $data['redirect_uri'] = C('tyconnect.redirect_uri');
+        $data['client_id'] = Config::get('tyconnect.client_id');
+        $data['redirect_uri'] = Config::get('tyconnect.redirect_uri');
         $data['response_type'] = 'code';
         $data['scope'] = 'basic';
         $url .= http_build_query($data);
-        redirect($url);
+        return redirect($url);
     }
 
-
+    /**
+     * 天佑互联回调
+     */
     public function tyconnect() {
-        if(I('get.error') == 'access_denied') {
-            return $this -> error('你成功的拒绝了我', U('index/index'));
-        } else {
-            $code = I('get.code');
-            $url = 'https://weixin.cqjtu.edu.cn/access_token';
-            $data['client_id'] = C('tyconnect.client_id');
-            $data['client_secret'] = C('tyconnect.client_secret');
-            $data['redirect_uri'] = C('tyconnect.redirect_uri');
-            $data['grant_type'] = 'authorization_code';
-            $data['code'] = $code;
-            $result = http($url,$data);
-            $result = json_decode($result);
-            if($token = $result -> access_token) {
-                $user = http('https://weixin.cqjtu.edu.cn/user?access_token='.$token);
-                $user = json_decode($user);
-                $user = (array)$user;
-                session('realname', $user['realname']);
-                session('ecardno', $user['ecardno']);
 
-                //A('Index') -> checkRegister();
-                return $this -> success('身份验证成功,正在返回...', U('index/index'));
-            } elseif($result -> error) {
-                return $this -> error($result -> error_description, U('index/index'));
-            }
+        if(input('get.error') == 'access_denied') {
+            return $this->error('你成功的拒绝了我 QwQ');
         }
+        $code = input('get.code');
+
+        // 拼装回调请求
+        $url = 'https://weixin.cqjtu.edu.cn/access_token';
+        $data['client_id'] = Config::get('tyconnect.client_id');
+        $data['client_secret'] = Config::get('tyconnect.client_secret');
+        $data['redirect_uri'] = Config::get('tyconnect.redirect_uri');
+        $data['grant_type'] = 'authorization_code';
+        $data['code'] = $code;
+
+        // 请求 access_token
+        $result = http($url,$data);
+        $result = json_decode($result);
+        if(!$result->access_token) {
+            return $this->error($result->error_description);
+        }
+        $token = $result->access_token;
+        $user = http('https://weixin.cqjtu.edu.cn/user?access_token='.$token);
+        $user = json_decode($user);
+
+        // 登录成功, 写入信息
+        session('realname', $user->realname);
+        session('ecardno', $user->ecardno);
+        // 生成一个安全的 ecardno 供 cookie 使用
+        $cookie_ecardno = substr($user->ecardno, 0, 4) . "****" .
+            substr($user->ecardno, 8);
+        cookie('ecardno', $cookie_ecardno);
+
+        // 关闭窗口
+        echo "<script>window.close()</script>";
+        return $this->success();
+    }
+
+    /**
+     * 注销认证状态
+     */
+    public function tylogout()
+    {
+        session('realname', null);
+        session('ecardno', null);
+        cookie('ecardno', null);
+        return $this->success('撤销认证成功!', null, '', 1);
     }
 
 }

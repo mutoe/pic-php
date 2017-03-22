@@ -10,7 +10,7 @@ class Auth extends Controller {
         // 如果已经登陆并且不是请求注销
         if (!request()->isAjax() && is_login() && request()->path() != "auth/logout") {
             // TODO: 跳转至个人中心
-            $this->redirect('index/index');
+            //$this->redirect('index/index');
         }
     }
 

@@ -46,3 +46,9 @@ Route::group('auth', function() {
     Route::get('/',         'index/auth/signin');
     Route::post('/',        'index/auth/checkSignin');
 });
+
+Route::group('api', function() {
+    Route::get('tylogin',   'index/api/tylogin');
+    Route::get('tyconnect', 'index/api/tyconnect');
+    Route::get('tylogout',  'index/api/tylogout');
+});
