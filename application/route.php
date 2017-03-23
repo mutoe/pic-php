@@ -39,7 +39,7 @@ Route::group('user', function() {
 // auth 相关
 Route::group('auth', function() {
     Route::get('register',  'index/auth/register');
-    Route::post('register', 'index/auth/create');
+    Route::post('register', 'index/auth/checkRegister');
     Route::get('/',         'index/auth/signin');
     Route::post('/',        'index/auth/checkSignin');
 });
