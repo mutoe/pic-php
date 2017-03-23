@@ -50,11 +50,16 @@ class Api extends Controller {
         $user = json_decode($user);
 
         // 登录成功, 写入信息
-        session('realname', $user->realname);
-        session('ecardno', $user->ecardno);
+        $oauth = [
+            'realname'  => $user->realname,
+            'ecardno'   => $user->ecardno,
+        ];
+        session('oauth', $oauth);
+
         // 生成一个安全的 ecardno 供 cookie 使用
-        $cookie_ecardno = substr($user->ecardno, 0, 4) . "****" .
-            substr($user->ecardno, 8);
+        $cookie_ecardno = substr($user->ecardno, 0, 4);
+        $cookie_ecardno .= "****";
+        $cookie_ecardno .= substr($user->ecardno, 8);
         cookie('ecardno', $cookie_ecardno);
 
         // 关闭窗口
@@ -67,8 +72,7 @@ class Api extends Controller {
      */
     public function tylogout()
     {
-        session('realname', null);
-        session('ecardno', null);
+        session('oauth', null);
         cookie('ecardno', null);
         return $this->success('撤销认证成功!', null, '', 1);
     }

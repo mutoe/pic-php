@@ -91,14 +91,14 @@ function render_tag($tag, $renderType = 'tag', $addClass = '') {
  * 检测用户是否通过了登陆认证
  * @author 杨栋森 mutoe@foxmail.com at 2017-03-23
  */
-function auth_status($info_type)
+function auth_status($info_type = 'user_id')
 {
     $auth = session('auth');
-    if (!$auth['user_id']) {
+    if (!isset($auth['user_id']) || !$auth['user_id']) {
         return false;
     }
 
-    return $return[$info_type];
+    return $auth[$info_type];
 }
 
 function http($url, $post = '', $cookie = '', $returnCookie = 0) {
