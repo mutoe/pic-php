@@ -19,9 +19,63 @@ class Auth extends Controller {
         return $this->fetch();
     }
 
+    /**
+     * 检查登陆
+     * @author 杨栋森 mutoe@foxmail.com at 2017-03-23
+     */
     public function checkSignin()
     {
-        return json_encode(input('post.'));
+        // 获取表单数据
+        $data = input('post.');
+        $remember = isset($data['remember_me']) && $data['remember_me'];
+
+        // 如果通过 Oauth 登陆, 跳转到 authSignin 方法
+        if (session('oauth')) {
+            return $this->oauthSignin($remember);
+        }
+
+        // 验证字段合法性
+        $validate = validate('User');
+        if (!$validate->scene('signin')->check($data)) {
+            return $this->error($validate->getError());
+        }
+
+        $user = model('User');
+
+        // 获取用户密码
+        $password = $user->where(['email' => $data['email']])->value('password');
+        if (!$password) {
+            return $this->error("邮箱不存在");
+        }
+
+        // 核对密码
+        if ($password != password($data['email'] . $data['password'])) {
+            return $this->error("密码错了");
+        }
+
+        // 执行登陆
+        $this->doLogin($data['email'], $remember);
+
+        return $this->success('登陆成功，即将跳转回首页...', url('index/index'));
+
+    }
+
+    private function oauthSignin($remember_me)
+    {
+        $userAccount = model('user_account');
+        $user_id = $userAccount->where(session('oauth'))->value('user_id');
+        if (!$user_id) {
+            action('Api/tylogout');
+            return $this->error('授权登陆失败: 授权信息有误, 请重新授权');
+        }
+
+        $result = $this->doSignin($user_id, $remember_me);
+        if (!$result) {
+            return $this->error('授权登录失败: 没有执行登陆过程');
+        }
+
+        $redirect = input('get.from', '/');
+        $this->success('授权登陆成功, 正在跳转...', $redirect, '', 1);
     }
 
     /**
