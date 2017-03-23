@@ -109,7 +109,7 @@
             var msg = $field.data('validationMessage') || this.getValidationMessage(validity);
 
             if (!$alert.length) {
-                $alert = $('<div class="am-alert am-alert-danger valid"></div>').hide().appendTo($group);
+                $alert = $('<div class="am-alert am-alert-danger valid"></div>').hide().appendTo($field.parent('div'));
             }
 
             $alert.html(msg).show();
