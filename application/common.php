@@ -3,6 +3,20 @@
 use app\index\model\User;
 
 /**
+ * md5 密码加密算法
+ * 需配合应用设置中 'app_salt' 和 'database.prefix' 加盐
+ * @author 杨栋森 mutoe@foxmail.com at 2016-07-14
+ *
+ * @param  {String} $value 待加密字符串
+ * @return {String}        md5摘要后的字符串
+ */
+function password($value)
+{
+    $value .= config('database.prefix') . config('app_salt');
+    return md5($value);
+}
+
+/**
  * 根据user_id获取nickname
  */
 function get_nickname($user_id = 0) {
