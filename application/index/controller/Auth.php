@@ -196,17 +196,17 @@ class Auth extends Common {
 
         // 获取用户认证数据
         $user = model('user');
-        $result1 = $user->where($map)->find();
+        $result = $user->where($map)->find();
         $userAccount = model('user_account');
-        $result2 = $userAccount->where($map)->find();
+        $resultA = $userAccount->where('user_id', $result->user_id)->find();
 
         // 登陆状态写入
         $auth = [
-            'user_id'   => $result1->user_id,
-            'email'     => $result1->email,
-            'nickname'  => $result1->nickname,
-            'ecardno'   => $result2->ecardno,
-            'realname'  => $result2->realname,
+            'user_id'   => $result->user_id,
+            'email'     => $result->email,
+            'nickname'  => $result->nickname,
+            'ecardno'   => $resultA->ecardno,
+            'realname'  => $resultA->realname,
         ];
         session('auth', $auth);
 
