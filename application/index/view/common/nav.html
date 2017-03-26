@@ -14,6 +14,13 @@
 
     <div class="am-topbar-right">
         <ul class="am-nav am-nav-pills am-topbar-nav">
+            <li>
+                {if condition="auth_status('nickname')"}
+                <span class="welcome">{:auth_status('nickname')}</span>
+                {else /}
+                <span class="welcome">游客</span>
+                {/if}
+            </li>
         {if condition="auth_status()"}
             <li><a href="">收藏</a></li>
             <li><a href="">消息</a></li>

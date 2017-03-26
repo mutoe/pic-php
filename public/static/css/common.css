@@ -31,12 +31,18 @@ input[type="number"] {
   padding-left: 32px;
   padding-right: 32px;
 }
-.nav .am-topbar-nav > li a {
+.nav .am-topbar-nav > li a,
+.nav .am-topbar-nav > li span {
   line-height: 29px;
   font-size: 12px;
 }
-.nav .am-topbar-nav > li a::after {
+.nav .am-topbar-nav > li a::after,
+.nav .am-topbar-nav > li span::after {
   display: none;
+}
+.nav .am-topbar-nav > li span {
+  margin: 0 12px;
+  color: #fff;
 }
 .nav .am-topbar-nav > li.am-active > a {
   color: #fff;
