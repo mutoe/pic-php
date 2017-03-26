@@ -64,12 +64,13 @@
 {/block}
 
 {block name="js"}
-<script type="text/javascript">
-    $('#nav-sticky').sticky();
-</script>
 
 {load href="__STATIC__/js/jquery.xgallerify.min.js" /}
 <script type="text/javascript">
+// 动态固定导航栏
+$('#nav-sticky').sticky();
+
+// 图片画廊
 $('.photos').gallerify({
     margin: 2,
     mode: 'bootstrap',
