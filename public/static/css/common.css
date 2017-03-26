@@ -48,6 +48,12 @@ input[type="number"] {
   color: #fff;
   background-color: rgba(0,0,0,0.4);
 }
+.nav .am-topbar-right .add-share {
+  margin-left: 12px;
+}
+.nav .am-topbar-right li {
+  margin-left: 0;
+}
 .nav .am-topbar-form,
 .nav .am-topbar-btn {
   margin-top: 0;
