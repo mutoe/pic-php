@@ -5,12 +5,17 @@ use think\Controller;
 
 class Auth extends Controller {
 
+    // 登陆后允许访问的方法
+    private $allow_path = [
+        'auth/signout',
+    ];
+
     public function _initialize()
     {
-        // 如果已经登陆并且不是请求注销
-        if (!request()->isAjax() && auth_status() && request()->path() != "auth/logout") {
+        // 如果已经登陆并且访问不允许的方法
+        if (auth_status() && !in_array(request()->path(), $this->allow_path)) {
             // TODO: 跳转至个人中心
-            //$this->redirect('index/index');
+            $this->redirect('/');
         }
     }
 
@@ -149,7 +154,7 @@ class Auth extends Controller {
     {
         // 口令过期检测
         if (!cookie('email') || !cookie('remember_token')) {
-            return $this->error('自动登录失败: 授权信息过期');
+            return $this->error('自动登录失败: 授权信息已过期或不存在');
         }
 
         // 获取登陆口令
