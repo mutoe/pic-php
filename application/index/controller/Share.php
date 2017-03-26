@@ -1,9 +1,10 @@
 <?php
 namespace app\index\controller;
-use think\Controller;
+
+use app\index\controller\Common;
 use think\Cache;
 
-class Share extends Controller {
+class Share extends Common {
 
     public function read($id) {
         $share = model('Share');

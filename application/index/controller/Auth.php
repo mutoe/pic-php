@@ -1,9 +1,9 @@
 <?php
 namespace app\index\controller;
 
-use think\Controller;
+use app\index\controller\Common;
 
-class Auth extends Controller {
+class Auth extends Common {
 
     // 登陆后允许访问的方法
     private $allow_path = [
