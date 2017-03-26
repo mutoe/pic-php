@@ -59,7 +59,7 @@ class Auth extends Controller {
         }
 
         // 执行登陆
-        $this->doLogin($data['email'], $remember);
+        $this->doLogin($data['email'], $remember, 'email');
 
         return $this->success('登陆成功，即将跳转回首页...', url('index/index'));
 
@@ -166,7 +166,7 @@ class Auth extends Controller {
         }
 
         // 验证通过 开始登陆
-        $result = $this->doSignin($email, true);
+        $result = $this->doSignin($email, true, 'email');
         if (!$result) {
             return $this->error('自动登录失败: 执行登陆出错');
         }
@@ -178,20 +178,31 @@ class Auth extends Controller {
      * 执行登陆
      * @author 杨栋森 mutoe@foxmail.com at 2016-07-19
      *
-     * @param  integer $user_id         待写入用户id
-     * @param  boolean $remember_me     是否记住用户
+     * 含通行证类型检测, 默认 'user_id', 还可使用 'email', 共 2 种类型
+     *
+     * @param  integer $account         待写入用户通行证
+     * @param  boolean $remember        是否记住用户
+     * @param  boolean $sign_type       通行证类型
      */
-    private function doSignin($user_id, $remember_me = false)
+    private function doSignin($account, $remember = false, $sign_type = 'user_id')
     {
+        // 过滤异常的登录通行证类型
+        $allow_type = ['user_id', 'email'];
+        $map = [];
+        $map[$sign_type] = $account;
+        if (!in_array($sign_type, $allow_type)) {
+            return false;
+        }
+
         // 获取用户认证数据
         $user = model('user');
-        $result1 = $user->where(['user_id' => $user_id])->find();
+        $result1 = $user->where($map)->find();
         $userAccount = model('user_account');
-        $result2 = $userAccount->where(['user_id' => $user_id])->find();
+        $result2 = $userAccount->where($map)->find();
 
         // 登陆状态写入
         $auth = [
-            'user_id'   => $user_id,
+            'user_id'   => $result1->user_id,
             'email'     => $result1->email,
             'nickname'  => $result1->nickname,
             'ecardno'   => $result2->ecardno,
@@ -200,14 +211,13 @@ class Auth extends Controller {
         session('auth', $auth);
 
         // 登录次数自增, 自动写入上次登陆 time 和 ip
-        $user->where(['user_id' => $user_id])->setInc('login_times');
+        $user->where($map)->setInc('login_times');
 
         // 记住登陆状态
-        if ($remember_me) {
+        if ($remember) {
             // 生成口令
             $new_string = get_random_string(32);
-            $user->save(['remember_token' => $new_string],
-                ['user_id' => $auth['user_id']]);
+            $user->save(['remember_token' => $new_string], $map);
             // 保存邮箱一年 用于登陆时自动键入邮箱
             cookie('email', $auth['email'], ['expire' => 3600 * 24 * 30 * 12]);
             // 自动登陆口令保存一个月
