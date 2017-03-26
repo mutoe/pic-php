@@ -212,4 +212,22 @@ class Auth extends Controller {
         return auth_status('user_id');
     }
 
+    /**
+     * 注销登录
+     */
+    public function signout()
+    {
+        // 清空授权数据
+        session('auth', null);
+
+        // 清空 OAuth 数据
+        session('oauth', null);
+        cookie('ecardno', null);
+
+        // 清除自动登陆口令
+        cookie('remember_token', null);
+
+        return $this->success('注销成功, 正在返回...', '/');
+    }
+
 }

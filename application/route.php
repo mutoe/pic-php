@@ -40,6 +40,7 @@ Route::group('user', function() {
 Route::group('auth', function() {
     Route::get('register',  'index/auth/register');
     Route::post('register', 'index/auth/checkRegister');
+    Route::get('signout',   'index/auth/signout');
     Route::get('/',         'index/auth/signin');
     Route::post('/',        'index/auth/checkSignin');
 });
