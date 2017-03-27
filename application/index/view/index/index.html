@@ -106,22 +106,31 @@ $(window).on('scroll', function() {
 <script type="text/javascript">
 // pjax支持检测
 if ($.support.pjax) {
+    // 渲染 pjax 链接
     $(document).pjax('a.pjaxlink', '.contentLayer', {
         fragment:'#detail-content', scrollTo: false, timeout: 1650
     });
 
+    // pjax 加载时
     $(document).on('pjax:send', function() {
         $.AMUI.progress.start();
         //在pjax发送请求时，显示loading动画层
         $("body").css('overflow', 'hidden');
-        $('.popupLayer').show();
-        $.AMUI.progress.inc(0.2);
+        $('.popupLayer').css('top', '-100%').show();
+        setTimeout(function() {
+            $('.popupLayer').css('top', 0);
+        }, 10);
 
     });
+
+    // pjax 回调时
     $(document).on('pjax:complete', function() {
         $.AMUI.progress.inc(0.4);
+
+        // 修正预览图宽高
         $(".picture").css('height', $(window).height());
         $(".other").css('height', $(window).height());
+
         $('#picLoadHandle').load(function(){
             $.AMUI.progress.done();
         });
@@ -131,10 +140,13 @@ if ($.support.pjax) {
     // 后退监听
     $(document).on('pjax:popstate', function() {
         $.AMUI.progress.done();
-        $(".popupLayer").scrollTop(0).hide();
+        $(".popupLayer").css('top', "-100%");
         $("body").css('overflow', 'auto');
+        setTimeout(function() {
+            $(".popupLayer").scrollTop(0).hide();
+        }, 300);
     });
-
+    // 关闭按钮模拟后退
     $(".closeBtn").on('click', function() {
         window.history.go(-1);
     });
