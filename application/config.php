@@ -91,4 +91,10 @@ return [
         'reset'    => true
     ],
 
+    // 站点自定义配置
+    'pic' => [
+        // pjax 加载进度条显示
+        'pjax_progress' => false,
+    ],
+
 ];

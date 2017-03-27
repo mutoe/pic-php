@@ -106,6 +106,9 @@ $(window).on('scroll', function() {
 <script type="text/javascript">
 // pjax支持检测
 if ($.support.pjax) {
+    // pjax 进度条开关
+    var progress = "{:config('pic.pjax_progress')}" ? true : false;
+
     // 渲染 pjax 链接
     $(document).pjax('a.pjaxlink', '.contentLayer', {
         fragment:'#detail-content', scrollTo: false, timeout: 1650
@@ -113,7 +116,7 @@ if ($.support.pjax) {
 
     // pjax 加载时
     $(document).on('pjax:send', function() {
-        $.AMUI.progress.start();
+        if (progress) $.AMUI.progress.start();
         //在pjax发送请求时，显示loading动画层
         $("body").css('overflow', 'hidden');
         $('.popupLayer').css('top', '-100%').show();
@@ -121,25 +124,26 @@ if ($.support.pjax) {
             $('.popupLayer').css('top', 0);
         }, 10);
 
+        if (progress) $.AMUI.progress.inc(0.2);
     });
 
     // pjax 回调时
     $(document).on('pjax:complete', function() {
-        $.AMUI.progress.inc(0.4);
+        if (progress) $.AMUI.progress.inc(0.4);
 
         // 修正预览图宽高
         $(".picture").css('height', $(window).height());
         $(".other").css('height', $(window).height());
 
         $('#picLoadHandle').load(function(){
-            $.AMUI.progress.done();
+            if (progress) $.AMUI.progress.done();
         });
 
     });
 
     // 后退监听
     $(document).on('pjax:popstate', function() {
-        $.AMUI.progress.done();
+        if (progress) $.AMUI.progress.done();
         $(".popupLayer").css('top', "-100%");
         $("body").css('overflow', 'auto');
         setTimeout(function() {
