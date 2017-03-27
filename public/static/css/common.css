@@ -16,6 +16,14 @@ body {
     max-width: 820px;
   }
 }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
 .nav {
   z-index: 60;
   height: 30px;
@@ -23,12 +31,18 @@ body {
   padding-left: 32px;
   padding-right: 32px;
 }
-.nav .am-topbar-nav > li a {
+.nav .am-topbar-nav > li a,
+.nav .am-topbar-nav > li span {
   line-height: 29px;
   font-size: 12px;
 }
-.nav .am-topbar-nav > li a::after {
+.nav .am-topbar-nav > li a::after,
+.nav .am-topbar-nav > li span::after {
   display: none;
+}
+.nav .am-topbar-nav > li span {
+  margin: 0 12px;
+  color: #fff;
 }
 .nav .am-topbar-nav > li.am-active > a {
   color: #fff;
@@ -39,6 +53,12 @@ body {
 .nav .am-topbar-nav > li > a:hover {
   color: #fff;
   background-color: rgba(0,0,0,0.4);
+}
+.nav .am-topbar-right .add-share {
+  margin-left: 12px;
+}
+.nav .am-topbar-right li {
+  margin-left: 0;
 }
 .nav .am-topbar-form,
 .nav .am-topbar-btn {
@@ -179,4 +199,12 @@ body {
   background-color: #fff;
   z-index: -1;
   box-shadow: 0 2px 4px #555;
+}
+.card {
+  box-shadow: 3px 3px 6px #888;
+  background-color: #fff;
+  padding: 2rem;
+}
+#captcha-img {
+  cursor: pointer;
 }

@@ -1,8 +1,9 @@
 <?php
 namespace app\index\controller;
-use think\Controller;
 
-class User extends Controller {
+use app\index\controller\Common;
+
+class User extends Common {
 
     /**
      * 调取bbs用户中心头像

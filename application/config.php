@@ -10,6 +10,9 @@
 // +----------------------------------------------------------------------
 
 return [
+
+    'app_salt'              => 'tianyou_d8c3mmd0',
+
     // +----------------------------------------------------------------------
     // | 应用设置
     // +----------------------------------------------------------------------
@@ -33,7 +36,7 @@ return [
     // 路由配置文件（支持配置多个）
     'route_config_file'      => ['route'],
     // 是否强制使用路由
-    'url_route_must'         => false,
+    'url_route_must'         => true,
     // 域名部署
     'url_domain_deploy'      => false,
     // 域名根，如thinkphp.cn
@@ -53,9 +56,6 @@ return [
     'dispatch_success_tmpl'  => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
     'dispatch_error_tmpl'    => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
 
-    // ajax 请求默认返回数据类型
-    'default_ajax_return'    => 'html',
-
     //分页配置
     'paginate'               => [
         'type'      => 'bootstrap',
@@ -67,10 +67,36 @@ return [
 
     // 天佑互联
     'tyconnect'     => [
-        'client_id'     => '',
-        'client_secret' => '',
-        'redirect_uri'  => '',
+        'client_id'     => 'WOwpcd6RSVpZ9DUh',
+        'client_secret' => 'uslyx6AX2KFhecpRF7UjI4iUpxmiLWzD',
+        'redirect_uri'  => 'http://pic.tyapp.com/api/tyconnect',
     ],
 
+    // thinkphp 验证码
+    'captcha'  => [
+        // 验证码字符集合
+        //'codeSet'  => '2345678abcdefhijkmnpqrstuvwxyzABCDEFGHJKLMNPQRTUVWXY',
+        'codeSet'  => '0123456789',
+        // 验证码字体大小(px)
+        'fontSize' => 18,
+        // 是否画混淆曲线
+        'useCurve' => false,
+         // 验证码图片高度
+        'imageH'   => 36,
+        // 验证码图片宽度
+        'imageW'   => 140,
+        // 验证码位数
+        'length'   => 4,
+        // 验证成功后是否重置
+        'reset'    => true
+    ],
+
+    // 站点自定义配置
+    'pic' => [
+        // pjax 加载进度条显示
+        'pjax_progress'     => false,
+        // pjax 动画 (up, down, none)
+        'pjax_animate'      => 'none',
+    ],
 
 ];

@@ -17,17 +17,37 @@ Route::pattern([
     'share_id'      => '\d+',
 ]);
 
+// 首页
+Route::rule('/', 'index/index/index');
+
 // 首页异步加载
-Route::rule('index/sync_load', 'index/index/loadCateData', 'POST');
+Route::post('index/sync_load', 'index/index/loadCateData');
 
-// 定义 RESTful 路由
-Route::resource('share', 'index/share');
+// 分享相关 (RESTful 路由)
+Route::resource('share',    'index/share');
 
-Route::group('cate', [
-    ':cate_id'                  => ['index/cate/read',      ['method' => 'GET']],
-]);
+// 分类相关
+Route::group('cate', function() {
+    Route::get(':cate_id',  'index/cate/read');
+});
 
-Route::group('user', [
-    ':user_id'                  => ['index/user/detail',    ['method' => 'GET']],
-    'avatar/:user_id/[:size]'   => ['index/user/detail',    ['method' => 'GET']],
-]);
+// 用户相关
+Route::group('user', function() {
+    Route::get(':user_id',  'index/user/detail');
+});
+
+// auth 相关
+Route::group('auth', function() {
+    Route::get('register',  'index/auth/register');
+    Route::post('register', 'index/auth/checkRegister');
+    Route::get('auto',      'index/auth/autoSignin');
+    Route::get('signout',   'index/auth/signout');
+    Route::get('/',         'index/auth/signin');
+    Route::post('/',        'index/auth/checkSignin');
+});
+
+Route::group('api', function() {
+    Route::get('tylogin',   'index/api/tylogin');
+    Route::get('tyconnect', 'index/api/tyconnect');
+    Route::get('tylogout',  'index/api/tylogout');
+});

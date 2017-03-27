@@ -1,9 +1,10 @@
 <?php
 namespace app\index\controller;
-use think\Controller;
+
+use app\index\controller\Common;
 use think\Cache;
 
-class Share extends Controller {
+class Share extends Common {
 
     public function read($id) {
         $share = model('Share');
@@ -11,7 +12,7 @@ class Share extends Controller {
         $data = $share->getShare($id);
         $share->where('share_id', $id)->setInc('click', 1, 60);
 
-        return $this->fetch('detail', ['data' => $data]);
+        return view('detail', ['data' => $data]);
     }
 
     public function create()

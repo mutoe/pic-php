@@ -9,3 +9,31 @@
 <![endif]-->
 
 {load href="__STATIC__/js/amazeui.min.js" /}
+
+{load href="__STATIC__/js/app.js" /}
+
+<!-- 模版 javascript -->
+<script>
+// 自动登录
+$(document).ready(function($) {
+    // 检测登录状态
+    if ("{:auth_status()}" != "") return;
+    // 检查 cookie 完整性
+    if ("{:cookie('email')}" != "" && "{:cookie('remember_token')}" != "") {
+        var $welcome = $('.welcome');
+        var wtext = $welcome.html();
+        $welcome.html(wtext + " (自动登录中...)");
+        // 提交验证并登陆
+        $.get('__ROOT__/auth/auto', function(data) {
+            if (data.code) {
+                $welcome.html(data.msg+ ' 你好 (自动登陆成功, 页面将在3s后刷新...)');
+                setTimeout(function() {
+                    location.reload();
+                }, 3000);
+            } else {
+                $welcome.html(wtext);
+            }
+        });
+    }
+});
+</script>

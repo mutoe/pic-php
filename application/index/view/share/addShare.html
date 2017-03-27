@@ -95,7 +95,6 @@
 </div>
 {/block}
 
-
 {block name="js"}
 {load href="__STATIC__/js/amazeui.tagsinput.min.js" /}
 {load href="__STATIC__/js/exif.js" /}
@@ -205,6 +204,7 @@ function auto_fill_via_exif() {
     $('.am-datepicker-date').datepicker('setValue', photo_time);
 }
 
+// 表单验证
 function beforeSubmit () {
     // 检测图片
     if (!$('#file-list').html()) {

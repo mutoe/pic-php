@@ -1,29 +1,42 @@
 <header class="am-topbar nav" id="nav-sticky">
 
-    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
-        data-am-collapse="{target: '#doc-topbar-collapse'}">
-        <span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span>
-    </button>
+<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
+    data-am-collapse="{target: '#doc-topbar-collapse'}">
+    <span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span>
+</button>
 
-    <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
+<div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
+    <ul class="am-nav am-nav-pills am-topbar-nav">
+        <li class=""><a href="__ROOT__/">时光</a></li>
+        <li><a href="#">广场</a></li>
+        <li><a href="#">分类</a></li>
+    </ul>
+
+    <div class="am-topbar-right">
         <ul class="am-nav am-nav-pills am-topbar-nav">
-            <li class=""><a href="__ROOT__/">时光</a></li>
-            <li><a href="#">广场</a></li>
-            <li><a href="#">分类</a></li>
+            <li>
+                {if condition="auth_status('nickname')"}
+                <span class="welcome">{:auth_status('nickname')}</span>
+                {else /}
+                <span class="welcome">游客</span>
+                {/if}
+            </li>
+        {if condition="auth_status()"}
+            <li><a href="">收藏</a></li>
+            <li><a href="">消息</a></li>
+            <li><a href="">个人中心</a></li>
+            <li><a href="__ROOT__/auth/signout">注销</a></li>
+        {else /}
+            <li><a href="__ROOT__/auth/register">注册</a></li>
+            <li><a href="__ROOT__/auth">登录</a></li>
+        {/if}
+            <li></li>
         </ul>
-    <!--    <div class="am-topbar-right">
-                <div class="am-dropdown" data-am-dropdown="{boundary: '.am-topbar'}">
-                    <button class="am-btn am-btn-secondary am-topbar-btn am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle>其他 <span class="am-icon-caret-down"></span></button>
-                    <ul class="am-dropdown-content">
-                        <li><a href="#">注册</a></li>
-                        <li><a href="#">随便看看</a></li>
-                    </ul>
-                </div>
-            </div>-->
 
-        <div class="am-topbar-right">
-            <a class="am-btn am-btn-danger am-topbar-btn am-btn-xs"
-                href="__ROOT__/share/create">贴图</a>
-        </div>
+        <a class="am-btn am-btn-danger am-topbar-btn am-btn-xs add-share"
+            href="__ROOT__/share/create">贴图</a>
+
     </div>
+</div>
+
 </header>

@@ -4,37 +4,15 @@
 
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="description" content="">
-    <meta name="keywords" content="">
+    <meta name="description" content="天佑时光 - 印象交大分享平台">
+    <meta name="keywords" content="天佑 天佑时光 图片 分享 重庆交通 大学 印象 交大">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{block name="title"}天佑时光 - 印象交大分享平台{/block}</title>
 
-    <!-- Set render engine for 360 browser -->
-    <meta name="renderer" content="webkit">
+    <!-- 额外 meta 标签和 css 库 -->
+    {include file="common:head" /}
 
-    <!-- No Baidu Siteapp-->
-    <meta http-equiv="Cache-Control" content="no-siteapp"/>
-
-    <link rel="icon" type="image/png" href="__STATIC__/i/favicon.png">
-
-    <!-- Add to homescreen for Chrome on Android -->
-    <meta name="mobile-web-app-capable" content="yes">
-    <link rel="icon" sizes="192x192" href="__STATIC__/i/app-icon72x72@2x.png">
-
-    <!-- Add to homescreen for Safari on iOS -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
-    <link rel="apple-touch-icon-precomposed" href="__STATIC__/i/app-icon72x72@2x.png">
-
-    <!-- Tile icon for Win8 (144x144 + tile color) -->
-    <meta name="msapplication-TileImage" content="__STATIC__/i/app-icon72x72@2x.png">
-    <meta name="msapplication-TileColor" content="#0e90d2">
-
-    {load href="__STATIC__/css/amazeui.min.css" /}
-    {load href="__STATIC__/css/common.css" /}
-    {load href="__STATIC__/css/app.css" /}
-
+    <!-- 页面样式 -->
     {block name="css"}{/block}
 
 </head>
@@ -49,49 +27,23 @@
 
     <!-- 副导航 -->
     {block name="nav"}
-    {include file="common\nav" /}
+    {include file="common:nav" /}
     {/block}
 
+    <!-- 本体 -->
     {block name="body"}{/block}
 
-    {block name="footer"}
-    <div class="footer" style="position: relative;">
-        <div class="container">
-            <div class="am-g am-g-fixed">
-                <div class="am-u-md-4 am-u-md-centered">
-                    <h1 class="slogan">天佑青春 激荡年华</h1>
-                </div>
-            </div>
-            <hr>
-            <div class="am-g am-g-fixed">
-                <div class="am-u-lg-8 am-u-md-12 center-align copyright">
-                    <p class="am-margin-bottom-xs">
-                        Copyright 2015 TianYou Network Studio. All Right Reserved . <br>
-                        <em class="am-icon am-icon-weibo"></em>
-                        <a href="http://weibo.com/cqjtuty/" target="_black"> @重庆交通大学天佑工作室</a>
-                    </p>
-                </div>
-                <div class="am-u-lg-4 am-show-lg-only qrcode">
-                    <img src="__STATIC__/i/footer/qrcode1.jpg" title="天佑工作室" alt="天佑工作室" style="margin-right: 54px;">
-                    <img src="__STATIC__/i/footer/qrcode2.jpg" title="重交小学妹" alt="重交小学妹">
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- 页脚 -->
+    {include file="common:footer" /}
 
-    <div class="am-modal am-modal-alert" tabindex="-1" id="am-alert">
-         <div class="am-modal-dialog">
-            <div class="am-modal-hd">天佑时光</div>
-            <div class="am-modal-bd"><p id="am-alert-content"></p></div>
-            <div class="am-modal-footer">
-                <span class="am-modal-btn">确定</span>
-            </div>
-         </div>
-    </div>
-    {/block}
+    <!-- javascript 脚本 -->
+    {include file="common:js" /}
 
-    {include file="common\js" /}
+    <!-- 页面脚本 -->
     {block name="js"}{/block}
+
+    <!-- modal 窗口 -->
+    {include file="common:modal" /}
 
 </body>
 </html>
