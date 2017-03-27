@@ -12,7 +12,7 @@ class Share extends Common {
         $data = $share->getShare($id);
         $share->where('share_id', $id)->setInc('click', 1, 60);
 
-        return $this->fetch('detail', ['data' => $data]);
+        return view('detail', ['data' => $data]);
     }
 
     public function create()
