@@ -20,7 +20,7 @@
                     {$data.detail}
                 </p>
                 <a class="author" href="#">
-                    —— {$data.user_id|get_nickname} <br />
+                    —— {$data.profile.nickname} <br />
                     {$data.photo_date}
                 </a>
 
@@ -39,7 +39,7 @@
 </div>
 <div class="am-fl">
     <a class="nickname am-text-lg am-link-muted am-padding-vertical-sm"
-        href="">{$data.user_id|get_nickname}</a>
+        href="">{$data.profile.nickname}</a>
     <p class="property am-text-xs am-margin-top-xs am-margin-bottom-0">
         上传至 <a href="">分类名</a> 于 4日前
     </p>
@@ -52,16 +52,16 @@
 <hr />
 <div class="comments">
     <div class="comment">
-        <a href="" title="{$data.user_id|get_nickname}" class="am-margin-right-sm am-fl">
+        <a href="" title="{$data.profile.nickname}" class="am-margin-right-sm am-fl">
             <img class="avatar" src="/user/avatar/39139">
         </a>
         <div class="meta am-text-sm">
-            <a href="" class="author">{$data.user_id|get_nickname}</a>
+            <a href="" class="author">{$data.profile.nickname}</a>
             &nbsp;-&nbsp;<span class="">1 分钟前</span>说：
         </div>
         <div class="am-text-sm">baqi</div>
         <div class="action-buttons">
-            <a class="reply-button" data-name="{$data.user_id|get_nickname}" title="回复"></a>
+            <a class="reply-button" data-name="{$data.profile.nickname}" title="回复"></a>
             <a class="delete" data-url="" title="删除"></a>
         </div>
         <div class="am-cf"></div>

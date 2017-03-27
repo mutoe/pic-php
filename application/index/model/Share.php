@@ -16,11 +16,20 @@ class Share extends Model {
     ];
     protected $update = [];
 
+    /**
+     * 关联用户模型
+     */
+    public function profile()
+    {
+        return $this->hasOne('User', 'user_id', 'user_id')->field('nickname');
+    }
+
+    /**
+     * 修改器
+     */
     protected function setUserIdAttr()
     {
-        // TODO: Auth
-        //return is_login();
-        return 1;
+        return auth_status('user_id');
     }
 
     protected function setCreateTimeAttr()
