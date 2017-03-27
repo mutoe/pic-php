@@ -94,7 +94,9 @@ return [
     // 站点自定义配置
     'pic' => [
         // pjax 加载进度条显示
-        'pjax_progress' => false,
+        'pjax_progress'     => false,
+        // pjax 动画 (up, down, none)
+        'pjax_animate'      => 'none',
     ],
 
 ];

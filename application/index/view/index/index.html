@@ -108,6 +108,8 @@ $(window).on('scroll', function() {
 if ($.support.pjax) {
     // pjax 进度条开关
     var progress = "{:config('pic.pjax_progress')}" ? true : false;
+    // pjax 动画
+    var anim = "{:config('pic.pjax_animate')}";
 
     // 渲染 pjax 链接
     $(document).pjax('a.pjaxlink', '.contentLayer', {
@@ -118,8 +120,11 @@ if ($.support.pjax) {
     $(document).on('pjax:send', function() {
         if (progress) $.AMUI.progress.start();
         //在pjax发送请求时，显示loading动画层
-        $("body").css('overflow', 'hidden');
-        $('.popupLayer').css('top', '-100%').show();
+        if (anim == 'down') {
+            $('.popupLayer').css('top', '-100%').show();
+        } else if (anim == 'up') {
+            $('.popupLayer').css('top', '100%').show();
+        }
         setTimeout(function() {
             $('.popupLayer').css('top', 0);
         }, 10);
@@ -130,6 +135,10 @@ if ($.support.pjax) {
     // pjax 回调时
     $(document).on('pjax:complete', function() {
         if (progress) $.AMUI.progress.inc(0.4);
+
+        // 隐藏主体滚动条
+        $("body").css('overflow', 'hidden');
+        $('.popupLayer').css('top', 0).show();
 
         // 修正预览图宽高
         $(".picture").css('height', $(window).height());
@@ -144,8 +153,14 @@ if ($.support.pjax) {
     // 后退监听
     $(document).on('pjax:popstate', function() {
         if (progress) $.AMUI.progress.done();
-        $(".popupLayer").css('top', "-100%");
         $("body").css('overflow', 'auto');
+        if (anim == 'down') {
+            $(".popupLayer").css('top', "-100%");
+        } else if (anim == 'up') {
+            $(".popupLayer").css('top', "100%");
+        } else {
+            $(".popupLayer").hide();
+        }
         setTimeout(function() {
             $(".popupLayer").scrollTop(0).hide();
         }, 300);
