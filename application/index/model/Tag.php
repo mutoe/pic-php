@@ -14,5 +14,4 @@ class Tag extends Model {
     	return $data['tag_name'];
     }
 
-
 }
