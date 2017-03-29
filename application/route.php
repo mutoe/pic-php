@@ -31,10 +31,10 @@ Route::group('cate', function() {
     Route::get(':cate_id',  'index/cate/read');
 });
 
-// 用户相关
-Route::group('user', function() {
-    Route::get(':user_id',  'index/user/detail');
-});
+// 用户相关 (RESTful 路由)
+Route::resource('user', 'index/user', [
+    'only' => ['index', 'read', 'edit', 'update'],
+]);
 
 // auth 相关
 Route::group('auth', function() {

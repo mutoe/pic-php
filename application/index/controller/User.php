@@ -6,6 +6,14 @@ use app\index\controller\Common;
 class User extends Common {
 
     /**
+     * 个人空间
+     */
+    public function index()
+    {
+        return $this->fetch();
+    }
+
+    /**
      * 调取bbs用户中心头像
      * $size 取值big:200x250 middle:120x120 small:48x48
      */
