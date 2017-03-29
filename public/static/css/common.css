@@ -7,12 +7,27 @@
 .am-panel .am-panel-footer {
   border-radius: 0 0 4px 4px;
 }
-@media screen and (min-width: 1740px) {
+@media screen and (min-width: 1701px) {
   .am-g-fixed {
     max-width: 1600px;
   }
 }
-@media screen and (min-width: 840px) and (max-width: 1000px) {
+@media screen and (min-width: 1441px) and (max-width: 1700px) {
+  .am-g-fixed {
+    max-width: 1400px;
+  }
+}
+@media screen and (min-width: 1281px) and (max-width: 1440px) {
+  .am-g-fixed {
+    max-width: 1200px;
+  }
+}
+@media screen and (min-width: 1024px) and (max-width: 1280px) {
+  .am-g-fixed {
+    max-width: 960px;
+  }
+}
+@media screen and (min-width: 840px) and (max-width: 1023px) {
   .am-g-fixed {
     max-width: 820px;
   }
