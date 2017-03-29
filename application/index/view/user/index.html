@@ -62,9 +62,11 @@
                         {/volist}
                     </ul>
                 </div>
+                {if condition="$share_data->render()"}
                 <div class="am-panel-footer">
                     {$share_data->render()}
                 </div>
+                {/if}
             </div>
         </div>
     </div>
