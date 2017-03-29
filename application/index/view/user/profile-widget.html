@@ -1,6 +1,13 @@
 
 <div class="am-panel am-panel-default panel-profile">
-    <div class="am-panel-hd">个人资料</div>
+    <div class="am-panel-hd">
+        {if condition="$myself"}
+        我的资料 <a class="am-fr am-btn am-btn-link am-link-muted am-btn-xs am-padding-right-0"
+            href="__ROOT__/user/{$user_data.user_id}/edit"><i class="am-icon am-icon-edit"></i> 编辑</a>
+        {else /}
+            {if condition="$user_data.profile.is_male"}他{else /}她{/if}的资料
+        {/if}
+    </div>
     <div class="am-panel-bd">
         <div class="">
             <img class="am-radius am-center am-img-responsive avatar" src="__ROOT__/static/i/default_avatar.jpg">

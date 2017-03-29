@@ -12,7 +12,7 @@
         <div class="am-u-lg-3 am-u-md-4 l-side">
 
             <!-- 个人资料组件 -->
-            {include file="user:profile-widget" self="true" /}
+            {include file="user:profile-widget" /}
 
             <!-- 标签云 -->
             <div class="am-panel am-panel-default panel-tags">
@@ -32,13 +32,16 @@
         <div class="am-u-lg-9 am-u-md-8 r-side">
             <div class="am-panel am-panel-default panel-shares">
                 <div class="am-panel-hd">
-                    <span class="am-margin-right">投稿管理</span>
-                    <small class="am-margin-right">排序:
+                    {if condition="$myself"}投稿管理{else /}
+                    {if condition="$user_data.profile.is_male"}他{else /}她{/if}的投稿{/if}
+                    ({$share_count})
+                    <small class="am-margin-left">排序:
                         <a id="order-new" href="?order=new">最新</a>
                         <a id="order-click" href="?order=click">最多点击</a>
                         <a id="order-star" href="?order=star">最多收藏</a>
                     </small>
-                    <small>过滤器</small><!-- TODO: 向下弹出横条 按分类 标签过滤图片 -->
+                    <small class="am-margin-left">过滤器</small>
+                    <!-- TODO: 向下弹出横条 按分类 标签过滤图片 -->
                 </div>
                 <div class="am-panel-bd">
                     <ul class="am-avg-lg-4 am-avg-md-3 am-avg-sm-2 am-thumbnails shares">
@@ -54,9 +57,11 @@
                                 <div class="am-u-sm-6">评价: {$s.score_count|default=""}</div>
                                 <div class="am-u-sm-6">浏览: {$s.click}</div>
                                 <div class="am-u-sm-6">被赞: {$s.be_like}</div>
+                                {if condition="$myself"}
                                 <div class="am-u-sm-12 am-padding-top-xs">
                                     <a class="am-btn am-badge am-badge-secondary am-radius am-btn-xs" href="__ROOT__/share/{$s.share_id}/edit"><i class="am-icon am-icon-edit"></i> 编辑</a>
                                 </div>
+                                {/if}
                             </div>
                         </li>
                         {/volist}
