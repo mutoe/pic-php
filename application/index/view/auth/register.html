@@ -1,52 +1,53 @@
 {extend name="common:base" /}
 
 {block name="body"}
+<div id="pjax-container">
 
-<div class="detail-content">
-    <div class="am-g am-g-fixed">
-        <div class="am-u-sm-11 am-u-md-5 am-u-lg-4 am-u-sm-centered card">
-            <h2>注册天佑时光账号</h2>
-            <hr>
-            <div class="am-btn-group">
-                <h4>1.注册需要进行身份验证</h4>
-                <div id="tylogin_button">
-                    <a href="javascript: void(0);"
-                        class="am-btn am-btn-secondary am-btn-sm"
-                        onclick="sync_signin(this)">重庆交通大学 统一身份认证</a>
-                </div>
-                <div class="am-hide" id="tylogin_name">
-                    <p class="am-text-sm">用户 <code></code> 认证成功 ! <a href="javascript: ty_logout();"><small>注销</small></a></p>
+<div class="am-g am-g-fixed">
+    <div class="am-u-sm-11 am-u-md-5 am-u-lg-4 am-u-sm-centered card">
+        <h2>注册天佑时光账号</h2>
+        <hr>
+        <div class="am-btn-group">
+            <h4>1.注册需要进行身份验证</h4>
+            <div id="tylogin_button">
+                <a href="javascript: void(0);"
+                    class="am-btn am-btn-secondary am-btn-sm"
+                    onclick="sync_signin(this)">重庆交通大学 统一身份认证</a>
+            </div>
+            <div class="am-hide" id="tylogin_name">
+                <p class="am-text-sm">用户 <code></code> 认证成功 ! <a href="javascript: ty_logout();"><small>注销</small></a></p>
+            </div>
+        </div>
+        <form class="am-form am-margin-top-lg">
+            <h4>2.验证成功后即可开始注册</h4>
+            <div class="am-form-group">
+                <input type="email" name="email" id="email" placeholder="请输入邮箱" data-validation-message="别闹, 输入合法的邮箱" required />
+            </div>
+            <div class="am-form-group">
+                <input type="text" name="nickname" id="nickname" placeholder="请输入昵称" required minlength="2" maxlength="12" />
+            </div>
+            <div class="am-form-group">
+                <input type="password" name="password" id="password" placeholder="请输入 6-16 位密码" required minlength="6" maxlength="16" />
+            </div>
+            <div class="am-form-group am-g-collapse am-cf">
+                <label for="captcha" class="am-u-sm-12 am-u-lg-5 am-form-label">
+                    <div id="captcha-img" title="刷新验证码"><img src="{:captcha_src()}" alt="captcha" /></div>
+                </label>
+                <div class="am-u-sm-12 am-u-lg-7">
+                    <input type="number" name="captcha" id="captcha" class="am-form-field" placeholder="4 位数字验证码" autocomplete="off" required minlength="4" maxlength="4" />
                 </div>
             </div>
-            <form class="am-form am-margin-top-lg">
-                <h4>2.验证成功后即可开始注册</h4>
-                <div class="am-form-group">
-                    <input type="email" name="email" id="email" placeholder="请输入邮箱" data-validation-message="别闹, 输入合法的邮箱" required />
-                </div>
-                <div class="am-form-group">
-                    <input type="text" name="nickname" id="nickname" placeholder="请输入昵称" required minlength="2" maxlength="12" />
-                </div>
-                <div class="am-form-group">
-                    <input type="password" name="password" id="password" placeholder="请输入 6-16 位密码" required minlength="6" maxlength="16" />
-                </div>
-                <div class="am-form-group am-g-collapse am-cf">
-                    <label for="captcha" class="am-u-sm-12 am-u-lg-5 am-form-label">
-                        <div id="captcha-img" title="刷新验证码"><img src="{:captcha_src()}" alt="captcha" /></div>
-                    </label>
-                    <div class="am-u-sm-12 am-u-lg-7">
-                        <input type="number" name="captcha" id="captcha" class="am-form-field" placeholder="4 位数字验证码" autocomplete="off" required minlength="4" maxlength="4" />
-                    </div>
-                </div>
 
-                <div class="am-cf">
-                    <button type="submit" class="am-btn am-btn-success am-btn-block">注 册</button>
-                </div>
-                <div class="am-cf">
-                    <a href="/auth" class="am-btn am-btn-link am-btn-sm am-padding-left-0">已有账号? 直接登陆</a>
-                </div>
-            </form>
-        </div>
+            <div class="am-cf">
+                <button type="submit" class="am-btn am-btn-success am-btn-block">注 册</button>
+            </div>
+            <div class="am-cf">
+                <a href="/auth" class="am-btn am-btn-link am-btn-sm am-padding-left-0">已有账号? 直接登陆</a>
+            </div>
+        </form>
     </div>
+</div>
+
 </div>
 {/block}
 

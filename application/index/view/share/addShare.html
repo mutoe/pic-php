@@ -100,50 +100,52 @@
 {load href="__STATIC__/js/exif.js" /}
 <script>
 $(function() {
-    // 图片上传控件
-    $('#doc-form-file').on('change', function() {
-        var fileNames = '';
-        $.each(this.files, function() {
-            fileNames = '<span class="am-badge">' + this.name + '</span> ';
-        });
-        $('#file-list').html(fileNames);
+
+// 图片上传控件
+$('#doc-form-file').on('change', function() {
+    var fileNames = '';
+    $.each(this.files, function() {
+        fileNames = '<span class="am-badge">' + this.name + '</span> ';
     });
+    $('#file-list').html(fileNames);
+});
 
-    // 标签输入控件
-    $('#tags-ipt').tagsinput({
-        trimValue: true,
-        maxChars: 16,
-    })
+// 标签输入控件
+$('#tags-ipt').tagsinput({
+    trimValue: true,
+    maxChars: 16,
+})
 
-    $('#add-file').on('click', function() {
-        $('#doc-form-file').click();
-    });
+$('#add-file').on('click', function() {
+    $('#doc-form-file').click();
+});
 
-    // 图片本地预览
-    var input = document.getElementById("doc-form-file");
-    if (typeof FileReader === 'undefined'){
-        result.innerHTML = "<p class='warn'>抱歉，你的浏览器不支持 FileReader</p>";
-        input.setAttribute('disabled','disabled');
-    } else {
-        input.addEventListener('change',readFile,false);
-    }
+// 图片本地预览
+var input = document.getElementById("doc-form-file");
+if (typeof FileReader === 'undefined'){
+    result.innerHTML = "<p class='warn'>抱歉，你的浏览器不支持 FileReader</p>";
+    input.setAttribute('disabled','disabled');
+} else {
+    input.addEventListener('change',readFile,false);
+}
 
-    // 日期选择插件 ( 禁止选定当日之后的日期 )
-    var now = new Date();
-    var nowDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0).valueOf();
-    var nowMoth = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0).valueOf();
-    var nowYear = new Date(now.getFullYear(), 0, 1, 0, 0, 0, 0).valueOf();
-    var checkin = $('.am-datepicker-date').datepicker({
-        onRender: function(date, viewMode) {
-            var viewDate = nowDay;
-            switch (viewMode) {
-              case 1: viewDate = nowMoth;break;
-              case 2: viewDate = nowYear;break;
-            }
-            return date.valueOf() > viewDate ? 'am-disabled' : '';
-        },
-        format: 'yyyy-mm-dd'
-    }).data('amui.datepicker');
+// 日期选择插件 ( 禁止选定当日之后的日期 )
+var now = new Date();
+var nowDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0).valueOf();
+var nowMoth = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0).valueOf();
+var nowYear = new Date(now.getFullYear(), 0, 1, 0, 0, 0, 0).valueOf();
+var checkin = $('.am-datepicker-date').datepicker({
+    onRender: function(date, viewMode) {
+        var viewDate = nowDay;
+        switch (viewMode) {
+          case 1: viewDate = nowMoth;break;
+          case 2: viewDate = nowYear;break;
+        }
+        return date.valueOf() > viewDate ? 'am-disabled' : '';
+    },
+    format: 'yyyy-mm-dd'
+}).data('amui.datepicker');
+
 });
 
 // 图片本地预览控件

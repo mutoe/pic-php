@@ -1,0 +1,97 @@
+{extend name="common/base" /}
+
+{block name="title"}个人中心 -{/block}
+
+{block name="body"}
+<div id="pjax-content">
+<div class="user-index">
+
+<div class="am-g">
+    <div id="banner" class="am-cf"></div>
+    <div class="am-g-fixed am-center">
+        <div class="am-u-lg-3 am-u-md-4 l-side">
+
+            <!-- 个人资料组件 -->
+            {include file="user:profile-widget" /}
+
+            <!-- 标签云 -->
+            <div class="am-panel am-panel-default panel-tags">
+                <div class="am-panel-hd">标签云</div>
+                <div class="am-panel-bd">
+                    <span class="am-badge am-radius am-badge-primary">deft</span><small>(1)</small>
+                    <span class="am-badge am-radius am-badge-primary am-text-sm">small</span><small>(3)</small>
+                    <span class="am-badge am-radius am-badge-primary am-text-default">nrmal</span><small>(7)</small>
+                    <span class="am-badge am-radius am-badge-primary am-text-sm">all</span><small>(3)</small>
+                    <span class="am-badge am-radius am-badge-primary am-text-lg">large</span><small>(64)</small>
+                    <span class="am-badge am-radius am-badge-primary am-text-sm">smll</span><small>(3)</small>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="am-u-lg-9 am-u-md-8 r-side">
+
+            <!-- 投稿 -->
+            <div class="am-panel am-panel-default panel-shares">
+                <div class="am-panel-hd">
+                    {if condition="$myself"}投稿管理{else /}
+                    {if condition="$user_data.profile.is_male"}他{else /}她{/if}的投稿{/if}
+                    ({$share_count})
+                    <small class="am-margin-left">排序:
+                        <a id="order-new" href="?order=new">最新</a>
+                        <a id="order-click" href="?order=click">最多点击</a>
+                        <a id="order-star" href="?order=star">最多收藏</a>
+                    </small>
+                    <small class="am-margin-left">过滤器</small>
+                    <!-- TODO: 向下弹出横条 按分类 标签过滤图片 -->
+                </div>
+                <div class="am-panel-bd">
+                    <ul class="am-avg-lg-4 am-avg-md-3 am-avg-sm-2 am-thumbnails shares">
+                        {volist name="share_data" id="s"}
+                        <li class="s-box">
+                            <a class="image" href="__ROOT__/share/{$s.share_id}" style="background-image: url(__ROOT__/{$s.savepath}t_{$s.savename})">
+                                {if condition="$s.detail != ''"}
+                                <p class="am-text-truncate detail">{$s.detail}</p>
+                                {/if}
+                            </a>
+                            <div class="am-g am-g-collapse am-text-xs am-padding-xs">
+                                <div class="am-u-sm-6">总分: {$s.score|default=""}</div>
+                                <div class="am-u-sm-6">评价: {$s.score_count|default=""}</div>
+                                <div class="am-u-sm-6">浏览: {$s.click}</div>
+                                <div class="am-u-sm-6">被赞: {$s.be_like}</div>
+                                {if condition="$myself"}
+                                <div class="am-u-sm-12 am-padding-top-xs">
+                                    <a class="am-btn am-badge am-badge-secondary am-radius am-btn-xs" href="__ROOT__/share/{$s.share_id}/edit"><i class="am-icon am-icon-edit"></i> 编辑</a>
+                                </div>
+                                {/if}
+                            </div>
+                        </li>
+                        {/volist}
+                    </ul>
+                </div>
+                {if condition="$share_data->render()"}
+                <div class="am-panel-footer">
+                    {$share_data->render()}
+                </div>
+                {/if}
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</div>
+</div>
+{/block}
+
+{block name="js"}
+<script type="text/javascript">
+(function() {
+
+// 高亮当前排序方式
+var order = getUrlParam('order', 'new');
+$('#order-' + order).css('text-decoration', 'underline');
+
+})();
+</script>
+{/block}

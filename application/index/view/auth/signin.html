@@ -1,159 +1,159 @@
 {extend name="common:base" /}
 
 {block name="body"}
+<div id="pjax-container">
 
-
-<div class="detail-content">
-    <div class="am-g am-g-fixed">
-        <div class="am-u-sm-11 am-u-md-5 am-u-lg-4 am-u-sm-centered card">
-            <h2>登录到天佑时光</h2>
-            <hr>
-            <div class="am-btn-group">
-                <h4>一键登录</h4>
-                <div id="tylogin_button">
-                    <a href="javascript: void(0);"
-                        class="am-btn am-btn-secondary am-btn-sm"
-                        onclick="sync_signin(this)">重庆交通大学 统一身份认证</a>
+<div class="am-g am-g-fixed">
+    <div class="am-u-sm-11 am-u-md-5 am-u-lg-4 am-u-sm-centered card">
+        <h2>登录到天佑时光</h2>
+        <hr>
+        <div class="am-btn-group">
+            <h4>一键登录</h4>
+            <div id="tylogin_button">
+                <a href="javascript: void(0);"
+                    class="am-btn am-btn-secondary am-btn-sm"
+                    onclick="sync_signin(this)">重庆交通大学 统一身份认证</a>
+            </div>
+            <div class="am-hide" id="tylogin_name">
+                <p class="am-text-sm">用户 <code></code> 认证成功 ! <a href="javascript: ty_logout();"><small>注销</small></a></p>
+            </div>
+        </div>
+        <form class="am-form am-margin-top-lg">
+            <div id="signin-from">
+                <h4>使用邮箱和密码登陆</h4>
+                <div class="am-form-group">
+                    <input type="email" name="email" id="email" placeholder="请输入邮箱" data-validation-message="别闹, 输入合法的邮箱" required />
                 </div>
-                <div class="am-hide" id="tylogin_name">
-                    <p class="am-text-sm">用户 <code></code> 认证成功 ! <a href="javascript: ty_logout();"><small>注销</small></a></p>
+                <div class="am-form-group">
+                    <input type="password" name="password" id="password" placeholder="请输入 6-16 位密码" required minlength="6" maxlength="16" />
+                </div>
+                <div class="am-form-group am-g-collapse am-cf">
+                    <label for="captcha" class="am-u-sm-12 am-u-lg-5 am-form-label">
+                        <div id="captcha-img" title="刷新验证码"><img src="{:captcha_src()}" alt="captcha" /></div>
+                    </label>
+                    <div class="am-u-sm-12 am-u-lg-7">
+                        <input type="number" name="captcha" id="captcha" class="am-form-field" placeholder="4 位数字验证码" autocomplete="off" required minlength="4" maxlength="4" />
+                    </div>
                 </div>
             </div>
-            <form class="am-form am-margin-top-lg">
-                <div id="signin-from">
-                    <h4>使用邮箱和密码登陆</h4>
-                    <div class="am-form-group">
-                        <input type="email" name="email" id="email" placeholder="请输入邮箱" data-validation-message="别闹, 输入合法的邮箱" required />
-                    </div>
-                    <div class="am-form-group">
-                        <input type="password" name="password" id="password" placeholder="请输入 6-16 位密码" required minlength="6" maxlength="16" />
-                    </div>
-                    <div class="am-form-group am-g-collapse am-cf">
-                        <label for="captcha" class="am-u-sm-12 am-u-lg-5 am-form-label">
-                            <div id="captcha-img" title="刷新验证码"><img src="{:captcha_src()}" alt="captcha" /></div>
-                        </label>
-                        <div class="am-u-sm-12 am-u-lg-7">
-                            <input type="number" name="captcha" id="captcha" class="am-form-field" placeholder="4 位数字验证码" autocomplete="off" required minlength="4" maxlength="4" />
-                        </div>
-                    </div>
-                </div>
-                <label for="remember-me" class="am-checkbox">
-                    <input id="remember-me" name="remember_me" value="1" data-am-ucheck type="checkbox"> 一个月内为我自动登陆
-                </label>
-                <div class="am-cf">
-                    <p class="am-btn am-btn-link am-btn-sm am-padding-right-0 am-fr" data-am-popover="{theme: 'sm', content: '忘记登录密码请使用上方统一身份认证登陆后, 在个人中心进行修改.', trigger: 'hover focus'}">忘记密码?</p>
-                </div>
-                <div class="am-cf">
-                    <input type="submit" name="" value="登 录" class="am-btn am-btn-primary am-btn-sm am-fl am-u-sm-6">
-                    <a class="am-btn am-btn-default am-btn-sm am-fr" href="/auth/register">注 册</a>
-                </div>
-            </form>
-        </div>
+            <label for="remember-me" class="am-checkbox">
+                <input id="remember-me" name="remember_me" value="1" data-am-ucheck type="checkbox"> 一个月内为我自动登陆
+            </label>
+            <div class="am-cf">
+                <p class="am-btn am-btn-link am-btn-sm am-padding-right-0 am-fr" data-am-popover="{theme: 'sm', content: '忘记登录密码请使用上方统一身份认证登陆后, 在个人中心进行修改.', trigger: 'hover focus'}">忘记密码?</p>
+            </div>
+            <div class="am-cf">
+                <input type="submit" name="" value="登 录" class="am-btn am-btn-primary am-btn-sm am-fl am-u-sm-6">
+                <a class="am-btn am-btn-default am-btn-sm am-fr" href="/auth/register">注 册</a>
+            </div>
+        </form>
     </div>
+</div>
+
 </div>
 {/block}
 
 {block name="js"}
 <script type="text/javascript">
 
-    // 异步身份认证
-    function sync_signin(e) {
-        var text = $(e).html();
-        $(e).addClass('am-disabled').html('<i class="am-icon am-icon-circle-o-notch am-icon-spin"></i> ' + text);
-        window.open('/api/tylogin', '授权确认 - 天佑互联', 'width=760, height=650, menubar=no, toolbar=no');
-        $(e).html(text).removeClass('am-disabled');
-    }
+// 异步身份认证
+function sync_signin(e) {
+    var text = $(e).html();
+    $(e).addClass('am-disabled').html('<i class="am-icon am-icon-circle-o-notch am-icon-spin"></i> ' + text);
+    window.open('/api/tylogin', '授权确认 - 天佑互联', 'width=760, height=650, menubar=no, toolbar=no');
+    $(e).html(text).removeClass('am-disabled');
+}
 
-    // 实时认证状态检测
-    function timer() {
-        var timerMain = setInterval(function() {
-            // 调用 Amazeui 内置 cookie 封装
-            $ecardno = $.AMUI.utils.cookie.get('ecardno');
-            if ($ecardno) {
-                signin_oauth = true;
-                $('#tylogin_button').addClass('am-hide');
-                $('#signin-from').addClass('am-hide');
-                $('#tylogin_name').removeClass('am-hide').find('code').text($ecardno);
-                // 停止计时器
-                clearInterval(timerMain);
-            } else {
-                signin_oauth = false;
-                $('#tylogin_button').removeClass('am-hide');
-                $('#signin-from').removeClass('am-hide');
-                $('#tylogin_name').addClass('am-hide');
+// 实时认证状态检测
+function timer() {
+    var timerMain = setInterval(function() {
+        // 调用 Amazeui 内置 cookie 封装
+        $ecardno = $.AMUI.utils.cookie.get('ecardno');
+        if ($ecardno) {
+            signin_oauth = true;
+            $('#tylogin_button').addClass('am-hide');
+            $('#signin-from').addClass('am-hide');
+            $('#tylogin_name').removeClass('am-hide').find('code').text($ecardno);
+            // 停止计时器
+            clearInterval(timerMain);
+        } else {
+            signin_oauth = false;
+            $('#tylogin_button').removeClass('am-hide');
+            $('#signin-from').removeClass('am-hide');
+            $('#tylogin_name').addClass('am-hide');
+        }
+        // 修正页脚位置
+        footer_replace();
+    }, 400);
+}
+
+// 启动认证状态检测
+timer();
+
+// 异步注销认证状态
+function ty_logout() {
+    $.ajax({
+        url: '/api/tylogout',
+    })
+    .always(function() {
+        // 重启计时器
+        timer();
+    });
+}
+
+// 如果通过 oauth 登陆则跳过表单验证
+var signin_oauth = false;
+if (!signin_oauth) {
+    $('form').validator({
+        onValid: function(validity) {
+            $(validity.field).closest('.am-form-group').find('.am-alert').remove();
+            if($('.valid').size() == 0) {
+                $('button[type="submit"]').attr('disabled', false);
             }
-            // 修正页脚位置
-            footer_replace();
-        }, 400);
-    }
+        },
+        onInValid: function(validity) {
+            var $field = $(validity.field);
+            var $group = $field.closest('.am-form-group');
+            var $alert = $group.find('.am-alert');
+            // 使用自定义的提示信息 或 插件内置的提示信息
+            var msg = $field.data('validationMessage') || this.getValidationMessage(validity);
 
-    // 启动认证状态检测
-    timer();
-
-    // 异步注销认证状态
-    function ty_logout() {
-        $.ajax({
-            url: '/api/tylogout',
-        })
-        .always(function() {
-            // 重启计时器
-            timer();
-        });
-    }
-
-    // 如果通过 oauth 登陆则跳过表单验证
-    var signin_oauth = false;
-    if (!signin_oauth) {
-        $('form').validator({
-            onValid: function(validity) {
-                $(validity.field).closest('.am-form-group').find('.am-alert').remove();
-                if($('.valid').size() == 0) {
-                    $('button[type="submit"]').attr('disabled', false);
-                }
-            },
-            onInValid: function(validity) {
-                var $field = $(validity.field);
-                var $group = $field.closest('.am-form-group');
-                var $alert = $group.find('.am-alert');
-                // 使用自定义的提示信息 或 插件内置的提示信息
-                var msg = $field.data('validationMessage') || this.getValidationMessage(validity);
-
-                if (!$alert.length) {
-                    $alert = $('<div class="am-alert am-alert-danger valid"></div>').hide().appendTo($field.parent('div'));
-                }
-
-                $alert.html(msg).show();
-                $('button[type="submit"]').attr('disabled', true);
+            if (!$alert.length) {
+                $alert = $('<div class="am-alert am-alert-danger valid"></div>').hide().appendTo($field.parent('div'));
             }
-        });
-    }
 
-    $('form').on('submit', function(event) {
-        $.ajax({
-            url: '/auth/signin',
-            type: 'POST',
-            data: $('form').serialize(),
-        }).done(function(data) {
-            if (data.code) {
-                console.log(data);
-                amalert('登陆成功!');
-                setTimeout(function() {
-                    location.href = data.url;
-                }, 1000 * data.wait);
-            } else {
-                amalert(data.msg);
-                $('#captcha-img').click();
-                $('#captcha').val('');
-                console.log(JSON.stringify(data));
-            }
-        }).fail(function(data) {
-            amalert("出了点错误, 请刷新试试..");
+            $alert.html(msg).show();
+            $('button[type="submit"]').attr('disabled', true);
+        }
+    });
+}
+
+$('form').on('submit', function(event) {
+    $.ajax({
+        url: '/auth/signin',
+        type: 'POST',
+        data: $('form').serialize(),
+    }).done(function(data) {
+        if (data.code) {
+            console.log(data);
+            amalert('登陆成功!');
+            setTimeout(function() {
+                location.href = data.url;
+            }, 1000 * data.wait);
+        } else {
+            amalert(data.msg);
             $('#captcha-img').click();
             $('#captcha').val('');
             console.log(JSON.stringify(data));
-        })
-        return false;
-    });
+        }
+    }).fail(function(data) {
+        amalert("出了点错误, 请刷新试试..");
+        $('#captcha-img').click();
+        $('#captcha').val('');
+        console.log(JSON.stringify(data));
+    })
+    return false;
+});
 
 </script>
 {/block}

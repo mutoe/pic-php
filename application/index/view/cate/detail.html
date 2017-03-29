@@ -55,7 +55,7 @@ $('.photos').gallerify({
 // pjax支持检测
 if ($.support.pjax) {
     $(document).pjax('a.pjaxlink', '.contentLayer', {
-        fragment:'#detail-content', scrollTo: false, timeout: 1650
+        fragment:'#pjax-container', scrollTo: false, timeout: 1650
     });
 
     $(document).on('pjax:send', function() {

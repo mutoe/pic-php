@@ -40,3 +40,14 @@ $('#captcha-img').on('click', function() {
         $('#captcha-img img').attr('src', "{:captcha_src()}?t="+ new Date().getTime())
     });
 });
+
+/**
+ * 获取 get 参数
+ * 第二个参数为默认返回值
+ */
+function getUrlParam(name) {
+    var def = arguments[1] ? arguments[1] : null;
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+    var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+    if (r != null) return unescape(r[2]); return def; //返回参数值
+}

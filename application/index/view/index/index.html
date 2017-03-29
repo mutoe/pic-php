@@ -67,6 +67,7 @@
 
 {load href="__STATIC__/js/jquery.xgallerify.min.js" /}
 <script type="text/javascript">
+
 // 动态固定导航栏
 $('#nav-sticky').sticky();
 
@@ -113,7 +114,7 @@ if ($.support.pjax) {
 
     // 渲染 pjax 链接
     $(document).pjax('a.pjaxlink', '.contentLayer', {
-        fragment:'#detail-content', scrollTo: false, timeout: 1650
+        fragment:'#pjax-container', scrollTo: false, timeout: 1650
     });
 
     // pjax 加载时

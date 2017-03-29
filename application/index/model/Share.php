@@ -27,6 +27,7 @@ class Share extends Model {
     /**
      * 修改器
      */
+
     protected function setUserIdAttr()
     {
         return auth_status('user_id');

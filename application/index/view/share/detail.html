@@ -1,38 +1,39 @@
 {extend name="common/base" /}
 
 {block name="body"}
-<div id="detail-content">
+<div id="pjax-container">
+<div class="share-detail">
 
-    <div class="am-g am-margin-bottom-xl">
-        <div class="am-u-md-7">
-            <a class="picturebox" href="">
-                <img id="picLoadHandle" src="__ROOT__/{$data.savepath}{$data.savename}"
-                    style="visibility: hidden;position: absolute;z-index: -1;width: 1px;height: 1px;"/>
-                <div class="picture picture_thumb"
-                    style="background-image: url(/{$data.savepath}t_{$data.savename});"></div>
-                <div id="picture" class="picture"
-                    style="background-image: url(__ROOT__/{$data.savepath}{$data.savename});"></div>
+<div class="am-g am-margin-bottom-xl">
+    <div class="am-u-md-7">
+        <a class="picturebox" href="">
+            <img id="picLoadHandle" src="__ROOT__/{$data.savepath}{$data.savename}"
+                style="visibility: hidden;position: absolute;z-index: -1;width: 1px;height: 1px;"/>
+            <div class="picture picture_thumb"
+                style="background-image: url(/{$data.savepath}t_{$data.savename});"></div>
+            <div id="picture" class="picture"
+                style="background-image: url(__ROOT__/{$data.savepath}{$data.savename});"></div>
+        </a>
+    </div>
+    <div class="am-u-md-5">
+        <div class="other">
+            <p class="detail">
+                {$data.detail}
+            </p>
+            <a class="author" href="#">
+                —— {$data.profile.nickname} <br />
+                {$data.photo_date}
             </a>
-        </div>
-        <div class="am-u-md-5">
-            <div class="other">
-                <p class="detail">
-                    {$data.detail}
-                </p>
-                <a class="author" href="#">
-                    —— {$data.profile.nickname} <br />
-                    {$data.photo_date}
-                </a>
 
-            </div>
         </div>
     </div>
-    <hr />
-    <div class="bottom-part">
-        <div class="am-g am-g-collapse">
-            <div class="am-u-sm-8">
-                <div class="am-panel am-panel-default">
-                    <div class="am-panel-bd info-piece">
+</div>
+<hr />
+<div class="bottom-part">
+    <div class="am-g am-g-collapse">
+        <div class="am-u-sm-8">
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-bd info-piece">
 <!-- info-piece start -->
 <div class="am-fl am-margin-right">
     <img class="avatar" src=""/>
@@ -79,19 +80,21 @@
     <div class="am-cf"></div>
 </div>
 <!-- info-piece end -->
-                    </div>
                 </div>
-            </div>
-            <div class="am-u-sm-4" style="padding-left: 1.6rem;">
-                <div class="am-panel am-panel-default">
-                    <div class="am-panel-bd">
-                        面板内容
-                    </div>
-                </div>
-
             </div>
         </div>
+        <div class="am-u-sm-4" style="padding-left: 1.6rem;">
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-bd">
+                    面板内容
+                </div>
+            </div>
+
+        </div>
     </div>
+</div>
+
+</div>
 </div>
 {/block}
 
@@ -101,7 +104,7 @@
 $(document).ready(function() {
     $(".picture").css('height', $(window).height());
     $(".other").css('height', $(window).height());
-    $("html,body").animate({scrollTop: $("#detail-content").offset().top},200);
+    $("html,body").animate({scrollTop: $(".share-detail").offset().top},200);
 });
 
 /*$(window).scroll(function(event){

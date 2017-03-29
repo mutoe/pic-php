@@ -2,7 +2,7 @@
 // 头像大小
 avatar-small-size = 60px
 
-#detail-content
+.share-detail
     width 100%
     padding 0 84px
     hr
@@ -102,6 +102,41 @@ avatar-small-size = 60px
             border 1px solid #CCC
             box-shadow 0px 1px 2px rgba(0, 0, 0, 0.05) inset
 
+.user-index
+
+    #banner
+        margin -16px 0 16px
+        height 200px
+        background transparent url(../i/user_banner.png) no-repeat center
+        background-size cover
+
+    .panel-tags
+        .am-panel-bd
+            line-height 2.4em
+
+    .panel-shares
+        .s-box
+            margin-bottom 12px
+            .image
+                position relative
+                display block
+                height 120px
+                width 100%
+                background transparent no-repeat center
+                background-size cover
+                margin-bottom 4px
+
+                .detail
+                    position absolute
+                    bottom 0
+                    left 0
+                    right 0
+                    background-color #0008
+                    font-size 12px
+                    color #ddd
+                    margin 0
+                    padding 2px 4px
+
 .popupLayer
     display none
     position fixed
@@ -133,9 +168,6 @@ avatar-small-size = 60px
                 height 36px
                 margin -18px 0 0 -18px
                 background url(../i/btn_close_layer.png) no-repeat scroll
-
-    .contentLayer
-        @extend #detail-content
 
     .prevBtn,.nextBtn
         position fixed
