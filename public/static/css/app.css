@@ -112,26 +112,25 @@
 .user-index .panel-shares .s-box {
   margin-bottom: 12px;
 }
-.user-index .panel-shares .s-box img {
+.user-index .panel-shares .s-box .image {
+  position: relative;
+  display: block;
+  height: 120px;
+  width: 100%;
+  background: transparent no-repeat center;
+  background-size: cover;
   margin-bottom: 4px;
 }
-.user-index .panel-shares .s-box .detail {
-  position: relative;
-  z-index: 1;
-  color: #ddd;
-  padding: 2px 4px;
-  font-size: 12px;
-  margin: -28px 0 0;
-}
-.user-index .panel-shares .s-box .detail::after {
-  content: '';
+.user-index .panel-shares .s-box .image .detail {
   position: absolute;
-  display: block;
-  z-index: -1;
   bottom: 0;
-  width: 100%;
-  height: 24px;
-  background-color: rgba(0,0,0,0.502);
+  left: 0;
+  right: 0;
+  background-color: rgba(0,0,0,0.533);
+  font-size: 12px;
+  color: #ddd;
+  margin: 0;
+  padding: 2px 4px;
 }
 .popupLayer {
   display: none;

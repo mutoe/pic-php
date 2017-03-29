@@ -28,6 +28,14 @@ class User extends Model
     protected $update   = ['lastlogin_time', 'lastlogin_ip'];
 
     /**
+     * 关联用户资料
+     */
+    public function profile()
+    {
+        return $this->hasOne('UserInfo');
+    }
+
+    /**
      * 修改器
      */
 

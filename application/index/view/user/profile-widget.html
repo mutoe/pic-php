@@ -5,24 +5,21 @@
         <div class="">
             <img class="am-radius am-center am-img-responsive avatar" src="__ROOT__/static/i/default_avatar.jpg">
         </div>
-        <h4 class="am-margin-sm am-text-center">木头</h4>
-        <p class="detail line-clamp-3">这个人很懒, 什么都没有留下. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat.</p>
+        <h4 class="am-margin-sm am-text-center">{$user_data.nickname}</h4>
+        <p class="detail line-clamp-3">{$user_data.profile.detail}</p>
         <hr>
         <div class="am-g am-g-collapse am-text-xs am-text-center">
             <div class="am-u-sm-4">
                 总分 <br>
-                <span>3122</span>
+                <span>{$user_data.profile.score|default=0}</span>
             </div>
             <div class="am-u-sm-4">
                 投稿 <br>
-                <span>21</span>
+                <span>{$user_data.profile.share_count|default=0}</span>
             </div>
             <div class="am-u-sm-4">
                 粉丝 <br>
-                <span>571</span>
+                <span>{$user_data.profile.fans_count|default=0}</span>
             </div>
         </div>
     </div>

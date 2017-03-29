@@ -10,6 +10,35 @@ class User extends Common {
      */
     public function index()
     {
+        // 用户 获取数据
+        $user_id = auth_status('user_id');
+        $user_data = model('User')->find($user_id);
+        $this->assign('user_data', $user_data);
+
+        // 分享 排序
+        $order = input('order');
+        switch ($order) {
+            case 'new':
+                $order = 'create_time desc';
+                break;
+            case 'click':
+                $order = 'click desc';
+                break;
+            case 'star':
+                $order = 'be_like desc, click desc';
+                break;
+            default:
+                $order = 'create_time desc';
+                break;
+        }
+        // 分享 过滤
+        $map['user_id'] = $user_id;
+        $map['status'] = ['in', '1, 2, -1'];
+        // 分享 获取数据
+        $share_data = model('Share')->where($map)->order($order)->paginate(24);
+        $this->assign('share_data', $share_data);
+
+        // 渲染页面
         return $this->fetch();
     }
 
