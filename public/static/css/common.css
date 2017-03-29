@@ -1,7 +1,7 @@
 .am-panel {
   border-radius: 4px;
 }
-.am-panel .am-panel-hd {
+.am-panel > .am-panel-hd:first-child {
   border-radius: 4px 4px 0 0;
 }
 .am-panel .am-panel-footer {
@@ -31,6 +31,19 @@
   .am-g-fixed {
     max-width: 820px;
   }
+}
+.line-clamp-3 {
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  line-height: 1.6em;
+  max-height: 4.800000000000001em;
+}
+.am-pagination > li > a,
+.am-pagination > li span {
+  margin-bottom: 0;
 }
 * {
   font-family: "微软雅黑", "microsoft yahei";
