@@ -205,3 +205,60 @@
   font-size: 0px;
   min-height: 400px;
 }
+.heart-container {
+  clear: both;
+  margin-bottom: 20px;
+  height: 150px;
+}
+.heart-container p {
+  font-family: "Microsoft YaHei", 'Georgia', Times, Times New Roman, serif;
+  font-size: 25px;
+}
+.heart {
+  width: 80px;
+  height: 80px;
+  background: url("../i/web_heart_animation.png") no-repeat left center;
+  background-size: cover;
+  cursor: pointer;
+}
+.heart:hover,
+.heart:focus {
+  background-position: right;
+}
+.heartAnimation {
+  display: inline-block;
+  background-position: right;
+  animation: heartBlast 0.8s steps(28);
+}
+@-moz-keyframes heartBlast {
+  0% {
+    background-position: left;
+  }
+  100% {
+    background-position: right;
+  }
+}
+@-webkit-keyframes heartBlast {
+  0% {
+    background-position: left;
+  }
+  100% {
+    background-position: right;
+  }
+}
+@-o-keyframes heartBlast {
+  0% {
+    background-position: left;
+  }
+  100% {
+    background-position: right;
+  }
+}
+@keyframes heartBlast {
+  0% {
+    background-position: left;
+  }
+  100% {
+    background-position: right;
+  }
+}

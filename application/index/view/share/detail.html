@@ -17,6 +17,9 @@
     </div>
     <div class="am-u-md-5">
         <div class="other">
+            <div class="heart-container" title="喜欢 !">
+                <div class="heart" id="star-btn" rel="like"></div>
+            </div>
             <p class="detail">
                 {$data.profile.detail}
             </p>
@@ -24,10 +27,30 @@
                 —— {$data.user.nickname} <br />
                 {$data.profile.photo_date}
             </a>
-
         </div>
     </div>
 </div>
+
+<script>
+// 收藏动画
+$('#star-btn').on('click', function(event) {
+    $(this).css("background-position", "");
+    if ($(this).attr('rel') === 'like') {
+        $(this).addClass("heartAnimation").attr("rel", "unlike");
+    } else {
+        $(this).removeClass("heartAnimation").attr("rel", "like");
+        $(this).css("background-position", "left");
+    }
+    $.get('__ROOT__/share/{$data.share_id}/star', function(data) {
+        console.log(data)
+        if (data.msg != 'stared') {
+            $(this).removeClass("heartAnimation").attr("rel", "like");
+            $(this).css("background-position", "left");
+        }
+    });
+});
+</script>
+
 <hr />
 <div class="bottom-part">
     <div class="am-g am-g-collapse">

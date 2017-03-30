@@ -204,3 +204,35 @@ avatar-small-size = 60px
 .photos
     font-size 0px
     min-height 400px
+
+// 收藏动画
+.heart-container
+    clear both
+    margin-bottom 20px
+    height 150px
+    p
+        font-family "Microsoft YaHei", 'Georgia', Times, Times New Roman, serif
+        font-size 25px
+
+.heart
+    width 80px
+    height 80px
+    background url(../i/web_heart_animation.png) no-repeat left center
+    background-size cover
+    cursor pointer
+
+    &:hover,
+    &:focus
+        background-position: right
+
+@keyframes heartBlast
+    0%
+        background-position: left
+    100%
+        background-position: right
+
+.heartAnimation
+    display inline-block
+    background-position right
+    animation heartBlast .8s steps(28)
+

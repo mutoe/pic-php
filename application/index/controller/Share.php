@@ -109,4 +109,17 @@ class Share extends Common {
         Cache::set('cate_click_list', $result);
     }
 
+    /**
+     * 收藏
+     * TODO: 实现方法 将作品加入到 'xx的收藏' 相册 这是一个特殊的相册
+     * @author 杨栋森 mutoe@foxmail.com at 2017-03-30
+     *
+     * @param  [type] $share_id [description]
+     * @return [type]           [description]
+     */
+    public function star($share_id)
+    {
+        return $this->error('stared');
+    }
+
 }

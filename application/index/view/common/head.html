@@ -14,3 +14,12 @@
 {load href="__STATIC__/css/amazeui.css" /}
 {load href="__STATIC__/css/common.css" /}
 {load href="__STATIC__/css/app.css" /}
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+{load href="__STATIC__/js/jquery.min.js" /}
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+{load href="__STATIC__/js/amazeui.ie8polyfill.min.js" /}
+<![endif]-->
