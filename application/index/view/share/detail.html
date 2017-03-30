@@ -7,22 +7,22 @@
 <div class="am-g am-margin-bottom-xl">
     <div class="am-u-md-7">
         <a class="picturebox" href="">
-            <img id="picLoadHandle" src="__ROOT__/{$data.savepath}{$data.savename}"
+            <img id="picLoadHandle" src="__ROOT__/{$data.profile.savepath}{$data.profile.savename}"
                 style="visibility: hidden;position: absolute;z-index: -1;width: 1px;height: 1px;"/>
             <div class="picture picture_thumb"
-                style="background-image: url(/{$data.savepath}t_{$data.savename});"></div>
+                style="background-image: url(/{$data.profile.savepath}t_{$data.profile.savename});"></div>
             <div id="picture" class="picture"
-                style="background-image: url(__ROOT__/{$data.savepath}{$data.savename});"></div>
+                style="background-image: url(__ROOT__/{$data.profile.savepath}{$data.profile.savename});"></div>
         </a>
     </div>
     <div class="am-u-md-5">
         <div class="other">
             <p class="detail">
-                {$data.detail}
+                {$data.profile.detail}
             </p>
             <a class="author" href="#">
-                —— {$data.profile.nickname} <br />
-                {$data.photo_date}
+                —— {$data.user.nickname} <br />
+                {$data.profile.photo_date}
             </a>
 
         </div>
@@ -40,29 +40,29 @@
 </div>
 <div class="am-fl">
     <a class="nickname am-text-lg am-link-muted am-padding-vertical-sm"
-        href="">{$data.profile.nickname}</a>
+        href="">{$data.user.nickname}</a>
     <p class="property am-text-xs am-margin-top-xs am-margin-bottom-0">
         上传至 <a href="">分类名</a> 于 4日前
     </p>
 </div>
 <div class="am-cf"></div>
-{if condition="!empty($data.detail)"}
-<div class="detail am-text-sm am-margin-top">{$data.detail}</div>
+{if condition="!empty($data.profile.detail)"}
+<div class="detail am-text-sm am-margin-top">{$data.profile.detail}</div>
 {/if}
 
 <hr />
 <div class="comments">
     <div class="comment">
-        <a href="" title="{$data.profile.nickname}" class="am-margin-right-sm am-fl">
+        <a href="" title="{$data.user.nickname}" class="am-margin-right-sm am-fl">
             <img class="avatar" src="/user/avatar/39139">
         </a>
         <div class="meta am-text-sm">
-            <a href="" class="author">{$data.profile.nickname}</a>
+            <a href="" class="author">{$data.user.nickname}</a>
             &nbsp;-&nbsp;<span class="">1 分钟前</span>说：
         </div>
         <div class="am-text-sm">baqi</div>
         <div class="action-buttons">
-            <a class="reply-button" data-name="{$data.profile.nickname}" title="回复"></a>
+            <a class="reply-button" data-name="{$data.user.nickname}" title="回复"></a>
             <a class="delete" data-url="" title="删除"></a>
         </div>
         <div class="am-cf"></div>

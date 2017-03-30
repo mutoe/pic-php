@@ -40,7 +40,7 @@
                     {volist name="cate.data" id="data"}
                     <div class="photo">
                         <a class="pjaxlink" href="__ROOT__/share/{$data.share_id}">
-                            <img src="__ROOT__/{$data.savepath}t_{$data.savename}">
+                            <img src="__ROOT__/{$data.profile.savepath}t_{$data.profile.savename}">
                         </a>
                     </div>
                     {/volist}
@@ -91,8 +91,8 @@ $(window).on('scroll', function() {
                 data = $.parseJSON(data);
                 $(data).each(function(index, share) {
                     var html = '<div class="photo">';
-                    html += '<a class="pjaxlink" href="__ROOT__/share/'+ share.share_id +'">';
-                    html += '<img src="__ROOT__/'+ share.savepath +'t_'+ share.savename +'">';
+                    html += '<a class="pjaxlink" href="__ROOT__/share/'+ share.profile.share_id +'">';
+                    html += '<img src="__ROOT__/'+ share.profile.savepath +'t_'+ share.profile.savename +'">';
                     html += '</a></div>';
                     $(el).find('.photos').append(html);
                 });
