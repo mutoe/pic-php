@@ -8,7 +8,7 @@ class Share extends Model {
     protected $auto = ['month','update_time'];
     protected $insert = [
         'status'        => 1,
-        'be_like'       => 0,
+        'star'          => 0,
         'click'         => 0,
         'total_comments'=> 0,
         'create_time',

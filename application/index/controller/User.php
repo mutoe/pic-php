@@ -25,7 +25,7 @@ class User extends Common {
                 $order = 'click desc';
                 break;
             case 'star':
-                $order = 'be_like desc, click desc';
+                $order = 'star desc, click desc';
                 break;
             default:
                 $order = 'create_time desc';
@@ -68,7 +68,7 @@ class User extends Common {
                 $order = 'click desc';
                 break;
             case 'star':
-                $order = 'be_like desc, click desc';
+                $order = 'star desc, click desc';
                 break;
             default:
                 $order = 'create_time desc';
