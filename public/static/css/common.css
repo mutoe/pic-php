@@ -7,6 +7,9 @@
 .am-panel .am-panel-footer {
   border-radius: 0 0 4px 4px;
 }
+.am-text-gray {
+  color: #888;
+}
 @media screen and (min-width: 1701px) {
   .am-g-fixed {
     max-width: 1600px;
