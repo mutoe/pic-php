@@ -53,65 +53,13 @@ $('#star-btn').on('click', function(event) {
 
 <hr />
 <div class="bottom-part">
-    <div class="am-g am-g-collapse">
-        <div class="am-u-sm-8">
-            <div class="am-panel am-panel-default">
-                <div class="am-panel-bd info-piece">
-<!-- info-piece start -->
-<div class="am-fl am-margin-right">
-    <img class="avatar" src=""/>
-</div>
-<div class="am-fl">
-    <a class="nickname am-text-lg am-link-muted am-padding-vertical-sm"
-        href="">{$data.user.nickname}</a>
-    <p class="property am-text-xs am-margin-top-xs am-margin-bottom-0">
-        上传至 <a href="">分类名</a> 于 4日前
-    </p>
-</div>
-<div class="am-cf"></div>
-{if condition="!empty($data.profile.detail)"}
-<div class="detail am-text-sm am-margin-top">{$data.profile.detail}</div>
-{/if}
-
-<hr />
-<div class="comments">
-    <div class="comment">
-        <a href="" title="{$data.user.nickname}" class="am-margin-right-sm am-fl">
-            <img class="avatar" src="">
-        </a>
-        <div class="meta am-text-sm">
-            <a href="" class="author">{$data.user.nickname}</a>
-            &nbsp;-&nbsp;<span class="">1 分钟前</span>说：
-        </div>
-        <div class="am-text-sm">baqi</div>
-        <div class="action-buttons">
-            <a class="reply-button" data-name="{$data.user.nickname}" title="回复"></a>
-            <a class="delete" data-url="" title="删除"></a>
-        </div>
-        <div class="am-cf"></div>
-    </div>
-</div>
-<hr />
-<div id="pin_view_add_comment">
-    <a href="" title="mutoe" class="am-margin-right-sm">
-        <img class="avatar" src="">
-    </a>
-    <textarea class="clear-input am-fr" autocomplete="off" name="caption"
-        placeholder="添加评论"></textarea>
-    <div class="am-cf"></div>
-    <button class="am-btn am-btn-xs am-btn-warning am-fr">添加评论</button>
-    <div class="am-cf"></div>
-</div>
-<!-- info-piece end -->
-                </div>
-            </div>
-        </div>
-        <div class="am-u-sm-4" style="padding-left: 1.6rem;">
+    <div class="am-g">
+        <div class="am-u-lg-4 am-u-lg-push-8 am-u-md-5 am-u-md-push-7">
             <div class="am-panel am-panel-default">
                 <div class="am-panel-hd">评分</div>
                 <div class="am-panel-bd">
                     <div class="score">
-                        <span id="score-widget" class="target am-margin-right"></span>
+                        <span id="score-widget" class="target am-margin-right-xs"></span>
                         <span id="score-hint" class="hint"></span><br>
                         <small id="score-callback">
                             {if condition="$score"}
@@ -121,6 +69,56 @@ $('#star-btn').on('click', function(event) {
                             {/if}
                         </small>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="am-u-lg-8 am-u-lg-pull-4 am-u-md-7 am-u-md-pull-5">
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-bd info-piece">
+                    <div class="am-fl am-margin-right">
+                        <img class="avatar" src=""/>
+                    </div>
+                    <div class="am-fl">
+                        <a class="nickname am-text-lg am-link-muted am-padding-vertical-sm"
+                            href="">{$data.user.nickname}</a>
+                        <p class="property am-text-xs am-margin-top-xs am-margin-bottom-0">
+                            上传至 <a href="">分类名</a> 于 4日前
+                        </p>
+                    </div>
+                    <div class="am-cf"></div>
+                    {if condition="!empty($data.profile.detail)"}
+                    <div class="detail am-text-sm am-margin-top">
+                        {$data.profile.detail}
+                    </div>
+                    {/if}
+                </div>
+            </div>
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">大家怎么说</div>
+                <div class="am-panel-bd info-piece">
+                    <div class="comments">
+                        <div class="comment">
+                            <a href="" title="{$data.user.nickname}" class="am-margin-right-sm am-fl">
+                                <img class="avatar" src="">
+                            </a>
+                            <div class="meta am-text-sm">
+                                <a href="" class="author">{$data.user.nickname}</a>
+                                &nbsp;-&nbsp;<span class="">1 分钟前</span>说：
+                            </div>
+                            <div class="am-text-sm">baqi</div>
+                            <div class="action-buttons">
+                                <a class="reply-button" data-name="{$data.user.nickname}" title="回复"></a>
+                                <a class="delete" data-url="" title="删除"></a>
+                            </div>
+                            <div class="am-cf"></div>
+                        </div>
+                    </div>
+                    <hr />
+                    <form id="pin_view_add_comment" class="am-cf">
+                        <textarea class="clear-input" style="width: 100%;" autocomplete="off" name="caption" placeholder="我也说两句" rows="2"></textarea>
+                        <small>{:auth_status('nickname')}</small>
+                        <button type="submit" class="am-btn am-btn-xs am-btn-link am-fr">添加评论</button>
+                    </form>
                 </div>
             </div>
         </div>
