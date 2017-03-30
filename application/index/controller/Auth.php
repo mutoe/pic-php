@@ -67,8 +67,7 @@ class Auth extends Common {
 
     private function oauthSignin($remember_me)
     {
-        $userAccount = model('user_account');
-        $user_id = $userAccount->where(session('oauth'))->value('user_id');
+        $user_id = model('user_oauth')->where(session('oauth'))->value('user_id');
         if (!$user_id) {
             action('Api/tylogout');
             return $this->error('授权登陆失败: 授权信息有误, 请重新授权');
@@ -122,13 +121,12 @@ class Auth extends Common {
         }
 
         // 创建 OAuth 授权数据
-        $userAccount = model('user_account');
         $auth_data = [
             'user_id'   => $user->user_id,
             'ecardno'   => session('oauth.ecardno'),
             'realname'  => session('oauth.realname'),
         ];
-        $result = $userAccount->data($auth_data)->save();
+        $result = model('user_oauth')->data($auth_data)->save();
         if (!$result) {
             return $this->error('授权数据写入出错');
         }
@@ -197,8 +195,7 @@ class Auth extends Common {
         // 获取用户认证数据
         $user = model('user');
         $result = $user->where($map)->find();
-        $userAccount = model('user_account');
-        $resultA = $userAccount->where('user_id', $result->user_id)->find();
+        $resultA = model('user_oauth')->where('user_id', $result->user_id)->find();
 
         // 登陆状态写入
         $auth = [

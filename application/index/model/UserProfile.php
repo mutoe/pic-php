@@ -3,7 +3,7 @@ namespace app\index\model;
 
 use think\Model;
 
-class UserInfo extends Model
+class UserProfile extends Model
 {
 
     /**
@@ -16,12 +16,16 @@ class UserInfo extends Model
      * share_count  mediumint   总分享数目
      * album_count  mediumint   总图集数目
      * fans_count   mediumint   粉丝数
+     * score        int         总评分
+     * score_count  mediumint   评分次数
      */
 
     protected $insert   = [
         'share_count'   => 0,
         'album_count'   => 0,
         'fans_count'    => 0,
+        'score'         => 0,
+        'score_count'   => 0,
     ];
 
     public function getIsMaleAttr($value)
