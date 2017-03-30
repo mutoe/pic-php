@@ -27,7 +27,8 @@ Route::post('index/sync_load', 'index/index/loadCateData');
 Route::resource('share',    'index/share');
 // 收藏分享
 Route::get('share/:share_id/star', 'index/share/star');
-
+// 给分享评分
+Route::post('share/:share_id/score', 'index/share/score');
 
 // 分类相关
 Route::group('cate', function() {

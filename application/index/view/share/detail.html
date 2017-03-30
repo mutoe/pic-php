@@ -108,15 +108,58 @@ $('#star-btn').on('click', function(event) {
         </div>
         <div class="am-u-sm-4" style="padding-left: 1.6rem;">
             <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">评分</div>
                 <div class="am-panel-bd">
-                    面板内容
+                    <div class="score">
+                        <span id="score-widget" class="target am-margin-right"></span>
+                        <span id="score-hint" class="hint"></span><br>
+                        <small id="score-callback">
+                            {if condition="$score"}
+                            你的评分: {$score}分! (你只可以一天评分一次)
+                            {else /}
+                            1 分也是爱, 高分作品更容易被别人看到哦 !
+                            {/if}
+                        </small>
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
 
+<script>
+(function() {
+
+var option = {
+    number: 10,
+    score: {$score ?: 'undefined'}, // TODO: 默认评分
+    readOnly: {$score ? 'true' : 'false'},
+    targetType: 'score',
+    path: '__STATIC__/i/star',
+    target: '#score-hint',
+    cancel: false,
+    size: 24,
+    space: false,
+    width: 200,
+    targetKeep: true,
+    click: function(score, evt) {
+        $.post('__ROOT__/share/{$data.share_id}/score', {score: score}, function(data) {
+            if (data.code) {
+                $('#score-callback').text('加分成功! 对方感受到了你的鼓励!');
+                option.readOnly = true;
+                option.score = score;
+                $('#score-widget').raty(option);
+            } else {
+                $('#score-callback').text(data.msg);
+            }
+        });
+    },
+};
+
+$('#score-widget').raty(option);
+
+})()
+</script>
 </div>
 </div>
 {/block}
