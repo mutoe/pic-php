@@ -51,7 +51,7 @@ class Share extends Model {
      */
     public function profile()
     {
-        return $this->hasOne('ShareProfile');
+        return $this->hasOne('ShareProfile')->setEagerlyType(0);
     }
 
     /**
