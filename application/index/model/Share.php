@@ -39,6 +39,14 @@ class Share extends Model {
     }
 
     /**
+     * 关联分类模型
+     */
+    public function cate()
+    {
+        return $this->hasOne('Cate', 'cate_id', 'cate_id');
+    }
+
+    /**
      * 关联分享档案模型
      */
     public function profile()

@@ -23,10 +23,10 @@
             <p class="detail">
                 {$data.profile.detail}
             </p>
-            <a class="author" href="#">
+            <span class="author" href="#">
                 —— {$data.user.nickname} <br />
                 {$data.profile.photo_date}
-            </a>
+            </span>
         </div>
     </div>
 </div>
@@ -75,14 +75,14 @@ $('#star-btn').on('click', function(event) {
         <div class="am-u-lg-8 am-u-lg-pull-4 am-u-md-7 am-u-md-pull-5">
             <div class="am-panel am-panel-default">
                 <div class="am-panel-bd info-piece">
-                    <div class="am-fl am-margin-right">
+                    <a class="am-fl am-margin-right" href="__ROOT__/user/{$data.user_id}">
                         <img class="avatar" src=""/>
-                    </div>
+                    </a>
                     <div class="am-fl">
-                        <a class="nickname am-text-lg am-link-muted am-padding-vertical-sm"
-                            href="">{$data.user.nickname}</a>
+                        <a class="nickname am-text-lg am-link-muted am-margin-vertical-sm"
+                            href="__ROOT__/user/{$data.user_id}">{$data.user.nickname}</a>
                         <p class="property am-text-xs am-margin-top-xs am-margin-bottom-0">
-                            上传至 <a href="">分类名</a> 于 4日前
+                            上传至 <a href="__ROOT__/cate/{$data.cate_id}">{$data.cate.cate_name}</a> 于{$data.profile.create_time|time_difference}前
                         </p>
                     </div>
                     <div class="am-fr">
@@ -108,11 +108,11 @@ $('#star-btn').on('click', function(event) {
                 <div class="am-panel-bd info-piece">
                     <div class="comments">
                         <div class="comment">
-                            <a href="" title="{$data.user.nickname}" class="am-margin-right-sm am-fl">
+                            <a href="__ROOT__/user/{$data.user_id}" title="{$data.user.nickname}" class="am-margin-right-sm am-fl">
                                 <img class="avatar" src="">
                             </a>
                             <div class="meta am-text-sm">
-                                <a href="" class="author">{$data.user.nickname}</a>
+                                <a href="__ROOT__/user/{$data.user_id}" class="author">{$data.user.nickname}</a>
                                 &nbsp;-&nbsp;<span class="">1 分钟前</span>说：
                             </div>
                             <div class="am-text-sm">baqi</div>
