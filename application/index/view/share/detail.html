@@ -73,6 +73,16 @@ $('#star-btn').on('click', function(event) {
                 </div>
             </div>
             {/if}
+            <div class="am-panel am-panel-default am-hide-sm-only user-share">
+                <div class="am-panel-hd">作者的其他作品</div>
+                <div class="am-panel-bd am-padding-bottom-xs">
+                    <ul class="am-avg-md-2 am-thumbnails">
+                        {volist name="user_share" id="vo"}
+                        <li><a class="thumb" href="__ROOT__/share/{$vo.share_id}" style="background-image: url(__ROOT__/{$vo.profile.savepath}t_{$vo.profile.savename})"></a></li>
+                        {/volist}
+                    </ul>
+                </div>
+            </div>
         </div>
         <div class="am-u-lg-8 am-u-lg-pull-4 am-u-md-7 am-u-md-pull-5">
             <div class="am-panel am-panel-default">

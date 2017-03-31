@@ -12,8 +12,15 @@ class Share extends Common {
         $data = $share->getShare($id);
         $this->assign('data', $data);
 
+        // 该用户其他热门分享
+        $user_share = $share->where('user_id', $data->user_id)
+            ->order('score desc')->limit(4)->select();
+        $this->assign('user_share', $user_share);
+
+        // 浏览量自增 (延时 60s)
         $share->where('share_id', $id)->setInc('click', 1, 60);
 
+        // 获取当前评分
         $score = $this->checkScored($id);
         $this->assign('score', $score);
 
