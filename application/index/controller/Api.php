@@ -12,8 +12,8 @@ class Api extends Controller {
     public function tylogin() {
 
         $url = 'https://weixin.cqjtu.edu.cn/authorize?';
-        $data['client_id'] = config('prod.tyconnect.client_id');
-        $data['redirect_uri'] = config('prod.tyconnect.redirect_uri');
+        $data['client_id'] = config('prod.tyconnect')['client_id'];
+        $data['redirect_uri'] = config('prod.tyconnect')['redirect_uri'];
         $data['response_type'] = 'code';
         $data['scope'] = 'basic';
         $url .= http_build_query($data);
@@ -32,9 +32,9 @@ class Api extends Controller {
 
         // 拼装回调请求
         $url = 'https://weixin.cqjtu.edu.cn/access_token';
-        $data['client_id'] = config('prod.tyconnect.client_id');
-        $data['client_secret'] = config('prod.tyconnect.client_secret');
-        $data['redirect_uri'] = config('prod.tyconnect.redirect_uri');
+        $data['client_id'] = config('prod.tyconnect')['client_id'];
+        $data['client_secret'] = config('prod.tyconnect')['client_secret'];
+        $data['redirect_uri'] = config('prod.tyconnect')['redirect_uri'];
         $data['grant_type'] = 'authorization_code';
         $data['code'] = $code;
 
