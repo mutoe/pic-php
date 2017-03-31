@@ -8,11 +8,12 @@
 *.sublime-workspace
 
 # 运行时目录
-runtime/
+/runtime/
 
 # 生产环境配置
-application/database.php
-application/extra/*
+/application/database.php
+/application/extra/*
+!/application/extra/*.example
 
 # 用户上传目录
 /public/uploads
