@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2016 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2017 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -102,7 +102,6 @@ class Bootstrap extends Paginator
         return $html;
     }
 
-
     /**
      * 渲染分页html
      * @return mixed
@@ -112,13 +111,13 @@ class Bootstrap extends Paginator
         if ($this->hasPages()) {
             if ($this->simple) {
                 return sprintf(
-                    '<ul class="am-pagination am-pagination-centered">%s %s</ul>',
+                    '<ul class="pager">%s %s</ul>',
                     $this->getPreviousButton(),
                     $this->getNextButton()
                 );
             } else {
                 return sprintf(
-                    '<ul class="am-pagination am-pagination-centered">%s %s %s</ul>',
+                    '<ul class="pagination">%s %s %s</ul>',
                     $this->getPreviousButton(),
                     $this->getLinks(),
                     $this->getNextButton()
@@ -126,7 +125,6 @@ class Bootstrap extends Paginator
             }
         }
     }
-
 
     /**
      * 生成一个可点击的按钮
@@ -148,7 +146,7 @@ class Bootstrap extends Paginator
      */
     protected function getDisabledTextWrapper($text)
     {
-        return '<li class="am-disabled"><span>' . $text . '</span></li>';
+        return '<li class="disabled"><span>' . $text . '</span></li>';
     }
 
     /**
@@ -159,7 +157,7 @@ class Bootstrap extends Paginator
      */
     protected function getActivePageWrapper($text)
     {
-        return '<li class="am-active"><span>' . $text . '</span></li>';
+        return '<li class="active"><span>' . $text . '</span></li>';
     }
 
     /**
