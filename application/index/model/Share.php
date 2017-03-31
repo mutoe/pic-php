@@ -5,48 +5,61 @@ use think\Model;
 
 class Share extends Model {
 
-    protected $auto = ['month','update_time'];
+    /**
+     * 用户表
+     *
+     * share_id         int
+     * user_id          int         用户id
+     * cate_id          tinyint     分类id
+     * star             mediumint   获赞数
+     * click            mediumint   浏览量
+     * comments_count   mediumint   评论数
+     * score            int         评分
+     * score_count      mediumint   评分次数
+     * status           tinyint     状态
+     */
+
     protected $insert = [
         'status'        => 1,
-        'be_like'       => 0,
-        'click'         => 0,
-        'total_comments'=> 0,
-        'create_time',
         'user_id',
+        'star'          => 0,
+        'click'         => 0,
+        'comments_count'=> 0,
+        'score'         => 0,
+        'score_count'   => 0,
     ];
     protected $update = [];
 
     /**
      * 关联用户模型
      */
-    public function profile()
+    public function user()
     {
         return $this->hasOne('User', 'user_id', 'user_id')->field('nickname');
     }
 
     /**
+     * 关联分类模型
+     */
+    public function cate()
+    {
+        return $this->hasOne('Cate', 'cate_id', 'cate_id');
+    }
+
+    /**
+     * 关联分享档案模型
+     */
+    public function profile()
+    {
+        return $this->hasOne('ShareProfile');
+    }
+
+    /**
      * 修改器
      */
-
     protected function setUserIdAttr()
     {
         return auth_status('user_id');
-    }
-
-    protected function setCreateTimeAttr()
-    {
-        return time();
-    }
-
-    protected function setUpdateTimeAttr()
-    {
-        return time();
-    }
-
-    protected function setMonthAttr($value, $data)
-    {
-        $month = explode('-', $data['photo_date']);
-        return $month[0].$month[1];
     }
 
     /**
@@ -81,7 +94,7 @@ class Share extends Model {
             'cate_id' => $category,
             'status' => ['>=', 1],
         ];
-        $data = Share::where($filter)->limit($limit)->order($order)->select();
+        $data = Share::with('profile')->where($filter)->limit($limit)->order($order)->select();
         return $data;
     }
 
@@ -91,5 +104,30 @@ class Share extends Model {
     public function getTopit($share_id = 0) {
         return $this -> where(['share_id' => $share_id]) -> find();
     }
+
+    /**
+     * 数据转换
+     * @author 杨栋森 mutoe@foxmail.com at 2017-03-30
+     */
+    /*
+    public function migration()
+    {
+        if (!config('app_debug')) {
+            throw new Exception("非法请求 !", 1);
+        }
+        if ($this->profile) {
+            return true;
+        }
+        $data['click']          = $this->click;
+        $data['star']           = $this->star;
+        $data['comments_count'] = $this->total_comments;
+
+        $result = $this->profile()->save($data);
+        if (!$result) {
+            return $this->error($this->getError());
+        }
+        return $result;
+    }
+    */
 
 }

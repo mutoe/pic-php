@@ -88,3 +88,50 @@ function http($url, $post = '', $cookie = '', $returnCookie = 0)
         return $data;
     }
 }
+
+
+// 数组转化为对象
+function arr2obj($array) {
+    if (is_array($array)) {
+        $obj = new StdClass();
+        foreach ($array as $key => $val){
+            $obj->$key = $val;
+        }
+    } else {
+        $obj = $array;
+    }
+    return $obj;
+}
+
+// 数组转化为对象
+function obj2arr($object) {
+    if (is_object($object)) {
+        foreach ($object as $key => $value) {
+            $array[$key] = $value;
+        }
+    } else {
+        $array = $object;
+    }
+    return $array;
+}
+
+/**
+ * 计算时间戳与现在时间差
+ * @author 杨栋森 mutoe@foxmail.com at 2017-03-31
+ *
+ * @param  integer $stamp 带计算的时间
+ * @param  string  $trim  数字前后分隔符 默认一个半角空格
+ * @return string         计算后的时间差
+ */
+function time_difference($stamp = 0, $trim = ' ') {
+    $now_time = time();
+    $timing = $now_time - $stamp;
+
+    if($timing < 60) $result = $timing.$trim.'秒';
+    elseif($timing < 60 *60) $result = (int)($timing / 60).$trim.'分钟';
+    elseif($timing < 3600 *24) $result = (int)($timing / 3600).$trim.'小时';
+    elseif($timing < 86400 *30) $result = (int)($timing / 86400).$trim.'天';
+    elseif($timing < 2592000 *12) $result = (int)($timing / 2592000).$trim.'个月';
+    else $result = (int)($timing / (365*86400) ).$trim.'年';
+    return $trim.$result;
+}

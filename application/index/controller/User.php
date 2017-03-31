@@ -25,7 +25,7 @@ class User extends Common {
                 $order = 'click desc';
                 break;
             case 'star':
-                $order = 'be_like desc, click desc';
+                $order = 'star desc, click desc';
                 break;
             default:
                 $order = 'create_time desc';
@@ -35,7 +35,7 @@ class User extends Common {
         $map['user_id'] = $user_id;
         $map['status'] = ['in', '1, 2, -1'];
         // 分享 获取数据
-        $share_data = model('Share')->where($map)->order($order)->paginate(24);
+        $share_data = model('Share')->with('profile')->where($map)->order($order)->paginate(24);
         $share_count = model('Share')->where($map)->count();
         $this->assign('share_data', $share_data);
         $this->assign('share_count', $share_count);
@@ -68,7 +68,7 @@ class User extends Common {
                 $order = 'click desc';
                 break;
             case 'star':
-                $order = 'be_like desc, click desc';
+                $order = 'star desc, click desc';
                 break;
             default:
                 $order = 'create_time desc';
@@ -78,7 +78,7 @@ class User extends Common {
         $map['user_id'] = $id;
         $map['status'] = ['in', '1, 2, -1'];
         // 分享 获取数据
-        $share_data = model('Share')->where($map)->order($order)->paginate(24);
+        $share_data = model('Share')->with('profile')->where($map)->order($order)->paginate(24);
         $share_count = model('Share')->where($map)->count();
         $this->assign('share_data', $share_data);
         $this->assign('share_count', $share_count);

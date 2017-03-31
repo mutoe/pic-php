@@ -197,3 +197,20 @@ title-bar-height = 64px
 // 验证码
 #captcha-img
     cursor: pointer;
+
+
+@keyframes flash
+    from, 50%, to
+        opacity: 1;
+
+    25%, 75%
+        opacity 0
+
+.flash
+    animation-name flash
+
+.animated
+    animation-duration 1s
+    animation-fill-mode both
+    &.slowly
+        animation-duration 1.6s

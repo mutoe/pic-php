@@ -32,7 +32,7 @@ class User extends Model
      */
     public function profile()
     {
-        return $this->hasOne('UserInfo');
+        return $this->hasOne('UserProfile');
     }
 
     /**

@@ -46,19 +46,20 @@
                     <!-- TODO: 向下弹出横条 按分类 标签过滤图片 -->
                 </div>
                 <div class="am-panel-bd">
+                    {if condition="count($share_data) > 0"}
                     <ul class="am-avg-lg-4 am-avg-md-3 am-avg-sm-2 am-thumbnails shares">
                         {volist name="share_data" id="s"}
                         <li class="s-box">
-                            <a class="image" href="__ROOT__/share/{$s.share_id}" style="background-image: url(__ROOT__/{$s.savepath}t_{$s.savename})">
-                                {if condition="$s.detail != ''"}
-                                <p class="am-text-truncate detail">{$s.detail}</p>
+                            <a class="image" href="__ROOT__/share/{$s.share_id}" style="background-image: url(__ROOT__/{$s.profile.savepath}t_{$s.profile.savename})">
+                                {if condition="$s.profile.detail != ''"}
+                                <p class="am-text-truncate detail">{$s.profile.detail}</p>
                                 {/if}
                             </a>
                             <div class="am-g am-g-collapse am-text-xs am-padding-xs">
                                 <div class="am-u-sm-6">总分: {$s.score|default=""}</div>
                                 <div class="am-u-sm-6">评价: {$s.score_count|default=""}</div>
                                 <div class="am-u-sm-6">浏览: {$s.click}</div>
-                                <div class="am-u-sm-6">被赞: {$s.be_like}</div>
+                                <div class="am-u-sm-6">被赞: {$s.star}</div>
                                 {if condition="$myself"}
                                 <div class="am-u-sm-12 am-padding-top-xs">
                                     <a class="am-btn am-badge am-badge-secondary am-radius am-btn-xs" href="__ROOT__/share/{$s.share_id}/edit"><i class="am-icon am-icon-edit"></i> 编辑</a>
@@ -68,6 +69,9 @@
                         </li>
                         {/volist}
                     </ul>
+                    {else /}
+                    <h3 class="am-text-center am-margin-xl am-text-gray">没有分享任何内容哦 !</h3>
+                    {/if}
                 </div>
                 {if condition="$share_data->render()"}
                 <div class="am-panel-footer">

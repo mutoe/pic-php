@@ -74,7 +74,6 @@
   color: #444;
   background-color: #fafafa;
   padding: 15px;
-  margin-bottom: 20px;
   word-wrap: break-word;
 }
 .share-detail .bottom-part .info-piece hr {
@@ -82,12 +81,22 @@
   margin-right: -12px;
   color: #ededed;
 }
+.share-detail .bottom-part .score .hint {
+  font-size: 1.6rem;
+  font-family: 'Georgia', '微软雅黑';
+}
+.share-detail .bottom-part .user-share .thumb {
+  display: block;
+  width: 100%;
+  height: 100px;
+  background: transparent center no-repeat;
+  background-size: cover;
+}
 .share-detail .bottom-part .comments .comment .meta {
   margin: 0 0 8px 72px;
 }
 .share-detail .bottom-part #pin_view_add_comment textarea {
   width: 568px;
-  height: 60px;
   min-height: 60px;
   resize: vertical;
   margin-bottom: 10px;
@@ -204,4 +213,61 @@
 .photos {
   font-size: 0px;
   min-height: 400px;
+}
+.heart-container {
+  clear: both;
+  margin-bottom: 20px;
+  height: 150px;
+}
+.heart-container p {
+  font-family: "Microsoft YaHei", 'Georgia', Times, Times New Roman, serif;
+  font-size: 25px;
+}
+.heart {
+  width: 80px;
+  height: 80px;
+  background: url("../i/web_heart_animation.png") no-repeat left center;
+  background-size: cover;
+  cursor: pointer;
+}
+.heart:hover,
+.heart:focus {
+  background-position: right;
+}
+.heartAnimation {
+  display: inline-block;
+  background-position: right;
+  animation: heartBlast 0.8s steps(28);
+}
+@-moz-keyframes heartBlast {
+  0% {
+    background-position: left;
+  }
+  100% {
+    background-position: right;
+  }
+}
+@-webkit-keyframes heartBlast {
+  0% {
+    background-position: left;
+  }
+  100% {
+    background-position: right;
+  }
+}
+@-o-keyframes heartBlast {
+  0% {
+    background-position: left;
+  }
+  100% {
+    background-position: right;
+  }
+}
+@keyframes heartBlast {
+  0% {
+    background-position: left;
+  }
+  100% {
+    background-position: right;
+  }
 }

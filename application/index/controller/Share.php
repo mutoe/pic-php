@@ -10,9 +10,21 @@ class Share extends Common {
         $share = model('Share');
 
         $data = $share->getShare($id);
+        $this->assign('data', $data);
+
+        // 该用户其他热门分享
+        $user_share = $share->where('user_id', $data->user_id)
+            ->order('score desc')->limit(4)->select();
+        $this->assign('user_share', $user_share);
+
+        // 浏览量自增 (延时 60s)
         $share->where('share_id', $id)->setInc('click', 1, 60);
 
-        return view('detail', ['data' => $data]);
+        // 获取当前评分
+        $score = $this->checkScored($id);
+        $this->assign('score', $score);
+
+        return view('detail');
     }
 
     public function create()
@@ -107,6 +119,99 @@ class Share extends Common {
             $result[$value['cate_id']] = $count;
         }
         Cache::set('cate_click_list', $result);
+    }
+
+    /**
+     * 收藏
+     * TODO: 实现方法 将作品加入到 'xx的收藏' 相册 这是一个特殊的相册
+     * @author 杨栋森 mutoe@foxmail.com at 2017-03-30
+     *
+     * @param  [type] $share_id [description]
+     * @return [type]           [description]
+     */
+    public function star($share_id)
+    {
+        return $this->error('stared');
+    }
+
+    /**
+     * 作品评分
+     * 每个用户对每个作品每天能评分一次, 评分后刷新页面会显示今天的评分
+     * @author 杨栋森 mutoe@foxmail.com at 2017-03-31
+     */
+    public function score($share_id)
+    {
+        // 过滤数据
+        $score = floor(input('post.score'));
+        if ($score > 10 || $score <= 0) {
+            return $this->error('非法请求');
+        }
+        $share = model('Share');
+        $result = $share->where('status>0')->find($share_id);
+        if (!$result) {
+            return $this->error('非法请求!');
+        }
+        if ($result->user_id == auth_status('user_id')) {
+            return $this->error('你不能给自己的分享评分 !');
+        }
+
+        // 数据操作
+        $share_score = model('ShareScore');
+        $user_id = auth_status('user_id');
+        $find = $share_score->find($user_id);
+        $date = date('ymd', time());
+
+        if (!$find) {
+            // 创建新纪录
+            $data = [];
+            $share_score->post_date = $date;
+            $post_date = $date;
+        } else {
+            // 分析投票记录
+            $data = obj2arr(json_decode($find->data));
+            if ($find->post_date == $date) {
+                // 当天存在投票记录
+                if (isset($data[$share_id])) {
+                    $msg = "你的评分: ".$data[$share_id]."分! (你只可以一天评分一次)";
+                    return $this->error($msg);
+                }
+            } else {
+                // 如果不是今天则刷新数据
+                $data = [];
+                $share_score->post_date = $date;
+            }
+        }
+
+        // 更新评分 TODO: 升级 tp5.0.5后 优化自增
+        $share->where('share_id', $share_id)->setInc('score_count');
+        $share->where('share_id', $share_id)->setInc('score', $score);
+
+        // 保存数据
+        $data[$share_id] = $score;
+        $share_score->data = json_encode($data);
+        $share_score->user_id = $user_id;
+        $result = $share_score->isUpdate($find)->save();
+
+        return $this->success();
+    }
+
+    /**
+     * 检查当前登陆用户是否对某作品已经评分
+     * @author 杨栋森 mutoe@foxmail.com at 2017-03-31
+     *
+     * @param  $share_id
+     * @return 返回评分或 false
+     */
+    private function checkScored($share_id)
+    {
+        // 查询评分数据
+        $user_id = auth_status('user_id');
+        $find = model('ShareScore')->find($user_id);
+        if (!$find) return false;
+
+        // 解析数据
+        $data = obj2arr(json_decode($find->data));
+        return isset($data[$share_id]) ? $data[$share_id] : false;
     }
 
 }

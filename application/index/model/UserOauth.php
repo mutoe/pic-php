@@ -3,7 +3,7 @@ namespace app\index\model;
 
 use think\Model;
 
-class UserAccount extends Model
+class UserOauth extends Model
 {
 
     /**
