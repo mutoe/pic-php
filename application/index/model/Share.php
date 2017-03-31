@@ -55,6 +55,14 @@ class Share extends Model {
     }
 
     /**
+     * 关联一对多评论模型
+     */
+    public function comments()
+    {
+        return $this->hasMany('Comment');
+    }
+
+    /**
      * 修改器
      */
     protected function setUserIdAttr()

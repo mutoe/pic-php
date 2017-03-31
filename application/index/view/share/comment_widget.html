@@ -1,0 +1,60 @@
+
+<div class="am-panel am-panel-default comment-widget">
+    <div class="am-panel-hd">大家怎么说</div>
+    <div class="am-panel-bd info-piece am-padding-top-0">
+
+        <!-- 评论显示区 -->
+        <div class="comments">
+            {if condition="$comments"}
+            {volist name="$comments" id="comm"}
+            <div class="comment">
+                <a href="__ROOT__/user/{$data.user_id}" title="{$data.user.nickname}" class="am-margin-right-sm am-fl">
+                    <img class="avatar" src="">
+                </a>
+                <div class="comment-detail">
+                    <div class="meta am-text-sm">
+                        <a href="__ROOT__/user/{$data.user_id}" class="author">{$data.user.nickname}</a>
+                        &nbsp;-&nbsp;<span class="">1 分钟前</span>说：
+                    </div>
+                    <div class="am-text-sm">baqi</div>
+                    <div class="action-buttons">
+                        <a class="reply-button" data-name="{$data.user.nickname}" title="回复"></a>
+                        <a class="delete" data-url="" title="删除"></a>
+                    </div>
+                </div>
+            </div>
+            {/volist}
+            {else /}
+            <div class="no-comment">
+                <h3 class="am-margin-0">还没有评论</h3>
+            </div>
+            {/if}
+        </div>
+
+        <hr class="am-margin-top-0" />
+
+        <!-- 评论发表组件 -->
+        <form class="comment-edit">
+            <div class="avatar" title="{$data.user.nickname}"
+                style="background-image: url()"></div>
+            <div class="comment_right">
+                <textarea class="am-radius" autocomplete="off" name="detail"
+                    placeholder="我说两句"></textarea>
+                <small>{:auth_status('nickname')} 请勿人身攻击 遵守评论礼仪</small>
+                <button type="submit" class="am-btn am-btn-xs am-btn-link am-fr">添加评论</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+$('form.comment-edit').on('submit', function(event) {
+    var detail = $(this).find('textarea[name="detail"]').val();
+    $.post('/share/{$data.share_id}/comment', {detail: detail}, function(data) {
+        console.log(data);
+    });
+    return false;
+});
+
+</script>

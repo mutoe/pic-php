@@ -30,6 +30,13 @@ Route::get('share/:share_id/star', 'index/share/star');
 // 给分享评分
 Route::post('share/:share_id/score', 'index/share/score');
 
+
+// 评论相关
+Route::resource('share.comment', 'index/comment', [
+    'only' => ['save', 'delete'],
+]);
+
+
 // 分类相关
 Route::group('cate', function() {
     Route::get(':cate_id',  'index/cate/read');

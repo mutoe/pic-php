@@ -115,34 +115,9 @@ $('#star-btn').on('click', function(event) {
                     {/if}
                 </div>
             </div>
-            <div class="am-panel am-panel-default">
-                <div class="am-panel-hd">大家怎么说</div>
-                <div class="am-panel-bd info-piece">
-                    <div class="comments">
-                        <div class="comment">
-                            <a href="__ROOT__/user/{$data.user_id}" title="{$data.user.nickname}" class="am-margin-right-sm am-fl">
-                                <img class="avatar" src="">
-                            </a>
-                            <div class="meta am-text-sm">
-                                <a href="__ROOT__/user/{$data.user_id}" class="author">{$data.user.nickname}</a>
-                                &nbsp;-&nbsp;<span class="">1 分钟前</span>说：
-                            </div>
-                            <div class="am-text-sm">baqi</div>
-                            <div class="action-buttons">
-                                <a class="reply-button" data-name="{$data.user.nickname}" title="回复"></a>
-                                <a class="delete" data-url="" title="删除"></a>
-                            </div>
-                            <div class="am-cf"></div>
-                        </div>
-                    </div>
-                    <hr />
-                    <form id="pin_view_add_comment" class="am-cf">
-                        <textarea class="clear-input" style="width: 100%;" autocomplete="off" name="caption" placeholder="我也说两句" rows="2"></textarea>
-                        <small>{:auth_status('nickname')}</small>
-                        <button type="submit" class="am-btn am-btn-xs am-btn-link am-fr">添加评论</button>
-                    </form>
-                </div>
-            </div>
+
+            {include file="share:comment_widget" /}
+
         </div>
     </div>
 </div>

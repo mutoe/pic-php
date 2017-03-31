@@ -24,6 +24,12 @@ class Share extends Common {
         $score = $this->checkScored($id);
         $this->assign('score', $score);
 
+        // 获取评论
+        $comments = $share->find($id)->comments()
+            ->where('share_id', $id)->select();
+        //halt($comments);
+        $this->assign('comments', $comments);
+
         return view('detail');
     }
 
