@@ -194,8 +194,12 @@ class Share extends Common {
      */
     private function checkScored($share_id)
     {
+        // 查询评分数据
         $user_id = auth_status('user_id');
         $find = model('ShareScore')->find($user_id);
+        if (!$find) return false;
+
+        // 解析数据
         $data = obj2arr(json_decode($find->data));
         return isset($data[$share_id]) ? $data[$share_id] : false;
     }
