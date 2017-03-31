@@ -249,3 +249,45 @@ input[type="number"] {
 #captcha-img {
   cursor: pointer;
 }
+.flash {
+  animation-name: flash;
+}
+.animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+.animated.slowly {
+  animation-duration: 1.6s;
+}
+@-moz-keyframes flash {
+  from, 50%, to {
+    opacity: 1;
+  }
+  25%, 75% {
+    opacity: 0;
+  }
+}
+@-webkit-keyframes flash {
+  from, 50%, to {
+    opacity: 1;
+  }
+  25%, 75% {
+    opacity: 0;
+  }
+}
+@-o-keyframes flash {
+  from, 50%, to {
+    opacity: 1;
+  }
+  25%, 75% {
+    opacity: 0;
+  }
+}
+@keyframes flash {
+  from, 50%, to {
+    opacity: 1;
+  }
+  25%, 75% {
+    opacity: 0;
+  }
+}

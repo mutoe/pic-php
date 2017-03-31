@@ -85,6 +85,16 @@ $('#star-btn').on('click', function(event) {
                             上传至 <a href="">分类名</a> 于 4日前
                         </p>
                     </div>
+                    <div class="am-fr">
+                        <p class="am-text-gray am-margin-top-0 am-text-xs">
+                            {if condition="$data.user_id == auth_status('user_id')"}
+                            被收藏: <span class="am-margin-right-xs">{$data.star}</span>
+                            {/if}
+                            浏览量: <span class="am-margin-right-xs">{$data.click}</span>
+                            评分次数: <span id="score_count" class="am-margin-right-xs">{$data.score_count}</span>
+                            得分: <span id="share_score">{$data.score}</span>
+                        </p>
+                    </div>
                     <div class="am-cf"></div>
                     {if condition="!empty($data.profile.detail)"}
                     <div class="detail am-text-sm am-margin-top">
@@ -147,6 +157,11 @@ var option = {
                 option.readOnly = true;
                 option.score = score;
                 $('#score-widget').raty(option);
+                $('#score_count, #share_score').addClass('animated flash');
+                setTimeout(function() {
+                    document.getElementById('score_count').innerHTML++;
+                    document.getElementById('share_score').innerHTML -= -score;
+                }, 1000);
             } else {
                 $('#score-callback').text(data.msg);
             }
