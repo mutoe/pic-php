@@ -13,7 +13,7 @@
 # 生产环境配置
 /application/database.php
 /application/extra/*
-!/application/extra/*.example
+!/application/extra/*.demo.php
 
 # 用户上传目录
 /public/uploads
