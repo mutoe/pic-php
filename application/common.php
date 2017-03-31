@@ -12,7 +12,7 @@ use app\index\model\User;
  */
 function password($value)
 {
-    $value .= config('database.prefix') . config('app_salt');
+    $value .= config('database.prefix') . config('prod.app_salt');
     return md5($value);
 }
 
