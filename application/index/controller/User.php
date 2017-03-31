@@ -62,7 +62,7 @@ class User extends Common {
         $order = input('order');
         switch ($order) {
             case 'new':
-                $order = 'create_time desc';
+                $order = 'share_id desc';
                 break;
             case 'click':
                 $order = 'click desc';
@@ -71,7 +71,7 @@ class User extends Common {
                 $order = 'star desc, click desc';
                 break;
             default:
-                $order = 'create_time desc';
+                $order = 'share_id desc';
                 break;
         }
         // 分享 过滤
