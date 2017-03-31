@@ -209,6 +209,9 @@ class Share extends Common {
         $find = model('ShareScore')->find($user_id);
         if (!$find) return false;
 
+        // 如果不是当天的数据
+        if ($find->post_date != date('ymd', time())) return false;
+
         // 解析数据
         $data = obj2arr(json_decode($find->data));
         return isset($data[$share_id]) ? $data[$share_id] : false;
