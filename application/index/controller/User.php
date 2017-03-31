@@ -62,7 +62,7 @@ class User extends Common {
         $order = input('order');
         switch ($order) {
             case 'new':
-                $order = 'share_id desc';
+                $order = 'create_time desc';
                 break;
             case 'click':
                 $order = 'click desc';
@@ -71,14 +71,14 @@ class User extends Common {
                 $order = 'star desc, click desc';
                 break;
             default:
-                $order = 'share_id desc';
+                $order = 'create_time desc';
                 break;
         }
         // 分享 过滤
         $map['user_id'] = $id;
         $map['status'] = ['in', '1, 2, -1'];
         // 分享 获取数据
-        $share_data = model('Share')->where($map)->order($order)->paginate(24);
+        $share_data = model('Share')->with('profile')->where($map)->order($order)->paginate(24);
         $share_count = model('Share')->where($map)->count();
         $this->assign('share_data', $share_data);
         $this->assign('share_count', $share_count);
