@@ -55,6 +55,7 @@ $('#star-btn').on('click', function(event) {
 <div class="bottom-part">
     <div class="am-g">
         <div class="am-u-lg-4 am-u-lg-push-8 am-u-md-5 am-u-md-push-7">
+            {if condition="$data.user_id != auth_status('user_id')"}
             <div class="am-panel am-panel-default">
                 <div class="am-panel-hd">评分</div>
                 <div class="am-panel-bd">
@@ -71,6 +72,7 @@ $('#star-btn').on('click', function(event) {
                     </div>
                 </div>
             </div>
+            {/if}
         </div>
         <div class="am-u-lg-8 am-u-lg-pull-4 am-u-md-7 am-u-md-pull-5">
             <div class="am-panel am-panel-default">

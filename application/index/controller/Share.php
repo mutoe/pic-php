@@ -144,6 +144,9 @@ class Share extends Common {
         if (!$result) {
             return $this->error('非法请求!');
         }
+        if ($result->user_id == auth_status('user_id')) {
+            return $this->error('你不能给自己的分享评分 !');
+        }
 
         // 数据操作
         $share_score = model('ShareScore');
