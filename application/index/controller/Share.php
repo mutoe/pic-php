@@ -182,9 +182,9 @@ class Share extends Common {
             }
         }
 
-        // 更新评分 TODO: 升级 tp5.0.5后 优化自增
-        $share->where('share_id', $share_id)->setInc('score_count');
-        $share->where('share_id', $share_id)->setInc('score', $score);
+        // 更新评分
+        $share->where('share_id', $share_id)
+            ->inc('score_count')->inc('score', $score)->update();
 
         // 保存数据
         $data[$share_id] = $score;
