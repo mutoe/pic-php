@@ -13,11 +13,14 @@ class Comment extends Model {
      * user_id          int         用户id
      * detail           varchar     评论内容
      * create_time      bigint      评论时间
+     * update_time      bigint      修改时间
      * star             mediumint   获赞数
      * status           tinyint     状态
      */
 
-    protected $insert = ['create_time', 'star' => 0, 'status' => 1];
+    protected $autoWriteTimestamp = true;
+
+    protected $insert = ['star' => 0, 'status' => 1];
 
     /**
      * 关联用户模型

@@ -48,12 +48,18 @@
 </div>
 
 <script type="text/javascript">
-$('form.comment-edit').on('submit', function(event) {
-    var detail = $(this).find('textarea[name="detail"]').val();
-    $.post('/share/{$data.share_id}/comment', {detail: detail}, function(data) {
-        console.log(data);
+(function() {
+    $('form.comment-edit').on('submit', function(event) {
+        var detail = $(this).find('textarea[name="detail"]').val();
+        $.post('/share/{$data.share_id}/comment', $(this).serialize(), function(data) {
+            if (data.code) {
+                console.log('success');
+            } else {
+                console.log(data.msg);
+            }
+        });
+        return false;
     });
-    return false;
-});
+})();
 
 </script>
