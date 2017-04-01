@@ -2,6 +2,7 @@
 namespace app\index\model;
 
 use think\Model;
+use traits\model\SoftDelete;
 
 class Comment extends Model {
 
@@ -14,10 +15,14 @@ class Comment extends Model {
      * detail           varchar     评论内容
      * create_time      bigint      评论时间
      * update_time      bigint      修改时间
+     * delete_time      bigint      删除时间
      * star             mediumint   获赞数
      * status           tinyint     状态
      */
 
+    // 软删除
+    use SoftDelete;
+    protected $deleteTime = 'delete_time';
     protected $autoWriteTimestamp = true;
 
     protected $insert = ['star' => 0, 'status' => 1];

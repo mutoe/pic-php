@@ -43,4 +43,29 @@ class Comment extends Common
         return $this->success();
     }
 
+    /**
+     * 删除评论
+     * @author 杨栋森 mutoe@foxmail.com at 2017-04-01
+     */
+    public function delete($id, $share_id)
+    {
+        $find = model('Comment')->find($id);
+        if (!$find) {
+            return $this->error('非法请求');
+        }
+
+        // TODO: 权限检查
+        if ($find->user_id != auth_status('user_id')) {
+            return $this->error('非法请求');
+        }
+
+        // 软删除
+        $result = $find->delete();
+        if (!$result) {
+            return $this->error('删除失败');
+        }
+
+        return $this->success('success');
+    }
+
 }

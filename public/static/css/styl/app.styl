@@ -107,6 +107,19 @@ avatar-small-size = 60px
             &:last-child
                 border-bottom 0
 
+            .comment-head
+                .action-buttons
+                    .btn
+                        margin-top -6px
+                        cursor pointer
+                        visibility hidden
+                        &.delete
+                            color #bbb
+
+            &:hover
+                .btn
+                    visibility visible !important
+
             .comment-body
                 margin-top 4px
                 .detail

@@ -101,6 +101,17 @@
 .comment-widget .comments .comment:last-child {
   border-bottom: 0;
 }
+.comment-widget .comments .comment .comment-head .action-buttons .btn {
+  margin-top: -6px;
+  cursor: pointer;
+  visibility: hidden;
+}
+.comment-widget .comments .comment .comment-head .action-buttons .btn.delete {
+  color: #bbb;
+}
+.comment-widget .comments .comment:hover .btn {
+  visibility: visible !important;
+}
 .comment-widget .comments .comment .comment-body {
   margin-top: 4px;
 }

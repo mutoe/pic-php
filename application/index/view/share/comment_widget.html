@@ -16,6 +16,18 @@
                         <span class="am-text-gray am-text-xs">
                             {$comm.create_time|time_difference}前说：
                         </span>
+                        <div class="action-buttons am-margin-right-xs am-fr">
+                            {if condition="$comm.user_id == auth_status('user_id')"}
+                            <div class="am-padding-xs delete btn" data-id="{$comm.comment_id}">
+                                <i class="am-icon am-icon-xs am-icon-remove" title="删除该评论"></i>
+                            </div>
+                            {/if}
+                            <!-- TODO: 楼中楼回复
+                            <a class="reply-button" data-uid="{$comm.user_id}" title="回复">
+                                <i class="am-icon am-icon-sm am-icon-reply"></i>
+                            </a>
+                            -->
+                        </div>
                     </div>
                     <div class="comment-body">
                         <p class="detail">{$comm.detail}</p>
@@ -60,6 +72,20 @@
         });
         return false;
     });
+
+    $('.btn.delete').on('click', function(event) {
+        var $el = $(this);
+        var comment_id = $el.data('id');
+        $.ajax({ url: '/share/{$data.share_id}/comment/' + comment_id, type: 'DELETE'})
+        .done(function(data) {
+            console.log(data);
+        })
+        .fail(function(data) {
+            console.log(data);
+            if (data.readyState) {document.write(data.responseText)}
+        });
+    });
+
 })();
 
 </script>
