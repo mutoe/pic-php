@@ -124,6 +124,15 @@ function obj2arr($object) {
  * @return string         计算后的时间差
  */
 function time_difference($stamp = 0, $trim = ' ') {
+
+    // 字符串类型时间转化为时间戳
+    if (!is_numeric($stamp)) $stamp = strtotime($stamp);
+
+    // 空字符串检查
+    if ($stamp == 0) {
+        return '未知时间';
+    }
+
     $now_time = time();
     $timing = $now_time - $stamp;
 
@@ -133,5 +142,6 @@ function time_difference($stamp = 0, $trim = ' ') {
     elseif($timing < 86400 *30) $result = (int)($timing / 86400).$trim.'天';
     elseif($timing < 2592000 *12) $result = (int)($timing / 2592000).$trim.'个月';
     else $result = (int)($timing / (365*86400) ).$trim.'年';
+
     return $trim.$result;
 }

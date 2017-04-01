@@ -19,7 +19,7 @@ function amalert(msg) {
  */
 function footer_replace() {
     var $prev = $('.footer').prev();
-    var realHeight = $prev.offset().top + $prev.height() + $('.footer').height();
+    var realHeight = $prev.offset().top + $prev.outerHeight() + $('.footer').outerHeight();
     if (realHeight < $(window).height()) {
         $('.footer').css('position', 'fixed');
     } else {

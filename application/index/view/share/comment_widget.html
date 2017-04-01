@@ -1,0 +1,115 @@
+
+<div class="am-panel am-panel-default comment-widget">
+    <div class="am-panel-hd">大家怎么说</div>
+    <div class="am-panel-bd info-piece am-padding-top-0">
+
+        <!-- 评论显示区 -->
+        <div class="comments">
+            {if condition="$comments"}
+            {volist name="$comments" id="comm"}
+            <div class="comment">
+                <a class="avatar" href="__ROOT__/user/{$comm.user_id}"
+                    title="{$comm.user.nickname}" style="background-image: url()"></a>
+                <div class="comment-right">
+                    <div class="comment-head">
+                        <a class="author" href="__ROOT__/user/{$comm.user_id}">{$comm.user.nickname}</a>
+                        <span class="am-text-gray am-text-xs">
+                            {$comm.create_time|time_difference}前说：
+                        </span>
+                        <div class="action-buttons am-margin-right-xs am-fr">
+                            {if condition="$comm.user_id == auth_status('user_id')"}
+                            <div class="am-padding-xs delete btn"
+                                onclick="delete_comment({$comm.comment_id}, this)">
+                                <i class="am-icon am-icon-xs am-icon-remove" title="删除该评论"></i>
+                            </div>
+                            {/if}
+                            <!-- TODO: 楼中楼回复
+                            <a class="reply-button" data-uid="{$comm.user_id}" title="回复">
+                                <i class="am-icon am-icon-sm am-icon-reply"></i>
+                            </a>
+                            -->
+                        </div>
+                    </div>
+                    <div class="comment-body">
+                        <p class="detail">{$comm.detail}</p>
+                    </div>
+                </div>
+            </div>
+            {/volist}
+            {else /}
+            <div class="no-comment">
+                <h3 class="am-margin-0">还没有评论</h3>
+            </div>
+            {/if}
+        </div>
+
+        <hr class="am-margin-top-0" />
+
+        <!-- 评论发表组件 -->
+        <form class="comment-edit">
+            <div class="avatar" title="{$data.user.nickname}"
+                style="background-image: url()"></div>
+            <div class="comment-right">
+                <textarea class="am-radius" autocomplete="off" name="detail"
+                    placeholder="我说两句"></textarea>
+                <small>{:auth_status('nickname')} 请勿人身攻击 遵守评论礼仪</small>
+                <button type="submit" class="am-btn am-btn-xs am-btn-link am-fr">添加评论</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $('form.comment-edit').on('submit', function(event) {
+        var detail = $(this).find('textarea[name="detail"]').val();
+        $.post('/share/{$data.share_id}/comment', $(this).serialize(), function(data) {
+            if (data.code === 0) {
+                amalert(data.msg);
+                return false;
+            }
+            var el = '<div class="comment"><a class="avatar" href="__ROOT__/user/{:auth_status("user_id")}" title="{:auth_status("nickname")}" style="background-image: url()"></a><div class="comment-right"><div class="comment-head">';
+            el += '<a class="author" href="__ROOT__/user/{:auth_status("user_id")}">{:auth_status("nickname")}</a><span class="am-text-gray am-text-xs"> 刚刚说：</span><div class="action-buttons am-margin-right-xs am-fr">';
+            el += '<div class="am-padding-xs delete btn" onclick="delete_comment('+ data.data +', this)"><i class="am-icon am-icon-xs am-icon-remove" title="删除该评论"></i></div></div></div>';
+            el += '<div class="comment-body"><p class="detail">'+ detail +'</p></div></div>';
+            $el = $(el).hide();
+            $('.comments').append($el);
+            if ($('.no-comment').length) $('.no-comment').slideUp();
+            $el.slideDown('slow');
+        });
+        $(this).find('textarea[name="detail"]').val('');
+        return false;
+    });
+
+    var delete_comment = function(comment_id, el) {
+        $.ajax({ url: '/share/{$data.share_id}/comment/' + comment_id, type: 'DELETE'})
+        .done(function(data) {
+            if (data.code === 0) {
+                console.log(data);
+                amalert('出了点问题');
+                return false;
+            }
+            $(el).closest('.comment').animate({
+                'marginLeft': '+=200px',
+                'opacity': '0'
+            }, 'fast', function() {
+                if ($('.comment').length - 1 === 0) {
+                    var $html = $('<div class="no-comment"><h3 class="am-margin-0">还没有评论</h3></div>');
+                    $('.comments').append($html);
+                    $(this).remove();
+                    $html.fadeIn();
+                } else {
+                    $(this).slideUp(function() {
+                        $(this).remove();
+                    });
+                }
+            });
+        })
+        .fail(function(data) {
+            console.log(data);
+            amalert('出了点问题');
+        });
+    };
+
+</script>

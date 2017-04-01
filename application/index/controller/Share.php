@@ -24,6 +24,10 @@ class Share extends Common {
         $score = $this->checkScored($id);
         $this->assign('score', $score);
 
+        // 获取评论
+        $comments = $share->find($id)->comments()->select();
+        $this->assign('comments', $comments);
+
         return view('detail');
     }
 
@@ -208,6 +212,9 @@ class Share extends Common {
         $user_id = auth_status('user_id');
         $find = model('ShareScore')->find($user_id);
         if (!$find) return false;
+
+        // 如果不是当天的数据
+        if ($find->post_date != date('ymd', time())) return false;
 
         // 解析数据
         $data = obj2arr(json_decode($find->data));

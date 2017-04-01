@@ -92,22 +92,73 @@
   background: transparent center no-repeat;
   background-size: cover;
 }
-.share-detail .bottom-part .comments .comment .meta {
-  margin: 0 0 8px 72px;
+.comment-widget .comments .comment {
+  display: flex;
+  margin: 0 -1.25rem;
+  padding: 1.6rem 1.25rem;
+  border-bottom: 1px solid #ededed;
 }
-.share-detail .bottom-part #pin_view_add_comment textarea {
-  width: 568px;
-  min-height: 60px;
-  resize: vertical;
-  margin-bottom: 10px;
+.comment-widget .comments .comment:last-child {
+  border-bottom: 0;
+}
+.comment-widget .comments .comment .comment-head .action-buttons .btn {
+  margin-top: -6px;
+  cursor: pointer;
+  visibility: hidden;
+}
+.comment-widget .comments .comment .comment-head .action-buttons .btn.delete {
+  color: #bbb;
+}
+.comment-widget .comments .comment:hover .btn {
+  visibility: visible !important;
+}
+.comment-widget .comments .comment .comment-body {
+  margin-top: 4px;
+}
+.comment-widget .comments .comment .comment-body .detail {
+  margin-bottom: 0;
+  padding: 0.82rem;
+  line-height: 1.6em;
+  color: #555;
+}
+.comment-widget .comments .no-comment {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  height: 96px;
+  color: #bbb;
+}
+.comment-widget .comment-edit {
+  display: flex;
+  flex-flow: row nowrap;
+}
+.comment-widget .avatar {
+  flex-shrink: 0;
   display: block;
-  line-height: 1.5;
+  height: 60px;
+  width: 60px;
+  background: #eee center no-repeat;
+  background-size: cover;
+}
+.comment-widget .comment-right {
+  width: 100%;
+  margin-left: 1.25rem;
+}
+.comment-widget .comment-right textarea {
+  display: block;
+  width: 100%;
+  height: 60px;
+  min-height: 60px;
+  max-height: 240px;
+  background: #eee;
+  margin-bottom: 0.4rem;
   padding: 5px 10px;
-  font-size: 16px;
-  color: #777;
-  background: #fcfcfc none repeat scroll 0% 0%;
-  border: 1px solid #ccc;
+  border: 0;
   box-shadow: 0px 1px 2px rgba(0,0,0,0.05) inset;
+  resize: vertical;
+  line-height: 1.5;
+  color: #777;
 }
 .user-index #banner {
   margin: -16px 0 16px;
@@ -152,9 +203,6 @@
   z-index: 2000;
   overflow: auto;
   transition: 0.3s all ease-in-out;
-}
-.popupLayer * {
-  color: #332;
 }
 .popupLayer .btnLayer .closeBtn {
   position: fixed;

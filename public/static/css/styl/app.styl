@@ -94,24 +94,78 @@ avatar-small-size = 60px
                 background transparent center no-repeat
                 background-size cover
 
-        .comments
-            .comment
-                .meta
-                    margin 0 0 8px 72px
+// 评论组件
+.comment-widget
 
-        #pin_view_add_comment textarea
-            width 568px
-            min-height 60px
-            resize vertical
-            margin-bottom 10px
+    .comments
+
+        .comment
+            display flex
+            margin 0 -1.25rem
+            padding 1.6rem 1.25rem
+            border-bottom 1px solid #ededed
+            &:last-child
+                border-bottom 0
+
+            .comment-head
+                .action-buttons
+                    .btn
+                        margin-top -6px
+                        cursor pointer
+                        visibility hidden
+                        &.delete
+                            color #bbb
+
+            &:hover
+                .btn
+                    visibility visible !important
+
+            .comment-body
+                margin-top 4px
+                .detail
+                    margin-bottom 0
+                    padding .82rem
+                    line-height 1.6em
+                    color #555
+
+        .no-comment
+            display flex
+            align-content center
+            align-items center
+            justify-content center
+            height 1.6 * avatar-small-size
+            color #bbb
+
+    .comment-edit
+        display flex
+        flex-flow row nowrap
+
+    .avatar
+        flex-shrink 0
+        display block
+        height avatar-small-size
+        width avatar-small-size
+        background #eee center no-repeat
+        background-size cover
+
+    .comment-right
+        width 100%
+        margin-left 1.25rem
+
+        textarea
             display block
-            line-height 1.5
+            width 100%
+            height avatar-small-size
+            min-height avatar-small-size
+            max-height 4 * avatar-small-size
+            background #eee
+            margin-bottom .4rem
             padding 5px 10px
-            font-size 16px
-            color #777
-            background #FCFCFC none repeat scroll 0% 0%
-            border 1px solid #CCC
+            border 0
             box-shadow 0px 1px 2px rgba(0, 0, 0, 0.05) inset
+            resize vertical
+            line-height 1.5
+            color #777
 
 .user-index
 
@@ -159,8 +213,6 @@ avatar-small-size = 60px
     z-index 2000
     overflow auto
     transition 0.3s all ease-in-out
-    *
-        color #332
 
     .btnLayer
         .closeBtn
