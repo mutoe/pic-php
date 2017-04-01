@@ -10,7 +10,7 @@ class Comment extends Common
      * 保存评论
      * @author 杨栋森 mutoe@foxmail.com at 2017-04-01
      */
-    public function save($id, $share_id)
+    public function save($share_id)
     {
         // 过滤评论 去除多余换行符和空字符
         $detail = trim(input('post.detail'));
@@ -40,7 +40,7 @@ class Comment extends Common
             return $this->error('数据写入出错');
         }
 
-        return $this->success();
+        return $this->success(1, '', $comment->comment_id);
     }
 
     /**

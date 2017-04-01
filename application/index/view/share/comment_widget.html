@@ -18,7 +18,8 @@
                         </span>
                         <div class="action-buttons am-margin-right-xs am-fr">
                             {if condition="$comm.user_id == auth_status('user_id')"}
-                            <div class="am-padding-xs delete btn" data-id="{$comm.comment_id}">
+                            <div class="am-padding-xs delete btn"
+                                onclick="delete_comment({$comm.comment_id}, this)">
                                 <i class="am-icon am-icon-xs am-icon-remove" title="删除该评论"></i>
                             </div>
                             {/if}
@@ -60,32 +61,55 @@
 </div>
 
 <script type="text/javascript">
-(function() {
+
     $('form.comment-edit').on('submit', function(event) {
         var detail = $(this).find('textarea[name="detail"]').val();
         $.post('/share/{$data.share_id}/comment', $(this).serialize(), function(data) {
-            if (data.code) {
-                console.log('success');
-            } else {
-                console.log(data.msg);
+            if (data.code === 0) {
+                amalert(data.msg);
+                return false;
             }
+            var el = '<div class="comment"><a class="avatar" href="__ROOT__/user/{:auth_status("user_id")}" title="{:auth_status("nickname")}" style="background-image: url()"></a><div class="comment-right"><div class="comment-head">';
+            el += '<a class="author" href="__ROOT__/user/{:auth_status("user_id")}">{:auth_status("nickname")}</a><span class="am-text-gray am-text-xs"> 刚刚说：</span><div class="action-buttons am-margin-right-xs am-fr">';
+            el += '<div class="am-padding-xs delete btn" onclick="delete_comment('+ data.data +', this)"><i class="am-icon am-icon-xs am-icon-remove" title="删除该评论"></i></div></div></div>';
+            el += '<div class="comment-body"><p class="detail">'+ detail +'</p></div></div>';
+            $el = $(el).hide();
+            $('.comments').append($el);
+            if ($('.no-comment').length) $('.no-comment').slideUp();
+            $el.slideDown('slow');
         });
+        $(this).find('textarea[name="detail"]').val('');
         return false;
     });
 
-    $('.btn.delete').on('click', function(event) {
-        var $el = $(this);
-        var comment_id = $el.data('id');
+    var delete_comment = function(comment_id, el) {
         $.ajax({ url: '/share/{$data.share_id}/comment/' + comment_id, type: 'DELETE'})
         .done(function(data) {
-            console.log(data);
+            if (data.code === 0) {
+                console.log(data);
+                amalert('出了点问题');
+                return false;
+            }
+            $(el).closest('.comment').animate({
+                'marginLeft': '+=200px',
+                'opacity': '0'
+            }, 'fast', function() {
+                if ($('.comment').length - 1 === 0) {
+                    var $html = $('<div class="no-comment"><h3 class="am-margin-0">还没有评论</h3></div>');
+                    $('.comments').append($html);
+                    $(this).remove();
+                    $html.fadeIn();
+                } else {
+                    $(this).slideUp(function() {
+                        $(this).remove();
+                    });
+                }
+            });
         })
         .fail(function(data) {
             console.log(data);
-            if (data.readyState) {document.write(data.responseText)}
+            amalert('出了点问题');
         });
-    });
-
-})();
+    };
 
 </script>
