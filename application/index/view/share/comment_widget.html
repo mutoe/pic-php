@@ -8,18 +8,17 @@
             {if condition="$comments"}
             {volist name="$comments" id="comm"}
             <div class="comment">
-                <a href="__ROOT__/user/{$data.user_id}" title="{$data.user.nickname}" class="am-margin-right-sm am-fl">
-                    <img class="avatar" src="">
-                </a>
-                <div class="comment-detail">
-                    <div class="meta am-text-sm">
-                        <a href="__ROOT__/user/{$data.user_id}" class="author">{$data.user.nickname}</a>
-                        &nbsp;-&nbsp;<span class="">1 分钟前</span>说：
+                <a class="avatar" href="__ROOT__/user/{$comm.user_id}"
+                    title="{$comm.user.nickname}" style="background-image: url()"></a>
+                <div class="comment-right">
+                    <div class="comment-head">
+                        <a class="author" href="__ROOT__/user/{$comm.user_id}">{$comm.user.nickname}</a>
+                        <span class="am-text-gray am-text-xs">
+                            {$comm.create_time|time_difference}前说：
+                        </span>
                     </div>
-                    <div class="am-text-sm">baqi</div>
-                    <div class="action-buttons">
-                        <a class="reply-button" data-name="{$data.user.nickname}" title="回复"></a>
-                        <a class="delete" data-url="" title="删除"></a>
+                    <div class="comment-body">
+                        <p class="detail">{$comm.detail}</p>
                     </div>
                 </div>
             </div>
@@ -37,7 +36,7 @@
         <form class="comment-edit">
             <div class="avatar" title="{$data.user.nickname}"
                 style="background-image: url()"></div>
-            <div class="comment_right">
+            <div class="comment-right">
                 <textarea class="am-radius" autocomplete="off" name="detail"
                     placeholder="我说两句"></textarea>
                 <small>{:auth_status('nickname')} 请勿人身攻击 遵守评论礼仪</small>

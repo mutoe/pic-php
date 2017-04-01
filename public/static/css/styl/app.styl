@@ -107,6 +107,14 @@ avatar-small-size = 60px
             &:last-child
                 border-bottom 0
 
+            .comment-body
+                margin-top 4px
+                .detail
+                    margin-bottom 0
+                    padding .82rem
+                    line-height 1.6em
+                    color #555
+
         .no-comment
             display flex
             align-content center
@@ -119,32 +127,32 @@ avatar-small-size = 60px
         display flex
         flex-flow row nowrap
 
-        .avatar
-            flex-shrink 0
+    .avatar
+        flex-shrink 0
+        display block
+        height avatar-small-size
+        width avatar-small-size
+        background #eee center no-repeat
+        background-size cover
+
+    .comment-right
+        width 100%
+        margin-left 1.25rem
+
+        textarea
             display block
-            height avatar-small-size
-            width avatar-small-size
-            background #eee center no-repeat
-            background-size cover
-
-        .comment_right
             width 100%
-            margin-left 1.25rem
-
-            textarea
-                display block
-                width 100%
-                height avatar-small-size
-                min-height avatar-small-size
-                max-height 4 * avatar-small-size
-                background #eee
-                margin-bottom .4rem
-                padding 5px 10px
-                border 0
-                box-shadow 0px 1px 2px rgba(0, 0, 0, 0.05) inset
-                resize vertical
-                line-height 1.5
-                color #777
+            height avatar-small-size
+            min-height avatar-small-size
+            max-height 4 * avatar-small-size
+            background #eee
+            margin-bottom .4rem
+            padding 5px 10px
+            border 0
+            box-shadow 0px 1px 2px rgba(0, 0, 0, 0.05) inset
+            resize vertical
+            line-height 1.5
+            color #777
 
 .user-index
 
@@ -192,8 +200,6 @@ avatar-small-size = 60px
     z-index 2000
     overflow auto
     transition 0.3s all ease-in-out
-    *
-        color #332
 
     .btnLayer
         .closeBtn

@@ -101,6 +101,15 @@
 .comment-widget .comments .comment:last-child {
   border-bottom: 0;
 }
+.comment-widget .comments .comment .comment-body {
+  margin-top: 4px;
+}
+.comment-widget .comments .comment .comment-body .detail {
+  margin-bottom: 0;
+  padding: 0.82rem;
+  line-height: 1.6em;
+  color: #555;
+}
 .comment-widget .comments .no-comment {
   display: flex;
   align-content: center;
@@ -113,7 +122,7 @@
   display: flex;
   flex-flow: row nowrap;
 }
-.comment-widget .comment-edit .avatar {
+.comment-widget .avatar {
   flex-shrink: 0;
   display: block;
   height: 60px;
@@ -121,11 +130,11 @@
   background: #eee center no-repeat;
   background-size: cover;
 }
-.comment-widget .comment-edit .comment_right {
+.comment-widget .comment-right {
   width: 100%;
   margin-left: 1.25rem;
 }
-.comment-widget .comment-edit .comment_right textarea {
+.comment-widget .comment-right textarea {
   display: block;
   width: 100%;
   height: 60px;
@@ -183,9 +192,6 @@
   z-index: 2000;
   overflow: auto;
   transition: 0.3s all ease-in-out;
-}
-.popupLayer * {
-  color: #332;
 }
 .popupLayer .btnLayer .closeBtn {
   position: fixed;

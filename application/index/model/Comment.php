@@ -17,4 +17,21 @@ class Comment extends Model {
      * status           tinyint     状态
      */
 
+    protected $insert = ['create_time', 'star' => 0, 'status' => 1];
+
+    /**
+     * 关联用户模型
+     */
+    public function user()
+    {
+        return $this->hasOne('User', 'user_id', 'user_id')->field('nickname');
+    }
+
+    /**
+     * 绑定分享模型
+     */
+    public function share()
+    {
+        return $this->belongsTo('Share');
+    }
 }
