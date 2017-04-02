@@ -13,7 +13,6 @@ class Share extends Model {
      * cate_id          tinyint     分类id
      * star             mediumint   获赞数
      * click            mediumint   浏览量
-     * comments_count   mediumint   评论数
      * score            int         评分
      * score_count      mediumint   评分次数
      * status           tinyint     状态
@@ -24,7 +23,6 @@ class Share extends Model {
         'user_id',
         'star'          => 0,
         'click'         => 0,
-        'comments_count'=> 0,
         'score'         => 0,
         'score_count'   => 0,
     ];
