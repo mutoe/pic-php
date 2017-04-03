@@ -16,21 +16,8 @@ class User extends Common {
         $this->assign('user_data', $user_data);
 
         // 分享 排序
-        $order = input('order');
-        switch ($order) {
-            case 'new':
-                $order = 'create_time desc';
-                break;
-            case 'click':
-                $order = 'click desc';
-                break;
-            case 'star':
-                $order = 'star desc, click desc';
-                break;
-            default:
-                $order = 'create_time desc';
-                break;
-        }
+        $order = $this->constructSortAttr(input('get.order'));
+
         // 分享 过滤
         $map['user_id'] = $user_id;
         $map['status'] = ['in', '1, 2, -1'];
@@ -59,21 +46,8 @@ class User extends Common {
         $this->assign('user_data', $user_data);
 
         // 分享 排序
-        $order = input('order');
-        switch ($order) {
-            case 'new':
-                $order = 'create_time desc';
-                break;
-            case 'click':
-                $order = 'click desc';
-                break;
-            case 'star':
-                $order = 'star desc, click desc';
-                break;
-            default:
-                $order = 'create_time desc';
-                break;
-        }
+        $order = $this->constructSortAttr(input('get.order'));
+
         // 分享 过滤
         $map['user_id'] = $id;
         $map['status'] = ['in', '1, 2, -1'];
