@@ -45,4 +45,43 @@ class Tag extends Model {
     	return $data['tag_name'];
     }
 
+    /**
+     * 根据 tags 数组和 share_id 关联数据
+     * @author 杨栋森 mutoe@foxmail.com at 2017-04-03
+     *
+     * @param  array|string     $tags       tags 数组 或 tag_name
+     * @param  integer          $share_id
+     * @param  integer          $user_id
+     * @param  bool             $exist      如果已经存在关系, 是否中断
+     */
+    public function handleTags($tags, $share_id, $user_id, $exist = false)
+    {
+        $share = model('Share');
+
+        // 如果接受字符串则转化为数组
+        if (!is_array($tags)) $tags = [$tags];
+
+        // 解析数据
+        $return = 1;
+        foreach ($tags as $tag_name) {
+            $tag_name = trim($tag_name);
+            // 检查是否已经存在标签
+            $find = $this->where('name', $tag_name)->find() ?: ['name' => $tag_name];
+            if (isset($find->createTime)) {
+                $return = -1;
+                continue;
+            }
+            $return = 1;
+            // 写入关联数据
+            $result = $share->find($share_id)->tags()->attach($find, [
+                'update_time'   => time(),
+                'user_id'       => $user_id
+            ]);
+            if (!$result)
+                return 0;
+        }
+
+        return $return;
+    }
+
 }
