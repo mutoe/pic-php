@@ -81,4 +81,20 @@ class Tag extends Common {
         return $this->success(1, '', $tag_id);
     }
 
+    /**
+     * 删除关系
+     * @author 杨栋森 mutoe@foxmail.com at 2017-04-04
+     */
+    public function delete($id)
+    {
+        $share_id = input('delete.share_id');
+        $tag = model('Tag')->find($id);
+        if (!$tag) {
+            return $this->error('非法请求!');
+        }
+
+        $tag->shares()->detach($share_id);
+        return $this->success();
+    }
+
 }

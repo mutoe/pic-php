@@ -7,6 +7,7 @@
         <a class="read-tag" href="__ROOT__/tag/{$vo.tag_id}">
             <span class="am-icon-tag"></span> {$vo.name}
         </a>
+        <i class="am-icon-close remove-tag" onclick="removeTag(this)"></i>
     </span>
     {/volist}
     <span class="add-tag">
@@ -35,11 +36,9 @@ $('#tag-input').keydown(function(event) {
                 $('span[data-tag-id="'+ data.data +'"]').addClass('animated flash');
             } else if (data.code) {
                 $el.val('');
-                $('.add-tag').before(
-' <span class="am-badge am-text-sm am-radius am-badge-secondary" data-tag-id="'+ data.data +
-'" data-share-id="{$data.share_id}"><a class="read-tag" href="__ROOT__/tag/'+ data.data +
-'"><span class="am-icon-tag"></span> '+ tag_name +
-' </a><i class="am-icon-close remove-tag"></i></span> ');
+                $html = $(' <span class="am-badge am-text-sm am-radius am-badge-secondary" data-tag-id="'+ data.data +'" data-share-id="{$data.share_id}"><a class="read-tag" href="__ROOT__/tag/'+ data.data +'"><span class="am-icon-tag"></span> '+ tag_name +' </a><i class="am-icon-close remove-tag" onclick="removeTag(this)"></i></span> ');
+                $('.add-tag').before($html);
+                $html.addClass('animated flash');
             } else {
                 $('.tips').text(data.msg);
             }
@@ -47,5 +46,24 @@ $('#tag-input').keydown(function(event) {
         return false;
     }
 });
+
+function removeTag(el) {
+    var $el = $(el).parent('span');
+    $.ajax({
+        url: '__ROOT__/tag/' + $el.data('tagId'),
+        type: 'DELETE',
+        data: {share_id: $el.data('shareId')},
+    })
+    .done(function(data) {
+        if (data.code) {
+            $el.fadeOut();
+        } else {
+            amalert(data.msg);
+        }
+    })
+    .fail(function(data) {
+        document.write(data.responseText);
+    });
+};
 
 </script>
