@@ -169,19 +169,19 @@
 .user-index .panel-tags .am-panel-bd {
   line-height: 2.4em;
 }
-.user-index .panel-shares .s-box {
+.panel-shares .s-box {
   margin-bottom: 12px;
 }
-.user-index .panel-shares .s-box .image {
+.panel-shares .s-box .image {
   position: relative;
   display: block;
-  height: 120px;
+  height: 160px;
   width: 100%;
-  background: transparent no-repeat center;
+  background: transparent no-repeat center 20%;
   background-size: cover;
   margin-bottom: 4px;
 }
-.user-index .panel-shares .s-box .image .detail {
+.panel-shares .s-box .image .detail {
   position: absolute;
   bottom: 0;
   left: 0;

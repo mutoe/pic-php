@@ -1,0 +1,61 @@
+
+<div class="am-panel am-panel-default panel-shares">
+    <div class="am-panel-hd">
+        {$panel_title} ({$share_count})
+        <small class="am-margin-left">排序:
+            <a id="order-new" href="?order=new">发表时间</a>
+            <a id="order-score" href="?order=score">评分</a>
+            <a id="order-click" href="?order=click">点击量</a>
+            <a id="order-star" href="?order=star">收藏</a>
+        </small>
+    </div>
+    <div class="am-panel-bd">
+        {if condition="count($share_list) > 0"}
+        <ul class="am-avg-lg-4 am-avg-md-3 am-avg-sm-2 am-thumbnails shares">
+            {volist name="share_list" id="s"}
+            <li class="s-box">
+                <a class="image" href="__ROOT__/share/{$s.share_id}" style="background-image: url(__ROOT__/{$s.profile.savepath}t_{$s.profile.savename})">
+                    {if condition="$s.profile.detail != ''"}
+                    <p class="am-text-truncate detail">{$s.profile.detail}</p>
+                    {/if}
+                </a>
+                <div class="am-g am-g-collapse am-text-xs am-padding-xs">
+                    <div class="am-u-sm-12">
+                        {if condition="$myself != true"}
+                        <a class="am-margin-right-xs" href="__ROOT__/user/{$s.user.user_id}">@{$s.user.nickname}</a>
+                        {/if}
+                        <span><i class="am-icon-calendar"></i> {$s.profile.photo_date}</span>
+                    </div>
+                    <div class="am-u-sm-6">点击量: {$s.click}</div>
+                    <div class="am-u-sm-6">评分: {$s.score}</div>
+                    <div class="am-u-sm-6">被收藏: {$s.star}</div>
+                    <div class="am-u-sm-6">评分次数: {$s.score_count}</div>
+                </div>
+                {if condition="$myself == true"}
+                <div class="am-u-sm-12 am-padding-top-xs">
+                    <a class="am-btn am-badge am-badge-secondary am-radius am-btn-xs" href="__ROOT__/share/{$s.share_id}/edit"><i class="am-icon am-icon-edit"></i> 编辑</a>
+                </div>
+                {/if}
+            </li>
+            {/volist}
+        </ul>
+        {else /}
+        <h3 class="am-text-center am-margin-xl am-text-gray">没有分享任何内容哦 !</h3>
+        {/if}
+    </div>
+    {if condition="$share_list->render()"}
+    <div class="am-panel-footer">
+        {$share_list->render()}
+    </div>
+    {/if}
+</div>
+
+<script type="text/javascript">
+(function() {
+
+// 高亮当前排序方式
+var order = getUrlParam('order', 'new');
+$('#order-' + order).css('text-decoration', 'underline');
+
+})();
+</script>

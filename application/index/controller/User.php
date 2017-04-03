@@ -22,9 +22,9 @@ class User extends Common {
         $map['user_id'] = $user_id;
         $map['status'] = ['in', '1, 2, -1'];
         // 分享 获取数据
-        $share_data = model('Share')->with('profile')->where($map)->order($order)->paginate(24);
+        $share_list = model('Share')->with('profile')->where($map)->order($order)->paginate(24);
         $share_count = model('Share')->where($map)->count();
-        $this->assign('share_data', $share_data);
+        $this->assign('share_list', $share_list);
         $this->assign('share_count', $share_count);
 
         // 我自己的空间
@@ -50,11 +50,11 @@ class User extends Common {
 
         // 分享 过滤
         $map['user_id'] = $id;
-        $map['status'] = ['in', '1, 2, -1'];
+        $map['status'] = ['>', 0];
         // 分享 获取数据
-        $share_data = model('Share')->with('profile')->where($map)->order($order)->paginate(24);
+        $share_list = model('Share')->with('profile')->where($map)->order($order)->paginate(24);
         $share_count = model('Share')->where($map)->count();
-        $this->assign('share_data', $share_data);
+        $this->assign('share_list', $share_list);
         $this->assign('share_count', $share_count);
 
         // 别人的空间

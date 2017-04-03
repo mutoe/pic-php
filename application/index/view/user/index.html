@@ -30,72 +30,13 @@
 
         </div>
         <div class="am-u-lg-9 am-u-md-8 r-side">
-
             <!-- 投稿 -->
-            <div class="am-panel am-panel-default panel-shares">
-                <div class="am-panel-hd">
-                    {if condition="$myself"}投稿管理{else /}
-                    {if condition="$user_data.profile.is_male"}他{else /}她{/if}的投稿{/if}
-                    ({$share_count})
-                    <small class="am-margin-left">排序:
-                        <a id="order-new" href="?order=new">最新</a>
-                        <a id="order-click" href="?order=click">最多点击</a>
-                        <a id="order-star" href="?order=star">最多收藏</a>
-                    </small>
-                    <small class="am-margin-left">过滤器</small>
-                    <!-- TODO: 向下弹出横条 按分类 标签过滤图片 -->
-                </div>
-                <div class="am-panel-bd">
-                    {if condition="count($share_data) > 0"}
-                    <ul class="am-avg-lg-4 am-avg-md-3 am-avg-sm-2 am-thumbnails shares">
-                        {volist name="share_data" id="s"}
-                        <li class="s-box">
-                            <a class="image" href="__ROOT__/share/{$s.share_id}" style="background-image: url(__ROOT__/{$s.profile.savepath}t_{$s.profile.savename})">
-                                {if condition="$s.profile.detail != ''"}
-                                <p class="am-text-truncate detail">{$s.profile.detail}</p>
-                                {/if}
-                            </a>
-                            <div class="am-g am-g-collapse am-text-xs am-padding-xs">
-                                <div class="am-u-sm-6">总分: {$s.score|default=""}</div>
-                                <div class="am-u-sm-6">评价: {$s.score_count|default=""}</div>
-                                <div class="am-u-sm-6">浏览: {$s.click}</div>
-                                <div class="am-u-sm-6">被赞: {$s.star}</div>
-                                {if condition="$myself"}
-                                <div class="am-u-sm-12 am-padding-top-xs">
-                                    <a class="am-btn am-badge am-badge-secondary am-radius am-btn-xs" href="__ROOT__/share/{$s.share_id}/edit"><i class="am-icon am-icon-edit"></i> 编辑</a>
-                                </div>
-                                {/if}
-                            </div>
-                        </li>
-                        {/volist}
-                    </ul>
-                    {else /}
-                    <h3 class="am-text-center am-margin-xl am-text-gray">没有分享任何内容哦 !</h3>
-                    {/if}
-                </div>
-                {if condition="$share_data->render()"}
-                <div class="am-panel-footer">
-                    {$share_data->render()}
-                </div>
-                {/if}
-            </div>
-
+            {assign name="panel_title" value="投稿一览" /}
+            {include file="share:list_widget" /}
         </div>
     </div>
 </div>
 
 </div>
 </div>
-{/block}
-
-{block name="js"}
-<script type="text/javascript">
-(function() {
-
-// 高亮当前排序方式
-var order = getUrlParam('order', 'new');
-$('#order-' + order).css('text-decoration', 'underline');
-
-})();
-</script>
 {/block}
