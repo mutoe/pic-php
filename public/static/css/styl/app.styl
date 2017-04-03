@@ -2,6 +2,9 @@
 // 头像大小
 avatar-small-size = 60px
 
+// 详情浅灰色背景
+detail-bgcolor = #fafafa
+
 .share-detail
     width 100%
     padding 0 84px
@@ -72,7 +75,7 @@ avatar-small-size = 60px
             .detail
                 line-height 1.2
                 color #444
-                background-color #FAFAFA
+                background-color detail-bgcolor
                 padding 15px
                 word-wrap break-word
 
@@ -202,17 +205,54 @@ avatar-small-size = 60px
                 margin 0
                 padding 2px 4px
 
-.tags-widget
-    &.border-top
-        margin 16px -12px 0
-        padding 12px 12px 0
-        border-top 1px solid #ededed
+.tag-read
+    #banner
+        margin -16px 0 16px
+        height 200px
+        background transparent url(../i/user_banner.png) no-repeat center
+        background-size cover
 
+.tag-read
+    .tag-group
+        > a
+            margin-bottom 4px
+
+    .detail
+        background-color detail-bgcolor
+        padding 15px
+
+.tags-widget
     &>span
         margin 4px
+        &:hover
+            .remove-tag
+                color #fff
+                border-left 2px solid #fff4
+                padding-left 4px
+
+    .add-tag
+        display inline-block
+        .tips
+            display none
+        input
+            border 0
+            border-bottom 1px solid #ddd
+            width calc(3em + 2px)
+            padding 1px 3px
+            font-size .9em
+            transition .5s all ease-in-out
+            &:focus
+                width 10em
+                & + .tips
+                    display inline-block
 
     .read-tag
         color #fff
+
+    .remove-tag
+        cursor pointer
+        color #fff4
+        padding-left 6px
 
 .popupLayer
     display none

@@ -192,16 +192,54 @@
   margin: 0;
   padding: 2px 4px;
 }
-.tags-widget.border-top {
-  margin: 16px -12px 0;
-  padding: 12px 12px 0;
-  border-top: 1px solid #ededed;
+.tag-read #banner {
+  margin: -16px 0 16px;
+  height: 200px;
+  background: transparent url("../i/user_banner.png") no-repeat center;
+  background-size: cover;
+}
+.tag-read .tag-group > a {
+  margin-bottom: 4px;
+}
+.tag-read .detail {
+  background-color: #fafafa;
+  padding: 15px;
 }
 .tags-widget>span {
   margin: 4px;
 }
+.tags-widget>span:hover .remove-tag {
+  color: #fff;
+  border-left: 2px solid rgba(255,255,255,0.267);
+  padding-left: 4px;
+}
+.tags-widget .add-tag {
+  display: inline-block;
+}
+.tags-widget .add-tag .tips {
+  display: none;
+}
+.tags-widget .add-tag input {
+  border: 0;
+  border-bottom: 1px solid #ddd;
+  width: calc(3em + 2px);
+  padding: 1px 3px;
+  font-size: 0.9em;
+  transition: 0.5s all ease-in-out;
+}
+.tags-widget .add-tag input:focus {
+  width: 10em;
+}
+.tags-widget .add-tag input:focus + .tips {
+  display: inline-block;
+}
 .tags-widget .read-tag {
   color: #fff;
+}
+.tags-widget .remove-tag {
+  cursor: pointer;
+  color: rgba(255,255,255,0.267);
+  padding-left: 6px;
 }
 .popupLayer {
   display: none;

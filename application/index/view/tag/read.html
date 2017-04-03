@@ -1,0 +1,53 @@
+{extend name="common/base" /}
+
+{block name="title"}标签 -{/block}
+
+{block name="body"}
+<div class="tag-read">
+
+<div class="am-g">
+    <div id="banner" class="am-cf"></div>
+    <div class="am-g-fixed am-center">
+        <div class="am-g tag-header">
+            <div class="am-u-lg-5 am-u-end">
+                <!-- 标签资料 -->
+                <div class="am-panel am-panel-default panel-profile">
+                    <div class="am-panel-hd">
+                        标签资料
+                        <a class="am-fr am-btn am-btn-link am-link-muted am-btn-xs am-padding-right-0" href="__ROOT__/tag/{$tag_data.tag_id}/edit"><i class="am-icon am-icon-edit"></i> 公共编辑</a>
+                    </div>
+                    <div class="am-panel-bd">
+                        <h2 class="am-margin-md">
+                            <span class="am-badge am-radius am-badge-secondary am-text-xl">
+                                <i class="am-icon-tag"></i> {$tag_data.name}
+                            </span>
+                        </h2>
+                        {if condition="isset($tag_data.detail)"}
+                        <p class="detail">标签描述</p>
+                        {/if}
+                        <div class="tag-group border-top">
+                            <h4 class="am-margin-bottom-sm">同组标签</h4>
+                            <a class="am-badge am-radius am-badge-secondary am-text-default"><i class="am-icon-tag"></i> nrmal</a>
+                            <a class="am-badge am-radius am-badge-secondary am-text-default"><i class="am-icon-tag"></i> nrmal</a>
+                            <a class="am-badge am-radius am-badge-secondary am-text-default"><i class="am-icon-tag"></i> nrmal</a>
+                            <a class="am-badge am-radius am-badge-secondary am-text-default"><i class="am-icon-tag"></i> nrmal</a>
+                            <a class="am-badge am-radius am-badge-secondary am-text-default"><i class="am-icon-tag"></i> nrmal</a>
+                            <a class="am-badge am-radius am-badge-secondary am-text-default"><i class="am-icon-tag"></i> nrmal</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="am-g am-margin-top-lg">
+            <div class="am-u-sm-12">
+                <!-- 分享列表组件 -->
+                {assign name="myself" value="0" /}
+                {assign name="panel_title" value="该标签下的分享" /}
+                {include file="share:list_widget" /}
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+{/block}
