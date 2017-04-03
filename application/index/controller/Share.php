@@ -93,13 +93,31 @@ class Share extends Common {
 
         // 更新保存名称
         $share->savename = $savename;
-        $result = $share->save();
+
+        // 准备保存数据
+        $savedata = $share->toArray();
+        $tags = explode(',', $savedata['tags']);        // 处理标签字段用
+        unset($savedata['cate_id'], $savedata['tags']); // 保存 share_profile 表数据用
+
+        // 保存 share 表数据
+        $result = $share->allowField(true)->save();
         if (!$result) {
             return $this->error($share->getError());
         }
 
+        // 保存 share_profile 表数据
+        $share_id = $share->share_id;
+        $share->find($share_id)->profile()->save($savedata);
+
         // 数据创建成功后删除临时文件
         @unlink($info->getInfo('tmp_name'));
+
+        // 处理标签字段
+        $result = $this->handleTags($tags, $share_id, auth_status('user_id'));
+        if (!$result) {
+            return $this->error('分享添加成功, 但标签似乎出了点问题', '/share/'.$share_id);
+        }
+
         return $this->redirect(url('/share/'. $share->share_id));
     }
 
@@ -219,6 +237,34 @@ class Share extends Common {
         // 解析数据
         $data = obj2arr(json_decode($find->data));
         return isset($data[$share_id]) ? $data[$share_id] : false;
+    }
+
+    /**
+     * 根据 tags 数组和 share_id 关联数据
+     * @author 杨栋森 mutoe@foxmail.com at 2017-04-03
+     *
+     * @param  Array    $tags     tags 数组
+     * @param  Number   $share_id
+     * @param  Number   $user_id
+     */
+    private function handleTags($tags, $share_id, $user_id)
+    {
+        $share = model('Share');
+        $tag = model('Tag');
+
+        // 解析数据
+        $return = true;
+        foreach ($tags as $tag_name) {
+            $tag_name = trim($tag_name);
+            // 检查是否已经存在标签
+            $find = $tag->where('name', $tag_name)->find() ?: ['name' => $tag_name];
+            // 写入关联数据
+            $result = $share->find($share_id)->tags()->attach($find, ['update_time' => time()]);
+            if (!$result)
+                $return = false;
+        }
+
+        return $return;
     }
 
 }

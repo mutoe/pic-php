@@ -61,6 +61,16 @@ class Share extends Model {
     }
 
     /**
+     * 分享表 多对多关联
+     */
+    public function tags()
+    {
+        // TODO: https://github.com/top-think/think/issues/641
+        $table = config('database.prefix') . 'share_tag_relation';
+        return $this->belongsToMany('Tag', $table);
+    }
+
+    /**
      * 修改器
      */
     protected function setUserIdAttr()
