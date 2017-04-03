@@ -17,6 +17,10 @@ class Share extends Common {
             ->order('score desc')->limit(4)->select();
         $this->assign('user_share', $user_share);
 
+        // 读取标签
+        $tags = $share->find($id)->tags;
+        $this->assign('tags', $tags);
+
         // 浏览量自增 (延时 60s)
         $share->where('share_id', $id)->setInc('click', 1, 60);
 

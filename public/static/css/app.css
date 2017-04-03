@@ -192,6 +192,17 @@
   margin: 0;
   padding: 2px 4px;
 }
+.tags-widget.border-top {
+  margin: 16px -12px 0;
+  padding: 12px 12px 0;
+  border-top: 1px solid #ededed;
+}
+.tags-widget>span {
+  margin: 4px;
+}
+.tags-widget .read-tag {
+  color: #fff;
+}
 .popupLayer {
   display: none;
   position: fixed;
