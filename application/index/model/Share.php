@@ -33,7 +33,7 @@ class Share extends Model {
      */
     public function user()
     {
-        return $this->hasOne('User', 'user_id', 'user_id')->field('nickname');
+        return $this->belongsTo('user')->field('nickname,user_id');
     }
 
     /**
@@ -41,7 +41,7 @@ class Share extends Model {
      */
     public function cate()
     {
-        return $this->hasOne('Cate', 'cate_id', 'cate_id');
+        return $this->belongsTo('cate');
     }
 
     /**
@@ -49,7 +49,7 @@ class Share extends Model {
      */
     public function profile()
     {
-        return $this->hasOne('ShareProfile')->setEagerlyType(0);
+        return $this->hasOne('shareProfile')->setEagerlyType(0);
     }
 
     /**
@@ -57,7 +57,7 @@ class Share extends Model {
      */
     public function comments()
     {
-        return $this->hasMany('Comment');
+        return $this->hasMany('comment');
     }
 
     /**
@@ -67,7 +67,7 @@ class Share extends Model {
     {
         // TODO: https://github.com/top-think/think/issues/641
         $table = config('database.prefix') . 'share_tag_relation';
-        return $this->belongsToMany('Tag', $table);
+        return $this->belongsToMany('tag', $table);
     }
 
     /**

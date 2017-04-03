@@ -25,6 +25,11 @@ class ShareProfile extends Model {
     protected $auto = ['month','update_time'];
     protected $insert = ['create_time'];
 
+    public function share()
+    {
+        return $this->belongsTo('share');
+    }
+
     protected function setCreateTimeAttr()
     {
         return time();

@@ -10,6 +10,9 @@ class Share extends Common {
         $share = model('Share');
 
         $data = $share->getShare($id);
+        if (!$data) {
+            return $this->error('这条数据不存在或已被删除');
+        }
         $this->assign('data', $data);
 
         // 该用户其他热门分享

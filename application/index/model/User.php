@@ -32,7 +32,12 @@ class User extends Model
      */
     public function profile()
     {
-        return $this->hasOne('UserProfile');
+        return $this->hasOne('userProfile');
+    }
+
+    public function oauth()
+    {
+        return $this->hasOne('oauth');
     }
 
     /**

@@ -28,7 +28,7 @@ class Tag extends Model {
     {
         // TODO: https://github.com/top-think/think/issues/641
         $table = config('database.prefix') . 'share_tag_relation';
-        return $this->belongsToMany('Share', $table);
+        return $this->belongsToMany('share', $table);
     }
 
     public function setUserIdAttr()
