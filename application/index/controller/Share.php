@@ -21,7 +21,7 @@ class Share extends Common {
         $this->assign('user_share', $user_share);
 
         // 读取标签
-        $tags = $share->find($id)->tags;
+        $tags = $share->find($id)->tags()->where('status>0')->select();
         $this->assign('tags', $tags);
 
         // 浏览量自增 (延时 60s)
