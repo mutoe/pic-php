@@ -25,6 +25,11 @@ class ShareProfile extends Model {
     protected $auto = ['month','update_time'];
     protected $insert = ['create_time'];
 
+    public function share()
+    {
+        return $this->belongsTo('share');
+    }
+
     protected function setCreateTimeAttr()
     {
         return time();
@@ -37,8 +42,7 @@ class ShareProfile extends Model {
 
     protected function setMonthAttr($value, $data)
     {
-        $month = explode('-', $data['photo_date']);
-        return $month[0].$month[1];
+        return date_create_from_format('Y.n.j', $data['photo_date'])->format('Ym');
     }
 
 }

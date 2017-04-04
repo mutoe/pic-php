@@ -28,6 +28,11 @@ class UserProfile extends Model
         'score_count'   => 0,
     ];
 
+    public function user()
+    {
+        return $this->belongsTo('user')->field('nickname');
+    }
+
     public function getIsMaleAttr($value)
     {
         $status = [1 => '男', 0 => '女'];

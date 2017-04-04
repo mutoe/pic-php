@@ -33,7 +33,7 @@ class Share extends Model {
      */
     public function user()
     {
-        return $this->hasOne('User', 'user_id', 'user_id')->field('nickname');
+        return $this->belongsTo('user')->field('nickname,user_id');
     }
 
     /**
@@ -41,7 +41,7 @@ class Share extends Model {
      */
     public function cate()
     {
-        return $this->hasOne('Cate', 'cate_id', 'cate_id');
+        return $this->belongsTo('cate');
     }
 
     /**
@@ -49,7 +49,7 @@ class Share extends Model {
      */
     public function profile()
     {
-        return $this->hasOne('ShareProfile')->setEagerlyType(0);
+        return $this->hasOne('shareProfile')->setEagerlyType(0);
     }
 
     /**
@@ -57,7 +57,17 @@ class Share extends Model {
      */
     public function comments()
     {
-        return $this->hasMany('Comment');
+        return $this->hasMany('comment');
+    }
+
+    /**
+     * 分享表 多对多关联
+     */
+    public function tags()
+    {
+        // TODO: https://github.com/top-think/think/issues/641
+        $table = config('database.prefix') . 'share_tag_relation';
+        return $this->belongsToMany('tag', $table);
     }
 
     /**
@@ -75,65 +85,23 @@ class Share extends Model {
      * @param  integer $share_id
      * @param  boolean $force    是否获取所有分享(默认获取审核通过的)
      */
-    public static function getShare($share_id = 0, $force = false) {
+    public function getShare($share_id = 0, $force = false) {
         if($force) {
-            $data = Share::where(['share_id' => $share_id])->find();
+            $data = $this->find($share_id);
         } else {
-            $data = Share::where(['share_id' => $share_id, 'status' => 1])->find();
+            $data = $this->where('status>=1')->find($share_id);
         }
         return $data;
     }
 
-    public static function getShareList($category = 1, $limit = 6, $orderby = 'create_time') {
-        switch ($orderby) {
-            case 'create_time':
-                $order = 'create_time desc';
-                break;
-            case 'click':
-                $order = 'click';
-                break;
-            default:
-                $order = 'share_id desc';
-                break;
-        }
+    public function getShareList($cate_id = 1, $limit = 6, $order = '') {
+        $order = action('Common/constructSortAttr', ['order' => $order]);
         $filter = [
-            'cate_id' => $category,
+            'cate_id' => $cate_id,
             'status' => ['>=', 1],
         ];
-        $data = Share::with('profile')->where($filter)->limit($limit)->order($order)->select();
+        $data = $this->with('profile')->where($filter)->limit($limit)->order($order)->select();
         return $data;
     }
-
-    /**
-     * 获取话题
-     */
-    public function getTopit($share_id = 0) {
-        return $this -> where(['share_id' => $share_id]) -> find();
-    }
-
-    /**
-     * 数据转换
-     * @author 杨栋森 mutoe@foxmail.com at 2017-03-30
-     */
-    /*
-    public function migration()
-    {
-        if (!config('app_debug')) {
-            throw new Exception("非法请求 !", 1);
-        }
-        if ($this->profile) {
-            return true;
-        }
-        $data['click']          = $this->click;
-        $data['star']           = $this->star;
-        $data['comments_count'] = $this->total_comments;
-
-        $result = $this->profile()->save($data);
-        if (!$result) {
-            return $this->error($this->getError());
-        }
-        return $result;
-    }
-    */
 
 }

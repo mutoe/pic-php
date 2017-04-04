@@ -10,12 +10,19 @@ class Share extends Common {
         $share = model('Share');
 
         $data = $share->getShare($id);
+        if (!$data) {
+            return $this->error('这条数据不存在或已被删除');
+        }
         $this->assign('data', $data);
 
         // 该用户其他热门分享
         $user_share = $share->where('user_id', $data->user_id)
             ->order('score desc')->limit(4)->select();
         $this->assign('user_share', $user_share);
+
+        // 读取标签
+        $tags = $share->find($id)->tags()->where('status>0')->select();
+        $this->assign('tags', $tags);
 
         // 浏览量自增 (延时 60s)
         $share->where('share_id', $id)->setInc('click', 1, 60);
@@ -93,13 +100,31 @@ class Share extends Common {
 
         // 更新保存名称
         $share->savename = $savename;
-        $result = $share->save();
+
+        // 准备保存数据
+        $savedata = $share->toArray();
+        $tags = explode(',', $savedata['tags']);        // 处理标签字段用
+        unset($savedata['cate_id'], $savedata['tags']); // 保存 share_profile 表数据用
+
+        // 保存 share 表数据
+        $result = $share->allowField(true)->save();
         if (!$result) {
             return $this->error($share->getError());
         }
 
+        // 保存 share_profile 表数据
+        $share_id = $share->share_id;
+        $share->find($share_id)->profile()->save($savedata);
+
         // 数据创建成功后删除临时文件
         @unlink($info->getInfo('tmp_name'));
+
+        // 处理标签字段
+        $result = model('Tag')->handleTags($tags, $share_id, auth_status('user_id'));
+        if (!$result) {
+            return $this->error('分享添加成功, 但标签似乎出了点问题', '/share/'.$share_id);
+        }
+
         return $this->redirect(url('/share/'. $share->share_id));
     }
 

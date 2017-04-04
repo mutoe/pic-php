@@ -108,6 +108,11 @@ $('#star-btn').on('click', function(event) {
                         </p>
                     </div>
                     <div class="am-cf"></div>
+
+                    <!-- 标签组件 -->
+                    {assign name="share_data" value="$data" /}
+                    {include file="share:tag_widget" /}
+
                     {if condition="!empty($data.profile.detail)"}
                     <div class="detail am-text-sm am-margin-top">
                         {$data.profile.detail}

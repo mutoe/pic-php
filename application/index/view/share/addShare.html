@@ -62,7 +62,7 @@
                     <label for="tags-ipt"> 标签
                         <small>用 "," 或回车分隔, 每个标签最多 16 个字</small>
                     </label><br>
-                    <input id="tags-ipt" name="tag_id" type="text">
+                    <input id="tags-ipt" name="tags" type="text">
                 </div>
 
                 <div class="am-form-group">
@@ -143,7 +143,7 @@ var checkin = $('.am-datepicker-date').datepicker({
         }
         return date.valueOf() > viewDate ? 'am-disabled' : '';
     },
-    format: 'yyyy-mm-dd'
+    format: 'yyyy.m.d'
 }).data('amui.datepicker');
 
 });
@@ -194,12 +194,12 @@ function auto_fill_via_exif() {
     var photo_time = exif.DateTimeOriginal || exif.DateTimeDigitize || exif.DateTime;
     if (photo_time) {
         // 从 EXIF 中获取拍摄时间
-        photo_time = photo_time.substring(0, 10).split(':').join('-');
+        photo_time = photo_time.substring(0, 10).split(':').join('.');
     } else {
         // 从文件修改日期中获取时间
         var file = $('#doc-form-file')[0].files[0];
         var photo_time = file.lastModified ? new Date(file.lastModified) : new Date();
-        photo_time = photo_time.toLocaleDateString().split('/').join('-');
+        photo_time = photo_time.toLocaleDateString().split('/').join('.');
     }
     $('input[name="photo_date"]').val(photo_time).attr('readonly', 'readonly');
     // 修复 amazeui datepicker 插件无法自动定位到当前时间

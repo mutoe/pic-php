@@ -31,6 +31,12 @@ Route::get('share/:share_id/star', 'index/share/star');
 Route::post('share/:share_id/score', 'index/share/score');
 
 
+// 标签相关 (RESTful 路由)
+Route::resource('tag', 'index/tag', [
+    'except' => ['create', 'edit'],
+]);
+
+
 // 评论相关
 Route::resource('share.comment', 'index/comment', [
     'only' => ['save', 'delete'],

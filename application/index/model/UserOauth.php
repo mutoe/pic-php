@@ -14,4 +14,9 @@ class UserOauth extends Model
      * ecardno      bigint      一卡通号码
      */
 
+    public function user()
+    {
+        return $this->belongsTo('user')->field('nickname');
+    }
+
 }

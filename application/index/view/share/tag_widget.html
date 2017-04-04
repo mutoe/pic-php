@@ -1,0 +1,71 @@
+
+<div class="tags-widget border-top">
+    <span>标签</span>
+    {volist name="tags" id="vo"}
+    <span class="am-badge am-text-sm am-radius am-badge-secondary"
+        data-tag-id="{$vo.tag_id}" data-share-id="{$share_data.share_id}">
+        <a class="read-tag" href="__ROOT__/tag/{$vo.tag_id}">
+            <span class="am-icon-tag"></span> {$vo.name}
+        </a>
+        {if condition="$data.user.user_id == auth_status('user_id')"}
+        <i class="am-icon-close remove-tag" onclick="removeTag(this)"></i>
+        {/if}
+    </span>
+    {/volist}
+    <span class="add-tag">
+        <i class="am-icon-tag am-text-gray"></i>
+        <input id="tag-input" maxlength="20" placeholder="添加" />
+        <small class="am-text-gray tips">您提交的标签将由作者进行审核</small>
+    </span>
+</div>
+
+<script type="text/javascript">
+
+var tag_add_tips = $('.tips').text();
+
+$('#tag-input').keydown(function(event) {
+    var curKey = event.which;
+    $el = $(this);
+    var tag_name = $el.val();
+    if (curKey == 13) {
+        $.post('__ROOT__/tag', {
+            share_id: {$data.share_id},
+            tag_name: tag_name
+        }, function(data) {
+            $('.tips').text(tag_add_tips);
+            if (data.code == 2) {
+                $el.val('');
+                $('span[data-tag-id="'+ data.data +'"]').addClass('animated flash');
+            } else if (data.code) {
+                $el.val('');
+                $html = $(' <span class="am-badge am-text-sm am-radius am-badge-secondary" data-tag-id="'+ data.data +'" data-share-id="{$data.share_id}"><a class="read-tag" href="__ROOT__/tag/'+ data.data +'"><span class="am-icon-tag"></span> '+ tag_name +' </a><i class="am-icon-close remove-tag" onclick="removeTag(this)"></i></span> ');
+                $('.add-tag').before($html);
+                $html.addClass('animated flash');
+            } else {
+                $('.tips').text(data.msg);
+            }
+        });
+        return false;
+    }
+});
+
+function removeTag(el) {
+    var $el = $(el).parent('span');
+    $.ajax({
+        url: '__ROOT__/tag/' + $el.data('tagId'),
+        type: 'DELETE',
+        data: {share_id: $el.data('shareId')},
+    })
+    .done(function(data) {
+        if (data.code) {
+            $el.fadeOut();
+        } else {
+            amalert(data.msg);
+        }
+    })
+    .fail(function(data) {
+        document.write(data.responseText);
+    });
+};
+
+</script>
