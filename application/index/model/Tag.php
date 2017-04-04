@@ -52,9 +52,8 @@ class Tag extends Model {
      * @param  array|string     $tags       tags 数组 或 tag_name
      * @param  integer          $share_id
      * @param  integer          $user_id
-     * @param  bool             $exist      如果已经存在关系, 是否中断
      */
-    public function handleTags($tags, $share_id, $user_id, $exist = false)
+    public function handleTags($tags, $share_id, $user_id)
     {
         $share = model('Share');
 
