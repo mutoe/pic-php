@@ -7,7 +7,9 @@
         <a class="read-tag" href="__ROOT__/tag/{$vo.tag_id}">
             <span class="am-icon-tag"></span> {$vo.name}
         </a>
+        {if condition="$data.user.user_id == auth_status('user_id')"}
         <i class="am-icon-close remove-tag" onclick="removeTag(this)"></i>
+        {/if}
     </span>
     {/volist}
     <span class="add-tag">

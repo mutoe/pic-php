@@ -89,8 +89,16 @@ class Tag extends Common {
     {
         $share_id = input('delete.share_id');
         $tag = model('Tag')->find($id);
-        if (!$tag) {
+        $share = model('Share')->find($share_id);
+        if (!$tag || !$share) {
             return $this->error('非法请求!');
+        }
+
+        // 权限检查
+        // TODO: 增加管理员删除的权限
+        $user_id = auth_status('user_id');
+        if ($user_id != $share->user->user_id) {
+            return $this->error('非法请求: 你没有权限这么做');
         }
 
         $tag->shares()->detach($share_id);
