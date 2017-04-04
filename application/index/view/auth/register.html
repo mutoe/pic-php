@@ -127,7 +127,7 @@
             data: $('form').serialize(),
         }).done(function(data) {
             if (data.code) {
-                console.log("success");
+                location.href = '__ROOT__/';
             } else {
                 amalert(data.msg);
                 $('#captcha-img').click();
