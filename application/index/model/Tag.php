@@ -68,9 +68,9 @@ class Tag extends Model {
             // 检查是否已经存在标签
             $find = $this->where('name', $tag_name)->find() ?: ['name' => $tag_name];
             if (isset($find->createTime)) {
-                if ($find->shares()->find()) {
-                    $return = -1;
-                    continue;
+                $share_list = $find->shares()->select();
+                foreach ($share_list as $s) {
+                    if ($s->share_id == $share_id) return -1;
                 }
             }
             // 写入关联数据
@@ -78,8 +78,7 @@ class Tag extends Model {
                 'update_time'   => time(),
                 'user_id'       => $user_id
             ]);
-            if (!$result)
-                return 0;
+            if (!$result) return 0;
         }
 
         return $return;
