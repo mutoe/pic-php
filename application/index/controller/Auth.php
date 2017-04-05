@@ -58,7 +58,7 @@ class Auth extends Common {
         }
 
         // 执行登陆
-        $this->doLogin($data['email'], $remember, 'email');
+        $this->doSignin($data['email'], $remember, 'email');
 
         return $this->success('登陆成功，即将跳转回首页...', '/');
 
