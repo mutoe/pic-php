@@ -14,8 +14,7 @@ class Auth extends Common {
     {
         // 如果已经登陆并且访问不允许的方法
         if (auth_status() && !in_array(request()->path(), $this->allow_path)) {
-            // TODO: 跳转至个人中心
-            $this->redirect('/');
+            $this->redirect('/user');
         }
     }
 
@@ -61,7 +60,7 @@ class Auth extends Common {
         // 执行登陆
         $this->doLogin($data['email'], $remember, 'email');
 
-        return $this->success('登陆成功，即将跳转回首页...', url('index/index'));
+        return $this->success('登陆成功，即将跳转回首页...', '/');
 
     }
 
