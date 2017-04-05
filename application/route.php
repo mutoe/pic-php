@@ -43,6 +43,13 @@ Route::resource('share.comment', 'index/comment', [
 ]);
 
 
+// 通知相关
+Route::group('user/notice', function() {
+    Route::get('new',       'index/notice/new');
+    Route::get('/',         'index/notice/index');
+});
+
+
 // 分类相关
 Route::group('cate', function() {
     Route::get(':cate_id',  'index/cate/read');
