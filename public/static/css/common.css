@@ -12,6 +12,13 @@
   padding: 12px 12px 0;
   border-top: 1px solid #ededed;
 }
+.am-panel > .am-list > li:first-child {
+  border-top: 0;
+}
+.am-panel > .am-list a {
+  padding-top: 0;
+  padding-bottom: 0;
+}
 .am-text-gray {
   color: #888;
 }

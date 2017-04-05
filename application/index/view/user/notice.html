@@ -6,7 +6,27 @@
 <div id="pjax-content">
 <div class="user-index">
 
+<div class="am-g">
+    <div id="banner" class="am-cf"></div>
+    <div class="am-g-fixed am-center">
+        <div class="am-u-lg-3 am-u-md-4 l-side">
 
+            <!-- 个人中心导航 -->
+            {include file="user:nav-widget" /}
+
+            <!-- 个人资料组件 -->
+            {assign name="myself" value="1" /}
+            {include file="user:profile-widget" /}
+
+        </div>
+        <div class="am-u-lg-9 am-u-md-8 r-side">
+
+            <!-- 消息列表 -->
+            {include file="user:notice-widget" /}
+
+        </div>
+    </div>
+</div>
 
 </div>
 </div>

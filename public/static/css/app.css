@@ -192,6 +192,12 @@
   margin: 0;
   padding: 2px 4px;
 }
+.notice-widget .am-padding {
+  padding: 1.6rem;
+}
+.notice-widget .no-notice {
+  padding: 5rem;
+}
 .tag-read #banner {
   margin: -16px 0 16px;
   height: 200px;
