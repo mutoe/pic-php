@@ -5,6 +5,16 @@ use app\index\controller\Common;
 
 class User extends Common {
 
+    protected $model;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->model = model('User');
+
+    }
+
     /**
      * 个人空间
      */
@@ -12,7 +22,7 @@ class User extends Common {
     {
         // 用户 获取数据
         $user_id = auth_status('user_id');
-        $user_data = model('User')->field('user_id, nickname')->find($user_id);
+        $user_data = $this->model->field('user_id, nickname')->find($user_id);
         $this->assign('user_data', $user_data);
 
         // 分享 排序
@@ -42,7 +52,7 @@ class User extends Common {
     public function read($id)
     {
         // 用户 获取数据
-        $user_data = model('User')->where('status', 1)->field('user_id, nickname')->find($id);
+        $user_data = $this->model->where('status', 1)->field('user_id, nickname')->find($id);
         $this->assign('user_data', $user_data);
 
         // 分享 排序

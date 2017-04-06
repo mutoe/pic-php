@@ -6,33 +6,47 @@ use think\Cache;
 
 class Share extends Common {
 
-    public function read($id) {
-        $share = model('Share');
+    protected $model;
 
-        $data = $share->getShare($id);
+    public function __construct()
+    {
+        parent::__construct();
+        $this->model = model('Share');
+    }
+
+    public function read($id) {
+        $data = $this->model->getShare($id);
         if (!$data) {
             return $this->error('这条数据不存在或已被删除');
         }
         $this->assign('data', $data);
 
         // 该用户其他热门分享
-        $user_share = $share->where('user_id', $data->user_id)
-            ->order('score desc')->limit(4)->select();
+        $user_share = $this->model
+            ->where('user_id', $data->user_id)
+            ->order('score desc')
+            ->limit(4)
+            ->select();
         $this->assign('user_share', $user_share);
 
         // 读取标签
-        $tags = $share->find($id)->tags()->where('status>0')->select();
+        $tags = $this->model
+            ->find($id)->tags()
+            ->where('status>0')
+            ->select();
         $this->assign('tags', $tags);
 
         // 浏览量自增 (延时 60s)
-        $share->where('share_id', $id)->setInc('click', 1, 60);
+        $this->model->where('share_id', $id)->setInc('click', 1, 60);
 
         // 获取当前评分
         $score = $this->checkScored($id);
         $this->assign('score', $score);
 
         // 获取评论
-        $comments = $share->find($id)->comments()->select();
+        $comments = $this->model
+            ->find($id)->comments()
+            ->select();
         $this->assign('comments', $comments);
 
         return view('detail');
@@ -68,12 +82,11 @@ class Share extends Common {
         $width = $image->width();
 
         // 初始化模型
-        $share = \think\Loader::model('Share');
         $savedata = input('post.');
         $savedata['width'] = $width;
         $savedata['height'] = $height;
         $savedata['savepath'] = $savepath;
-        $result = $share->data($savedata, true);
+        $result = $this->model->data($savedata, true);
 
         // 数据合法性验证
         $validate = \think\Loader::validate('Share');
@@ -99,22 +112,22 @@ class Share extends Common {
         $image->thumb(1440, 900)->save($public_path. $savename);
 
         // 更新保存名称
-        $share->savename = $savename;
+        $this->model->savename = $savename;
 
         // 准备保存数据
-        $savedata = $share->toArray();
+        $savedata = $this->model->toArray();
         $tags = explode(',', $savedata['tags']);        // 处理标签字段用
         unset($savedata['cate_id'], $savedata['tags']); // 保存 share_profile 表数据用
 
         // 保存 share 表数据
-        $result = $share->allowField(true)->save();
+        $result = $this->model->allowField(true)->save();
         if (!$result) {
-            return $this->error($share->getError());
+            return $this->error($this->model->getError());
         }
 
         // 保存 share_profile 表数据
-        $share_id = $share->share_id;
-        $share->find($share_id)->profile()->save($savedata);
+        $share_id = $this->model->share_id;
+        $this->model->find($share_id)->profile()->save($savedata);
 
         // 数据创建成功后删除临时文件
         @unlink($info->getInfo('tmp_name'));
@@ -125,7 +138,7 @@ class Share extends Common {
             return $this->error('分享添加成功, 但标签似乎出了点问题', '/share/'.$share_id);
         }
 
-        return $this->redirect(url('/share/'. $share->share_id));
+        return $this->redirect('/share/'. $share_id);
     }
 
     /**
@@ -136,11 +149,10 @@ class Share extends Common {
     public function refresh_cache()
     {
         $cate = model('Cate');
-        $share = model('Share');
         $data = $cate->select();
         $result = array_fill(1, $cate->max('cate_id'), 0);
         foreach ($data as $key => $value) {
-            $sharelist = $share->where(['cate_id'=>$value['cate_id']])->column('click');
+            $sharelist = $this->model->where(['cate_id'=>$value['cate_id']])->column('click');
             $count = 0;
             foreach ($sharelist as $value1) {
                 $count += $value1;
@@ -175,8 +187,7 @@ class Share extends Common {
         if ($score > 10 || $score <= 0) {
             return $this->error('非法请求');
         }
-        $share = model('Share');
-        $result = $share->where('status>0')->find($share_id);
+        $result = $this->model->where('status>0')->find($share_id);
         if (!$result) {
             return $this->error('非法请求!');
         }
@@ -212,7 +223,7 @@ class Share extends Common {
         }
 
         // 更新评分
-        $share->where('share_id', $share_id)
+        $this->model->where('share_id', $share_id)
             ->inc('score_count')->inc('score', $score)->update();
 
         // 保存数据
