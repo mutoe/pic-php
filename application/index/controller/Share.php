@@ -187,11 +187,11 @@ class Share extends Common {
         if ($score > 10 || $score <= 0) {
             return $this->error('非法请求');
         }
-        $result = $this->model->where('status>0')->find($share_id);
-        if (!$result) {
+        $share_data = $this->model->where('status>0')->find($share_id);
+        if (!$share_data) {
             return $this->error('非法请求!');
         }
-        if ($result->user_id == auth_status('user_id')) {
+        if ($share_data->user_id == auth_status('user_id')) {
             return $this->error('你不能给自己的分享评分 !');
         }
 
@@ -223,6 +223,7 @@ class Share extends Common {
         }
 
         // 更新评分
+        $old_score = $this->model->find($share_id)->score;
         $this->model->where('share_id', $share_id)
             ->inc('score_count')->inc('score', $score)->update();
 
@@ -231,6 +232,10 @@ class Share extends Common {
         $share_score->data = json_encode($data);
         $share_score->user_id = $user_id;
         $result = $share_score->isUpdate($find)->save();
+
+        // 发送通知
+        $create_time = $share_data->profile->create_time;
+        $this->setScoreNotice($share_data->user_id, [$share_id, $create_time], [$old_score, $score]);
 
         return $this->success();
     }
@@ -255,6 +260,51 @@ class Share extends Common {
         // 解析数据
         $data = obj2arr(json_decode($find->data));
         return isset($data[$share_id]) ? $data[$share_id] : false;
+    }
+
+    /**
+     * 发送评分通知
+     * @author 杨栋森 mutoe@foxmail.com at 2017-04-07
+     *
+     * @param  integer  $user_id     接收方 user_id
+     * @param  array    $share       被评分投稿 [share_id, create_time]
+     * @param  array    $score_list  评分 [原得分, 得分]
+     */
+    private function setScoreNotice($user_id, $share, $score_list)
+    {
+        // 获取原评分/得分/现评分
+        list($old_score, $score) = $score_list;
+        $new_score = $old_score + $score;
+
+        // 获取历史通知
+        $notice = model('Notice');
+        $notice_data = $notice->where(['type' => 'score', 'user_id' => $user_id])->find();
+
+        // 如果没有历史通知并且现评分小于 10 分则不发送通知
+        if (!$notice_data && $new_score < 10) return null;
+
+        // 修改或新增标记
+        $notice_id = $notice_data ? $notice_data->notice_id : 0;
+
+        // 舍去零头
+        $timer = 1;
+        while($new_score >= 10) {
+            $timer *= 10;
+            $new_score /= 10;
+        }
+        while($old_score >= 10) {
+            $old_score /= 10;
+        }
+        // 若舍去零头后新评分等于原评分则不发送通知
+        if (floor($old_score) == ($new_score = floor($new_score))) return null;
+
+        // 有进位 更新通知
+        $extra = [
+            'share_id'      => $share[0],
+            'create_time'   => $share[1],
+            'score'         => $new_score * $timer
+        ];
+        return $notice->setNotice('score', $user_id, $extra, $notice_id);
     }
 
 }
