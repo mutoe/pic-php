@@ -5,6 +5,22 @@ use app\index\controller\Common;
 
 class User extends Common {
 
+    protected $model;
+    protected $allow_path = ['User/read'];
+
+    public function __construct()
+    {
+        parent::__construct();
+        // 如果访问要求登陆后才能查看的地址
+        $path = request()->controller() . '/' . request()->action();
+        if (!$this->user_id && !in_array($path, $this->allow_path)) {
+            $this->error('请先登录','/auth');
+        }
+
+        $this->model = model('User');
+
+    }
+
     /**
      * 个人空间
      */
