@@ -24,7 +24,7 @@ class Notice extends Model {
      */
 
     protected $insert   = ['status' => 1];
-    protected $auto     = ['update_time', 'extra'];
+    protected $auto     = ['update_time'];
 
     /**
      * 修改器
