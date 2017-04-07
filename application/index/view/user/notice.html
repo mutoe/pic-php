@@ -15,13 +15,15 @@
             {include file="user:nav-widget" /}
 
             <!-- 个人资料组件 -->
+            {assign name="myself" value="1" /}
             {include file="user:profile-widget" /}
 
         </div>
         <div class="am-u-lg-9 am-u-md-8 r-side">
-            <!-- 投稿 -->
-            {assign name="panel_title" value="投稿一览" /}
-            {include file="share:list_widget" /}
+
+            <!-- 消息列表 -->
+            {include file="user:notice-widget" /}
+
         </div>
     </div>
 </div>

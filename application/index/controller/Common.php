@@ -7,11 +7,19 @@ class Common extends Controller
 {
 
     protected $user_id;
+    protected $unread_notice;
 
     public function __construct()
     {
         parent::__construct();
         $this->user_id = auth_status('user_id');
+
+        // 设置未读通知
+        if ($this->user_id) {
+            $this->unread_notice['count'] = model('Notice')->getUnreadCount($this->user_id);
+            $this->assign('unread_notice', $this->unread_notice);
+        }
+
     }
 
     /**

@@ -6,33 +6,47 @@ use think\Cache;
 
 class Share extends Common {
 
-    public function read($id) {
-        $share = model('Share');
+    protected $model;
 
-        $data = $share->getShare($id);
+    public function __construct()
+    {
+        parent::__construct();
+        $this->model = model('Share');
+    }
+
+    public function read($id) {
+        $data = $this->model->getShare($id);
         if (!$data) {
             return $this->error('这条数据不存在或已被删除');
         }
         $this->assign('data', $data);
 
         // 该用户其他热门分享
-        $user_share = $share->where('user_id', $data->user_id)
-            ->order('score desc')->limit(4)->select();
+        $user_share = $this->model
+            ->where('user_id', $data->user_id)
+            ->order('score desc')
+            ->limit(4)
+            ->select();
         $this->assign('user_share', $user_share);
 
         // 读取标签
-        $tags = $share->find($id)->tags()->where('status>0')->select();
+        $tags = $this->model
+            ->find($id)->tags()
+            ->where('status>0')
+            ->select();
         $this->assign('tags', $tags);
 
         // 浏览量自增 (延时 60s)
-        $share->where('share_id', $id)->setInc('click', 1, 60);
+        $this->model->where('share_id', $id)->setInc('click', 1, 60);
 
         // 获取当前评分
         $score = $this->checkScored($id);
         $this->assign('score', $score);
 
         // 获取评论
-        $comments = $share->find($id)->comments()->select();
+        $comments = $this->model
+            ->find($id)->comments()
+            ->select();
         $this->assign('comments', $comments);
 
         return view('detail');
@@ -68,12 +82,11 @@ class Share extends Common {
         $width = $image->width();
 
         // 初始化模型
-        $share = \think\Loader::model('Share');
         $savedata = input('post.');
         $savedata['width'] = $width;
         $savedata['height'] = $height;
         $savedata['savepath'] = $savepath;
-        $result = $share->data($savedata, true);
+        $result = $this->model->data($savedata, true);
 
         // 数据合法性验证
         $validate = \think\Loader::validate('Share');
@@ -99,22 +112,22 @@ class Share extends Common {
         $image->thumb(1440, 900)->save($public_path. $savename);
 
         // 更新保存名称
-        $share->savename = $savename;
+        $this->model->savename = $savename;
 
         // 准备保存数据
-        $savedata = $share->toArray();
+        $savedata = $this->model->toArray();
         $tags = explode(',', $savedata['tags']);        // 处理标签字段用
         unset($savedata['cate_id'], $savedata['tags']); // 保存 share_profile 表数据用
 
         // 保存 share 表数据
-        $result = $share->allowField(true)->save();
+        $result = $this->model->allowField(true)->save();
         if (!$result) {
-            return $this->error($share->getError());
+            return $this->error($this->model->getError());
         }
 
         // 保存 share_profile 表数据
-        $share_id = $share->share_id;
-        $share->find($share_id)->profile()->save($savedata);
+        $share_id = $this->model->share_id;
+        $this->model->find($share_id)->profile()->save($savedata);
 
         // 数据创建成功后删除临时文件
         @unlink($info->getInfo('tmp_name'));
@@ -125,7 +138,7 @@ class Share extends Common {
             return $this->error('分享添加成功, 但标签似乎出了点问题', '/share/'.$share_id);
         }
 
-        return $this->redirect(url('/share/'. $share->share_id));
+        return $this->redirect('/share/'. $share_id);
     }
 
     /**
@@ -136,11 +149,10 @@ class Share extends Common {
     public function refresh_cache()
     {
         $cate = model('Cate');
-        $share = model('Share');
         $data = $cate->select();
         $result = array_fill(1, $cate->max('cate_id'), 0);
         foreach ($data as $key => $value) {
-            $sharelist = $share->where(['cate_id'=>$value['cate_id']])->column('click');
+            $sharelist = $this->model->where(['cate_id'=>$value['cate_id']])->column('click');
             $count = 0;
             foreach ($sharelist as $value1) {
                 $count += $value1;
@@ -175,12 +187,11 @@ class Share extends Common {
         if ($score > 10 || $score <= 0) {
             return $this->error('非法请求');
         }
-        $share = model('Share');
-        $result = $share->where('status>0')->find($share_id);
-        if (!$result) {
+        $share_data = $this->model->where('status>0')->find($share_id);
+        if (!$share_data) {
             return $this->error('非法请求!');
         }
-        if ($result->user_id == auth_status('user_id')) {
+        if ($share_data->user_id == auth_status('user_id')) {
             return $this->error('你不能给自己的分享评分 !');
         }
 
@@ -212,7 +223,8 @@ class Share extends Common {
         }
 
         // 更新评分
-        $share->where('share_id', $share_id)
+        $old_score = $this->model->find($share_id)->score;
+        $this->model->where('share_id', $share_id)
             ->inc('score_count')->inc('score', $score)->update();
 
         // 保存数据
@@ -220,6 +232,10 @@ class Share extends Common {
         $share_score->data = json_encode($data);
         $share_score->user_id = $user_id;
         $result = $share_score->isUpdate($find)->save();
+
+        // 发送通知
+        $create_time = $share_data->profile->create_time;
+        $this->setScoreNotice($share_data->user_id, [$share_id, $create_time], [$old_score, $score]);
 
         return $this->success();
     }
@@ -244,6 +260,51 @@ class Share extends Common {
         // 解析数据
         $data = obj2arr(json_decode($find->data));
         return isset($data[$share_id]) ? $data[$share_id] : false;
+    }
+
+    /**
+     * 发送评分通知
+     * @author 杨栋森 mutoe@foxmail.com at 2017-04-07
+     *
+     * @param  integer  $user_id     接收方 user_id
+     * @param  array    $share       被评分投稿 [share_id, create_time]
+     * @param  array    $score_list  评分 [原得分, 得分]
+     */
+    private function setScoreNotice($user_id, $share, $score_list)
+    {
+        // 获取原评分/得分/现评分
+        list($old_score, $score) = $score_list;
+        $new_score = $old_score + $score;
+
+        // 获取历史通知
+        $notice = model('Notice');
+        $notice_data = $notice->where(['type' => 'score', 'user_id' => $user_id])->find();
+
+        // 如果没有历史通知并且现评分小于 10 分则不发送通知
+        if (!$notice_data && $new_score < 10) return null;
+
+        // 修改或新增标记
+        $notice_id = $notice_data ? $notice_data->notice_id : 0;
+
+        // 舍去零头
+        $timer = 1;
+        while($new_score >= 10) {
+            $timer *= 10;
+            $new_score /= 10;
+        }
+        while($old_score >= 10) {
+            $old_score /= 10;
+        }
+        // 若舍去零头后新评分等于原评分则不发送通知
+        if (floor($old_score) == ($new_score = floor($new_score))) return null;
+
+        // 有进位 更新通知
+        $extra = [
+            'share_id'      => $share[0],
+            'create_time'   => $share[1],
+            'score'         => $new_score * $timer
+        ];
+        return $notice->setNotice('score', $user_id, $extra, $notice_id);
     }
 
 }

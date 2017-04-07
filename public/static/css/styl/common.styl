@@ -212,7 +212,15 @@ title-bar-height = 64px
     animation-name flash
 
 .animated
+    -webkit-animation-duration 1s
     animation-duration 1s
+    -webkit-animation-fill-mode both
     animation-fill-mode both
     &.slowly
+        -webkit-animation-duration 1.6s
         animation-duration 1.6s
+    &.infinite
+        -webkit-animation-duration 3s
+        animation-duration 3s
+        -webkit-animation-iteration-count: infinite;
+        animation-iteration-count: infinite;

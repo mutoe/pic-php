@@ -26,6 +26,13 @@
             {if condition="auth_status()"}
             <li><a href="">收藏</a></li>
             <li><a href="">消息</a></li>
+            <li><a href="__ROOT__/user/notice">通知
+                {if condition="$unread_notice.count"}
+                <div class="animated flash infinite am-inline">
+                <i class="am-icon-bell-o"></i> {$unread_notice.count}
+                </div>
+                {/if}
+            </a></li>
             <li><a href="__ROOT__/user">个人中心</a></li>
             <li><a href="__ROOT__/auth/signout">注销</a></li>
             {else /}

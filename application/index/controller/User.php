@@ -11,6 +11,7 @@ class User extends Common {
     public function __construct()
     {
         parent::__construct();
+
         // 如果访问要求登陆后才能查看的地址
         $path = request()->controller() . '/' . request()->action();
         if (!$this->user_id && !in_array($path, $this->allow_path)) {
@@ -28,7 +29,7 @@ class User extends Common {
     {
         // 用户 获取数据
         $user_id = auth_status('user_id');
-        $user_data = model('User')->field('user_id, nickname')->find($user_id);
+        $user_data = $this->model->field('user_id, nickname')->find($user_id);
         $this->assign('user_data', $user_data);
 
         // 分享 排序
@@ -58,7 +59,7 @@ class User extends Common {
     public function read($id)
     {
         // 用户 获取数据
-        $user_data = model('User')->where('status', 1)->field('user_id, nickname')->find($id);
+        $user_data = $this->model->where('status', 1)->field('user_id, nickname')->find($id);
         $this->assign('user_data', $user_data);
 
         // 分享 排序
