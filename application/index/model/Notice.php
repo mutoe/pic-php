@@ -115,4 +115,32 @@ class Notice extends Model {
         return $result;
     }
 
+    /**
+     * 获得未读消息数量
+     * @author 杨栋森 mutoe@foxmail.com at 2017-04-06
+     *
+     * @param  int    $user_id [description]
+     * @return [type]          [description]
+     */
+    public function getUnreadCount($user_id)
+    {
+        $map['status'] = 1;
+        $map['user_id'] = $user_id;
+        return $this->where($map)->count();
+    }
+
+    /**
+     * 将用户所有通知设为已读
+     * @author 杨栋森 mutoe@foxmail.com at 2017-04-08
+     *
+     * @param  [type] $user_id [description]
+     */
+    public function setNoticesRead($user_id)
+    {
+        // 批量更新字段 (闭包)
+        return $this->update(['status' => 0], function($query) use ($user_id) {
+            $query->where('user_id', $user_id)->where('status', 1);
+        });
+    }
+
 }

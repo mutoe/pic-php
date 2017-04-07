@@ -274,6 +274,10 @@ input[type="number"] {
 .animated.slowly {
   animation-duration: 1.6s;
 }
+.animated.infinite {
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+}
 @-moz-keyframes flash {
   from, 50%, to {
     opacity: 1;
