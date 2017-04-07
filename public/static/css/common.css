@@ -268,14 +268,19 @@ input[type="number"] {
   animation-name: flash;
 }
 .animated {
+  -webkit-animation-duration: 1s;
   animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
 }
 .animated.slowly {
+  -webkit-animation-duration: 1.6s;
   animation-duration: 1.6s;
 }
 .animated.infinite {
+  -webkit-animation-duration: 3s;
   animation-duration: 3s;
+  -webkit-animation-iteration-count: infinite;
   animation-iteration-count: infinite;
 }
 @-moz-keyframes flash {
