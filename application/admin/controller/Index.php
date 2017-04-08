@@ -17,6 +17,9 @@ class Index extends Controller
             $this->redirect('/auth');
         }
 
+        $user_data = model('index/User')->find($this->user_id);
+        $this->assign('user_data', $user_data);
+
     }
 
     public function index()
