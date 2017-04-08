@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Amaze UI Admin index Examples</title>
+    <meta name="description" content="这是一个 index 页面">
+    <meta name="keywords" content="index">
+
+    {include file="common:head" /}
+
+</head>
+
+<body data-type="index">
+    <script src="__STATIC__/js/theme.js"></script>
+    <div class="am-g tpl-g">
+
+        <!-- 头部 -->
+        {include file="common:header" /}
+
+        <!-- 侧边导航栏 -->
+        {include file="common:sidebar" /}
+
+        <!-- 内容区域 -->
+        <div class="tpl-content-wrapper" id="pjax-container">
+        {__CONTENT__}
+        </div>
+
+    </div>
+    </div>
+
+    {include file="common:script" /}
+
+</body>
+</html>

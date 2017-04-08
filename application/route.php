@@ -75,3 +75,8 @@ Route::group('api', function() {
     Route::get('tyconnect', 'index/api/tyconnect');
     Route::get('tylogout',  'index/api/tylogout');
 });
+
+// 后台管理
+Route::group('admin', function() {
+    Route::get('',   'admin/index/index');
+});
