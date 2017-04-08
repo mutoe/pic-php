@@ -556,35 +556,6 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
 .tpl-page-state-content {
   padding: 10px 0;
 }
-.tpl-login {
-  width: 100%;
-}
-.tpl-login-logo {
-  max-width: 159px;
-  height: 205px;
-  margin: 0 auto;
-  margin-bottom: 20px;
-}
-.tpl-login-title {
-  width: 100%;
-  font-size: 24px;
-}
-.tpl-login-content {
-  width: 300px;
-  margin: 12% auto 0;
-}
-.tpl-login-remember-me {
-  color: #b3b3b3;
-  font-size: 14px;
-}
-.tpl-login-remember-me label {
-  position: relative;
-  top: -2px;
-}
-.tpl-login-content-info {
-  color: #b3b3b3;
-  font-size: 14px;
-}
 .cl-p {
   padding: 0 !important;
 }
@@ -629,9 +600,6 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
   font-size: 16px;
   text-align: center;
   color: #96a2b4;
-}
-.theme-white .tpl-login-logo {
-  background: url("../img/logoa.png") center no-repeat;
 }
 .theme-white .sub-active {
   color: #23abf0 !important;
